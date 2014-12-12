@@ -1,4 +1,4 @@
-# :u_repository :u_package_name
+# ElementFinder
 
 [![Latest Version](https://img.shields.io/github/release/xparse/element-finder.svg?style=flat-square)](https://github.com/xparse/element-finder/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -21,23 +21,26 @@ $ composer require xparse/element-finder
 ## Usage
 
 ``` php
-
+  $page = new ElementFinder();
+  $page->load($html)
+  $title = $page->value('//title')->getFirst();  
+  echo $title;  
 ```
 
 ## Testing
 
 ``` bash
-    ./vendor/bin/phpunit
+  ./vendor/bin/phpunit
 ```
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/xparse/element-finder/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/xparse/ElementFinder/blob/master/CONTRIBUTING.md) for details.
 
 ## Credits
 
 - [funivan](https://github.com/funivan)
-- [All Contributors](https://github.com/xparse/element-finder/contributors)
+- [All Contributors](https://github.com/xparse/ElementFinder/contributors)
 
 ## License
 
