@@ -1,11 +1,11 @@
 # ElementFinder
 
-[![Latest Version](https://img.shields.io/github/release/xparse/element-finder.svg?style=flat-square)](https://github.com/xparse/element-finder/releases)
+[![Latest Version](https://img.shields.io/github/release/xparse/ElementFinder.svg?style=flat-square)](https://github.com/xparse/ElementFinder/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/xparse/element-finder/master.svg?style=flat-square)](https://travis-ci.org/xparse/element-finder)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/xparse/element-finder.svg?style=flat-square)](https://scrutinizer-ci.com/g/xparse/element-finder/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/xparse/element-finder.svg?style=flat-square)](https://scrutinizer-ci.com/g/xparse/element-finder)
-[![Total Downloads](https://img.shields.io/packagist/dt/xparse/element-finder.svg?style=flat-square)](https://packagist.org/packages/xparse/element-finder)
+[![Build Status](https://img.shields.io/travis/xparse/ElementFinder/master.svg?style=flat-square)](https://travis-ci.org/xparse/ElementFinder)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/xparse/ElementFinder.svg?style=flat-square)](https://scrutinizer-ci.com/g/xparse/ElementFinder/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/xparse/ElementFinder.svg?style=flat-square)](https://scrutinizer-ci.com/g/xparse/ElementFinder)
+[![Total Downloads](https://img.shields.io/packagist/dt/xparse/ElementFinder.svg?style=flat-square)](https://packagist.org/packages/xparse/element-finder)
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
