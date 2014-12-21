@@ -58,13 +58,13 @@
     protected $isHtml = true;
 
     /**
-     * @param bool|string $rawHtml
+     * @param null|string $rawHtml
      */
-    public function __construct($rawHtml = false) {
+    public function __construct($rawHtml = null) {
       $this->dom = new \DomDocument();
       $this->setDocumentType(static::DOCUMENT_HTML);
 
-      if (!empty($rawHtml)) {
+      if ($rawHtml) {
         $this->load($rawHtml);
       }
     }
@@ -75,7 +75,7 @@
     }
 
     /**
-     * @param $xpath
+     * @param string $xpath
      * @param bool $outerHtml
      * @return \Xparse\ElementFinder\ElementFinder\StringCollection
      */
@@ -220,7 +220,7 @@
      */
     public function __toString() {
       $result = $this->html('.')->item(0);
-      return (string) $result;
+      return (string)$result;
     }
 
     /**
@@ -236,18 +236,21 @@
     public function load($htmlCode, $options = false) {
       $htmlCode = trim($htmlCode);
 
-      libxml_use_internal_errors($this->displayErrors);
-
       if (empty($htmlCode)) {
         $htmlCode = '<body data-document-is-empty="true"></body>';
+      }
+
+      $options = !empty($options) ? $options : LIBXML_NOCDATA;
+      
+      if ($this->displayErrors == false) {
+        $options = $options & LIBXML_NOERROR;
       }
 
       if ($this->documentType == static::DOCUMENT_HTML) {
         $htmlCode = \Xparse\ElementFinder\Helper::safeEncodeStr($htmlCode);
         $htmlCode = mb_convert_encoding($htmlCode, 'HTML-ENTITIES', "UTF-8");
-        $this->dom->loadHTML($htmlCode);
+        $this->dom->loadHTML($htmlCode, $options);
       } else {
-        $options = !empty($options) ? $options : LIBXML_NOCDATA ^ LIBXML_NOERROR;
         $this->dom->loadXML($htmlCode, $options);
       }
 
