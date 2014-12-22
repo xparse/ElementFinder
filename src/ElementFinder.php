@@ -22,16 +22,16 @@
     /**
      * Hide errors
      *
-     * @var boolean
+     * @var int
      */
-    protected $displayErrors = false;
+    protected $options = null;
 
     /**
      * html or xml
      *
      * @var string
      */
-    protected $documentType = null;
+    protected $type = null;
 
     /**
      * @var \DOMDocument
@@ -51,22 +51,37 @@
     protected $matchRegex = array();
 
     /**
-     * Save function ( saveHTML | saveXML )
      *
-     * @var string
+     *
+     * Example:
+     * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
+     *
+     * @param null|string $data
+     * @param null|string $documentType
+     * @param int $options
      */
-    protected $isHtml = true;
-
-    /**
-     * @param null|string $rawHtml
-     */
-    public function __construct($rawHtml = null) {
+    public function __construct($data = null, $documentType = null, $options = null) {
       $this->dom = new \DomDocument();
-      $this->setDocumentType(static::DOCUMENT_HTML);
 
-      if ($rawHtml) {
-        $this->load($rawHtml);
+      $data = trim($data);
+
+      if (empty($documentType)) {
+        $documentType = static::DOCUMENT_HTML;
       }
+
+      if ($documentType != static::DOCUMENT_HTML and $documentType != static::DOCUMENT_XML) {
+        throw new \InvalidArgumentException("Doc type not valid. use xml or html");
+      }
+
+      $this->type = $documentType;
+
+      if (!empty($options)) {
+        $this->options = $options;
+      } else {
+        $this->options = LIBXML_NOCDATA & LIBXML_NOERROR;
+      }
+
+      $this->setData($data);
     }
 
     public function __destruct() {
@@ -178,9 +193,7 @@
           $html = Helper::getInnerHtml($node);
         }
 
-        $obj = new ElementFinder();
-        $obj->documentType = $this->documentType;
-        $obj->load($html);
+        $obj = new ElementFinder($html, $this->getType(), $this->getOptions());
 
         $collection->append($obj);
       }
@@ -220,44 +233,7 @@
      */
     public function __toString() {
       $result = $this->html('.')->item(0);
-      return (string)$result;
-    }
-
-    /**
-     * Used to load document content
-     * Example:
-     * $html->load($string);
-     *
-     * @param string $htmlCode
-     * @param boolean $options (only for xml)
-     * @throws \Exception
-     * @return \DomXPath
-     */
-    public function load($htmlCode, $options = false) {
-      $htmlCode = trim($htmlCode);
-
-      if (empty($htmlCode)) {
-        $htmlCode = '<body data-document-is-empty="true"></body>';
-      }
-
-      $options = !empty($options) ? $options : LIBXML_NOCDATA;
-      
-      if ($this->displayErrors == false) {
-        $options = $options & LIBXML_NOERROR;
-      }
-
-      if ($this->documentType == static::DOCUMENT_HTML) {
-        $htmlCode = \Xparse\ElementFinder\Helper::safeEncodeStr($htmlCode);
-        $htmlCode = mb_convert_encoding($htmlCode, 'HTML-ENTITIES', "UTF-8");
-        $this->dom->loadHTML($htmlCode, $options);
-      } else {
-        $this->dom->loadXML($htmlCode, $options);
-      }
-
-      # create xpath obj
-      $this->xpath = new \DomXPath($this->dom);
-
-      return $this;
+      return (string) $result;
     }
 
 
@@ -299,7 +275,7 @@
     public function replace($regex, $to = '') {
       $newDoc = $this->html('.', true)->getFirst();
       $newDoc = preg_replace($regex, $to, $newDoc);
-      $this->load($newDoc);
+      $this->setData($newDoc);
       return $this;
     }
 
@@ -314,7 +290,6 @@
      *  );
      * $news = $html->getNodeItems('//*[@class="news"]', $params);
      * ```
-     *
      * By default we get first element
      * By default we get html property of element
      * Properties to fetch can be set in path //a@rel  for rel property of tag A
@@ -342,30 +317,39 @@
     /**
      * @return string
      */
-    public function getDocumentType() {
-      return $this->documentType;
+    public function getType() {
+      return $this->type;
     }
 
     /**
-     *
-     * @param string $documentType
+     * @return int
+     */
+    public function getOptions() {
+      return $this->options;
+    }
+
+    /**
+     * @param $data
      * @return $this
      */
-    public function setDocumentType($documentType) {
-      if ($documentType != static::DOCUMENT_HTML and $documentType != static::DOCUMENT_XML) {
-        throw new \InvalidArgumentException("Doc type not valid. use xml or html");
+    protected function setData($data) {
+      if (empty($data)) {
+        $data = '<div data-document-is-empty></div>';
       }
-      $this->documentType = $documentType;
-      return $this;
-    }
+      libxml_use_internal_errors();
+      libxml_disable_entity_loader();
+      libxml_clear_errors();
+      if ($this->type == static::DOCUMENT_HTML) {
+        $data = \Xparse\ElementFinder\Helper::safeEncodeStr($data);
+        $data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+        $this->dom->loadHTML($data, $this->options);
+      } else {
+        $this->dom->loadXML($data, $this->options);
+      }
 
-    /**
-     *
-     * @param boolean $displayErrors
-     * @return $this
-     */
-    public function setDisplayErrors($displayErrors) {
-      $this->displayErrors = $displayErrors;
+      unset($this->xpath);
+      $this->xpath = new \DomXPath($this->dom);
+
       return $this;
     }
 

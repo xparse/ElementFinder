@@ -15,13 +15,12 @@
      * @expectedException \Exception
      */
     public function testInvalidType() {
-      $elementFinder = new ElementFinder();
-      $elementFinder->setDocumentType('test');
+      $elementFinder = new ElementFinder("", "df");
     }
 
+
     public function testLoadEmptyDoc() {
-      $elementFinder = new ElementFinder();
-      $elementFinder->load('');
+      $elementFinder = new ElementFinder("");
       $this->assertContains('data-document-is-empty', (string) $elementFinder);
     }
 
