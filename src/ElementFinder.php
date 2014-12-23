@@ -18,6 +18,7 @@
 
     /**
      * Xml document type
+     *
      * @var boolean
      */
     const DOCUMENT_XML = 1;
@@ -60,7 +61,7 @@
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
      * @param null|string $data
-     * @param null|string $documentType
+     * @param null|integer $documentType
      * @param int $options
      */
     public function __construct($data = null, $documentType = null, $options = null) {
@@ -380,6 +381,13 @@
     }
 
     /**
+     * @return string
+     */
+    protected function getEmptyDocumentHtml() {
+      return '<html data-document-is-empty></html>';
+    }
+
+    /**
      * Return type of document
      *
      * @return boolean
@@ -389,24 +397,7 @@
     }
 
     /**
-     * Get current options
-     *
-     * @return int
-     */
-    public function getOptions() {
-      return $this->options;
-    }
-
-
-    /**
-     * @return string
-     */
-    protected function getEmptyDocumentHtml() {
-      return '<html data-document-is-empty></html>';
-    }
-
-    /**
-     * @param boolean $documentType
+     * @param integer $documentType
      * @return $this
      */
     protected function setDocumentType($documentType) {
@@ -433,6 +424,15 @@
       $this->options = $options;
 
       return $this;
+    }
+
+    /**
+     * Get current options
+     *
+     * @return int
+     */
+    public function getOptions() {
+      return $this->options;
     }
 
   }

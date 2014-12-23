@@ -8,11 +8,11 @@
   class Helper {
 
     /**
-     * @param \DOMElement $node
+     * @param \DOMNode $node
      * @param bool $isHtml
      * @return string
      */
-    public static function getOuterHtml( $node, $isHtml = true) {
+    public static function getOuterHtml(\DOMNode $node, $isHtml = true) {
 
       if ($isHtml) {
         $saveMethod = 'saveHtml';
@@ -32,10 +32,10 @@
 
 
     /**
-     * @param \DOMElement $itemObj
+     * @param \DOMNode $itemObj
      * @return string
      */
-    public static function getInnerHtml( $itemObj) {
+    public static function getInnerHtml(\DOMNode $itemObj) {
       $innerHtml = '';
       $children = $itemObj->childNodes;
       foreach ($children as $child) {
