@@ -12,7 +12,7 @@
      * @param bool $isHtml
      * @return string
      */
-    public static function getOuterHtml(\DOMElement $node, $isHtml = true) {
+    public static function getOuterHtml( $node, $isHtml = true) {
 
       if ($isHtml) {
         $saveMethod = 'saveHtml';
@@ -35,7 +35,7 @@
      * @param \DOMElement $itemObj
      * @return string
      */
-    public static function getInnerHtml(\DOMElement $itemObj) {
+    public static function getInnerHtml( $itemObj) {
       $innerHtml = '';
       $children = $itemObj->childNodes;
       foreach ($children as $child) {

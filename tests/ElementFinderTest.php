@@ -4,6 +4,10 @@
 
   use Xparse\ElementFinder\ElementFinder;
 
+  /**
+   *
+   * @package Xparse\ElementFinder\Test
+   */
   class ElementFinderTest extends \Xparse\ElementFinder\Test\Main {
 
     public function testLoad() {
@@ -15,13 +19,22 @@
      * @expectedException \Exception
      */
     public function testInvalidType() {
-      $elementFinder = new ElementFinder("", "df");
+      new ElementFinder("", "df");
     }
 
-
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testLoadEmptyDoc() {
-      $elementFinder = new ElementFinder("");
-      $this->assertContains('data-document-is-empty', (string) $elementFinder);
+      new ElementFinder("");
+    }
+
+    /**
+     *
+     */
+    public function testLoadDocumentWithZero() {
+      $elementFinder = new ElementFinder("   0 ");
+      $this->assertContains('0', (string) $elementFinder);
     }
 
     public function testNodeList() {
@@ -141,6 +154,7 @@
 
     }
 
+
     public function testMatch() {
 
       $html = $this->getHtmlDataObject();
@@ -171,6 +185,79 @@
 
       $this->assertNotContains('<span class="span-1">', (string) $firstItem);
       $this->assertContains('<b>1 </b>', (string) $firstItem);
+    }
+
+    public function testReplaceAllData() {
+      $html = $this->getHtmlTestObject();
+      $html->replace('!.*!');
+    }
+
+    public function testInitClassWithInvalidContent() {
+      $internalErrors = libxml_use_internal_errors(true);
+      new ElementFinder('
+        <!DOCTYPE html>
+        <html>
+          <head></head>
+          <body>
+            <span></span></span>
+          </body>
+        </html>
+'
+      );
+
+      $errors = libxml_get_errors();
+      libxml_clear_errors();
+      libxml_use_internal_errors($internalErrors);
+      $this->assertCount(1, $errors);
+      $this->assertContains("Unexpected end tag : span\n", $errors[0]->message);
+
+    }
+
+
+    public function testInitClassWithValidContent() {
+      $internalErrors = libxml_use_internal_errors(true);
+      $this->getHtmlDataObject();
+
+      $errors = libxml_get_errors();
+      libxml_clear_errors();
+      libxml_use_internal_errors($internalErrors);
+      $this->assertCount(0, $errors);
+
+    }
+
+    public function testGetObjectWithEmptyHtml() {
+      $page = new ElementFinder("<div></div><div><a>df</a></div>");
+      $objects = $page->object('//div');
+
+      $this->assertEmpty((string) $objects->item(0));
+      $this->assertContains('data-document-is-empty', $objects[0]->html('/')->item(0));
+
+      $this->assertNotEmpty((string) $objects->item(1));
+      $linkText = $objects->item(1)->value('//a')->item(0);
+      $this->assertEquals('df', $linkText);
+
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidDocumentType() {
+      new ElementFinder("<div></div>", false);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidDocumentOptions() {
+      new ElementFinder("<div></div>", null, 'test');
+    }
+
+    /**
+     *
+     */
+    public function testValidDocumentType() {
+      $document = new ElementFinder("<xml><list>123</list></xml>", ElementFinder::DOCUMENT_XML);
+      $this->assertContains('<list>123</list>', (string) $document);
     }
 
   } 

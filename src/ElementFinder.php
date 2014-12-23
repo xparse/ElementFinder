@@ -11,13 +11,16 @@
 
     /**
      * Html document type
+     *
+     * @var boolean
      */
-    const DOCUMENT_HTML = 'html';
+    const DOCUMENT_HTML = 0;
 
     /**
      * Xml document type
+     * @var boolean
      */
-    const DOCUMENT_XML = 'xml';
+    const DOCUMENT_XML = 1;
 
     /**
      * Hide errors
@@ -27,9 +30,9 @@
     protected $options = null;
 
     /**
-     * html or xml
+     * Current document type
      *
-     * @var string
+     * @var boolean
      */
     protected $type = null;
 
@@ -61,32 +64,64 @@
      * @param int $options
      */
     public function __construct($data = null, $documentType = null, $options = null) {
+
+      if (!is_string($data) or empty($data)) {
+        throw new \InvalidArgumentException('Expect not empty string');
+      }
+
       $this->dom = new \DomDocument();
 
-      $data = trim($data);
+      $documentType = ($documentType !== null) ? $documentType : static::DOCUMENT_HTML;
+      $this->setDocumentType($documentType);
 
-      if (empty($documentType)) {
-        $documentType = static::DOCUMENT_HTML;
-      }
-
-      if ($documentType != static::DOCUMENT_HTML and $documentType != static::DOCUMENT_XML) {
-        throw new \InvalidArgumentException("Doc type not valid. use xml or html");
-      }
-
-      $this->type = $documentType;
-
-      if (!empty($options)) {
-        $this->options = $options;
-      } else {
-        $this->options = LIBXML_NOCDATA & LIBXML_NOERROR;
-      }
+      # default options
+      $options = ($options !== null) ? $options : (LIBXML_NOCDATA & LIBXML_NOERROR);
+      $this->setDocumentOption($options);
 
       $this->setData($data);
     }
 
+    /**
+     *
+     * @return string
+     */
+    public function __toString() {
+      $result = $this->html('.')->item(0);
+      return (string) $result;
+    }
+
+    /**
+     *
+     */
     public function __destruct() {
       unset($this->dom);
       unset($this->xpath);
+    }
+
+    /**
+     * @param $data
+     * @return $this
+     */
+    protected function setData($data) {
+
+      $internalErrors = libxml_use_internal_errors(true);
+      $disableEntities = libxml_disable_entity_loader(true);
+
+      if ($this->type == static::DOCUMENT_HTML) {
+        $data = \Xparse\ElementFinder\Helper::safeEncodeStr($data);
+        $data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+        $this->dom->loadHTML($data, $this->options);
+      } else {
+        $this->dom->loadXML($data, $this->options);
+      }
+
+      libxml_use_internal_errors($internalErrors);
+      libxml_disable_entity_loader($disableEntities);
+
+      unset($this->xpath);
+      $this->xpath = new \DomXPath($this->dom);
+
+      return $this;
     }
 
     /**
@@ -100,7 +135,7 @@
 
       $collection = new \Xparse\ElementFinder\ElementFinder\StringCollection();
 
-      foreach ($items as $key => $node) {
+      foreach ($items as $node) {
         if ($outerHtml) {
           $html = Helper::getOuterHtml($node);
         } else {
@@ -137,7 +172,9 @@
 
 
     /**
-     * @param $xpath
+     * Get nodeValue of node
+     *
+     * @param string $xpath
      * @return \Xparse\ElementFinder\ElementFinder\StringCollection
      */
     public function value($xpath) {
@@ -176,21 +213,25 @@
     }
 
     /**
-     * @param $xpath
-     * @param bool $fromOuterHtml
+     * @param string $xpath
+     * @param bool $outerHtml
      * @throws \Exception
      * @return \Xparse\ElementFinder\ElementFinder\ObjectCollection
      */
-    public function object($xpath, $fromOuterHtml = false) {
+    public function object($xpath, $outerHtml = false) {
       $items = $this->xpath->query($xpath);
 
       $collection = new \Xparse\ElementFinder\ElementFinder\ObjectCollection();
       foreach ($items as $node) {
         /** @var \DOMElement $node */
-        if ($fromOuterHtml) {
+        if ($outerHtml) {
           $html = Helper::getOuterHtml($node);
         } else {
           $html = Helper::getInnerHtml($node);
+        }
+
+        if (trim($html) === "") {
+          $html = $this->getEmptyDocumentHtml();
         }
 
         $obj = new ElementFinder($html, $this->getType(), $this->getOptions());
@@ -202,6 +243,8 @@
     }
 
     /**
+     * Fetch nodes from document
+     *
      * @param string $xpath
      * @return \DOMNodeList
      */
@@ -215,7 +258,7 @@
      * @return \Xparse\ElementFinder\ElementFinder\ElementCollection
      */
     public function elements($xpath) {
-      $this->dom->registerNodeClass("DOMElement", "\Xparse\ElementFinder\ElementFinder\Element");
+      $this->dom->registerNodeClass('DOMElement', '\Xparse\ElementFinder\ElementFinder\Element');
       $nodeList = $this->xpath->query($xpath);
 
       $collection = new \Xparse\ElementFinder\ElementFinder\ElementCollection();
@@ -226,17 +269,6 @@
       return $collection;
     }
 
-
-    /**
-     *
-     * @return string
-     */
-    public function __toString() {
-      $result = $this->html('.')->item(0);
-      return (string) $result;
-    }
-
-
     /**
      * Match regex in document
      * ```php
@@ -244,20 +276,48 @@
      * ```
      *
      * @param string $regex
-     * @param integer $i
+     * @param integer|callable $i
      * @return array
+     * @throws \Exception
      */
     public function match($regex, $i = 1) {
+
+      if (!is_callable($i) and !is_numeric($i)) {
+        throw new \Exception('Expect integer or callback');
+      }
+
       $documentHtml = $this->html('.')->getFirst();
+
       preg_match_all($regex, $documentHtml, $matchedData);
 
       $elements = new \Xparse\ElementFinder\ElementFinder\StringCollection();
-      if (isset($matchedData[$i])) {
-        $elements->setItems($matchedData[$i]);
-        return $elements;
-      } else {
+
+      if (is_int($i)) {
+
+        if (isset($matchedData[$i])) {
+          $elements->setItems($matchedData[$i]);
+        }
+
         return $elements;
       }
+
+      $items = $i($matchedData);
+
+      if (!is_array($items)) {
+        throw new \Exception("Invalid value. Expect array from callback");
+      }
+
+      foreach ($items as $string) {
+        if (is_string($string) or is_float($string) or is_integer($string)) {
+          continue;
+        }
+
+        throw new \Exception("Invalid value. Expect array of strings:" . gettype($string));
+      }
+
+      $elements->setItems($items);
+
+      return $elements;
     }
 
 
@@ -275,6 +335,11 @@
     public function replace($regex, $to = '') {
       $newDoc = $this->html('.', true)->getFirst();
       $newDoc = preg_replace($regex, $to, $newDoc);
+
+      if (trim($newDoc) === "") {
+        $newDoc = $this->getEmptyDocumentHtml();
+      }
+
       $this->setData($newDoc);
       return $this;
     }
@@ -315,40 +380,57 @@
     }
 
     /**
-     * @return string
+     * Return type of document
+     *
+     * @return boolean
      */
     public function getType() {
       return $this->type;
     }
 
     /**
+     * Get current options
+     *
      * @return int
      */
     public function getOptions() {
       return $this->options;
     }
 
+
     /**
-     * @param $data
+     * @return string
+     */
+    protected function getEmptyDocumentHtml() {
+      return '<html data-document-is-empty></html>';
+    }
+
+    /**
+     * @param boolean $documentType
      * @return $this
      */
-    protected function setData($data) {
-      if (empty($data)) {
-        $data = '<div data-document-is-empty></div>';
-      }
-      libxml_use_internal_errors();
-      libxml_disable_entity_loader();
-      libxml_clear_errors();
-      if ($this->type == static::DOCUMENT_HTML) {
-        $data = \Xparse\ElementFinder\Helper::safeEncodeStr($data);
-        $data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
-        $this->dom->loadHTML($data, $this->options);
-      } else {
-        $this->dom->loadXML($data, $this->options);
+    protected function setDocumentType($documentType) {
+
+      if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
+        throw new \InvalidArgumentException("Doc type not valid. use xml or html");
       }
 
-      unset($this->xpath);
-      $this->xpath = new \DomXPath($this->dom);
+      $this->type = $documentType;
+
+      return $this;
+    }
+
+    /**
+     * @param $options
+     * @return $this
+     */
+    protected function setDocumentOption($options) {
+
+      if (!is_integer($options)) {
+        throw new \InvalidArgumentException("Expect int options");
+      }
+
+      $this->options = $options;
 
       return $this;
     }
