@@ -6,7 +6,23 @@
    * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
    * @method string offsetGet($offset);
    */
-  class StringCollection extends \Fiv\Collection\BaseCollection {
+  class StringCollection extends \Fiv\Collection\TypedCollection {
+
+
+    /**
+     * You can add or append only one type of items to this collection
+     *
+     * @param string $item
+     * @return bool
+     * @throws \Exception
+     */
+    public function validateType($item) {
+      if (is_string($item) or is_float($item) or is_integer($item)) {
+        return true;
+      }
+      throw new \InvalidArgumentException("Expect only string");
+
+    }
 
     /**
      * @param int $index
@@ -41,22 +57,7 @@
      * @return StringCollection
      */
     public function match($regexp, $index = 1) {
-      $matchedItems = new StringCollection();
-
-      foreach ($this->items as $item) {
-        preg_match_all($regexp, $item, $matchedData);
-
-        if (empty($matchedData[$index])) {
-          continue;
-        }
-
-        foreach ($matchedData[$index] as $matchedString) {
-          $matchedItems[] = $matchedString;
-        }
-
-      }
-
-      return $matchedItems;
+      return \Xparse\ElementFinder\Helper::match($regexp, $index, $this->items);
     }
 
     /**

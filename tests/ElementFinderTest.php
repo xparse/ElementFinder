@@ -173,6 +173,65 @@
 
     }
 
+    public function testMatchWithCallback() {
+
+      $html = $this->getHtmlDataObject();
+      $regex = '!([\d-]+)[<|\n]{1}!';
+
+      $phones = $html->match($regex, function ($items) {
+        foreach ($items[1] as $index => $tel) {
+          $items[1][$index] = str_replace('-', '', $tel);
+        }
+        return $items[1];
+      });
+
+      $this->assertCount(2, $phones);
+
+      $this->assertEquals('451216', (string) $phones[0]);
+      $this->assertEquals('841890', (string) $phones[1]);
+
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testMatchWithInvalidArgument() {
+
+      $html = $this->getHtmlDataObject();
+      $html->match('!([\d-]+)[<|\n]{1}!', new \stdClass());
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testMatchWithInvalidCallback() {
+
+      $html = $this->getHtmlDataObject();
+      $html->match('!([\d-]+)[<|\n]{1}!', function () {
+        return 123;
+      });
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testMatchWithInvalidCallbackData() {
+
+      $html = $this->getHtmlDataObject();
+      $html->match('!([\d-]+)[<|\n]{1}!', function () {
+        return array(new \stdClass());
+      });
+
+    }
+
+    public function testMatchWithEmptyElements() {
+
+      $html = $this->getHtmlDataObject();
+      $items = $html->match('!(1233)!');
+      $this->assertEmpty($items);
+
+    }
+
     public function testObjectWithInnerHtml() {
 
       $html = $this->getHtmlTestObject();

@@ -12,14 +12,14 @@
     /**
      * Html document type
      *
-     * @var boolean
+     * @var integer
      */
     const DOCUMENT_HTML = 0;
 
     /**
      * Xml document type
      *
-     * @var boolean
+     * @var integer
      */
     const DOCUMENT_XML = 1;
 
@@ -33,7 +33,7 @@
     /**
      * Current document type
      *
-     * @var boolean
+     * @var integer
      */
     protected $type = null;
 
@@ -220,9 +220,13 @@
      * @return \Xparse\ElementFinder\ElementFinder\ObjectCollection
      */
     public function object($xpath, $outerHtml = false) {
+      $options = $this->getOptions();
+      $type = $this->getType();
+
       $items = $this->xpath->query($xpath);
 
       $collection = new \Xparse\ElementFinder\ElementFinder\ObjectCollection();
+
       foreach ($items as $node) {
         /** @var \DOMElement $node */
         if ($outerHtml) {
@@ -235,9 +239,7 @@
           $html = $this->getEmptyDocumentHtml();
         }
 
-        $obj = new ElementFinder($html, $this->getType(), $this->getOptions());
-
-        $collection->append($obj);
+        $collection[] = new ElementFinder($html, $type, $options);
       }
 
       return $collection;
@@ -278,47 +280,16 @@
      *
      * @param string $regex
      * @param integer|callable $i
-     * @return array
+     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
      * @throws \Exception
      */
     public function match($regex, $i = 1) {
 
-      if (!is_callable($i) and !is_numeric($i)) {
-        throw new \Exception('Expect integer or callback');
-      }
-
       $documentHtml = $this->html('.')->getFirst();
 
-      preg_match_all($regex, $documentHtml, $matchedData);
+      $collection = Helper::match($regex, $i, array($documentHtml));
 
-      $elements = new \Xparse\ElementFinder\ElementFinder\StringCollection();
-
-      if (is_int($i)) {
-
-        if (isset($matchedData[$i])) {
-          $elements->setItems($matchedData[$i]);
-        }
-
-        return $elements;
-      }
-
-      $items = $i($matchedData);
-
-      if (!is_array($items)) {
-        throw new \Exception("Invalid value. Expect array from callback");
-      }
-
-      foreach ($items as $string) {
-        if (is_string($string) or is_float($string) or is_integer($string)) {
-          continue;
-        }
-
-        throw new \Exception("Invalid value. Expect array of strings:" . gettype($string));
-      }
-
-      $elements->setItems($items);
-
-      return $elements;
+      return $collection;
     }
 
 

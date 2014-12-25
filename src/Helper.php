@@ -59,4 +59,52 @@
       }, $str);
     }
 
+    /**
+     * @param string $regex
+     * @param integer|callable $i
+     * @param array $strings
+     * @return ElementFinder\StringCollection
+     * @throws \Exception
+     */
+    public static function match($regex, $i, $strings = array()) {
+
+      if (!is_callable($i) and !is_numeric($i)) {
+        throw new \InvalidArgumentException('Expect integer or callback');
+      }
+
+      $items = new \Xparse\ElementFinder\ElementFinder\StringCollection();
+
+      foreach ($strings as $string) {
+
+        if (!preg_match_all($regex, $string, $matchedData)) {
+          continue;
+        }
+
+        if (is_int($i)) {
+
+          if (!isset($matchedData[$i])) {
+            continue;
+          }
+
+          foreach ($matchedData[$i] as $resultString) {
+            $items[] = $resultString;
+          }
+          continue;
+        }
+
+        # callback function
+        $rawStringResult = $i($matchedData);
+        if (!is_array($rawStringResult)) {
+          throw new \Exception("Invalid value. Expect array from callback");
+        }
+
+        foreach ($rawStringResult as $resultString) {
+          $items[] = $resultString;
+        }
+      }
+
+      return $items;
+
+    }
+
   } 
