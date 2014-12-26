@@ -1,6 +1,6 @@
 # ElementFinder
 
-[![Latest Version](https://img.shields.io/github/release/xparse/ElementFinder.svg?style=flat-square)](https://github.com/xparse/ElementFinder/releases)
+[![Latest Version](https://img.shields.io/packagist/v/xparse/element-finder.svg?style=flat-square)](https://packagist.org/packages/xparse/element-finder)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/xparse/ElementFinder/master.svg?style=flat-square)](https://travis-ci.org/xparse/ElementFinder)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/xparse/ElementFinder.svg?style=flat-square)](https://scrutinizer-ci.com/g/xparse/ElementFinder/code-structure)

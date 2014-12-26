@@ -20,8 +20,7 @@
       if (is_string($item) or is_float($item) or is_integer($item)) {
         return true;
       }
-      throw new \InvalidArgumentException("Expect only string");
-
+      throw new \InvalidArgumentException("Expect string");
     }
 
     /**

@@ -5,7 +5,6 @@
   /**
    * @author  Ivan Scherbak <dev@funivan.com> 03.08.2011 10:25:00
    * @link    <funivan.com>
-   *
    */
   class ElementFinder {
 
@@ -46,13 +45,6 @@
      * @var \DomXPath
      */
     protected $xpath = null;
-
-    /**
-     * Holder for regex
-     *
-     * @var array
-     */
-    protected $matchRegex = array();
 
     /**
      *
