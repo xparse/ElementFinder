@@ -8,7 +8,6 @@
    */
   class StringCollection extends \Fiv\Collection\TypedCollection {
 
-
     /**
      * You can add or append only one type of items to this collection
      *
