@@ -53,7 +53,7 @@
      */
     public static function safeEncodeStr($str) {
       return preg_replace_callback("/&#([a-z\d]+);/i", function ($m) {
-        $m[0] = (string) $m[0];
+        $m[0] = (string)$m[0];
         $m[0] = mb_convert_encoding($m[0], "UTF-8", "HTML-ENTITIES");
         return $m[0];
       }, $str);
@@ -148,9 +148,12 @@
       $selectItems = $form->object('//select', true);
       foreach ($selectItems as $select) {
         $name = $select->attribute('//select/@name')->item(0);
-        $firstValue = $select->value('//option[1]')->getFirst();;
-        $selectedValue = $select->value('//option[@selected]')->item(0);
-        $formData[$name] = !empty($selectedValue) ? $selectedValue : $firstValue;;
+        $option = $select->value('//option[@selected]');
+
+        if (!isset($option[0])) {
+          $option = $select->value('//option[1]');
+        }
+        $formData[$name] = $option->item(0);
       }
 
       return $formData;
