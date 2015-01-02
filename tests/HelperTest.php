@@ -46,4 +46,9 @@
       \Xparse\ElementFinder\Helper::getDefaultFormData($page, '//form');
     }
 
+    public function testEncode() {
+      $data = \Xparse\ElementFinder\Helper::safeEncodeStr('And &#38;');
+      $this->assertEquals('And &', $data);
+    }
+
   }
