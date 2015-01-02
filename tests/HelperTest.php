@@ -47,8 +47,24 @@
     }
 
     public function testEncode() {
-      $data = \Xparse\ElementFinder\Helper::safeEncodeStr('And &#38;');
-      $this->assertEquals('And &', $data);
+
+      $data = array(
+        '<' => '&#60;',
+        '> &#s' => '&#62; &#s',
+        '&  ' => '&#38;  ',
+        '¢' => '&#162;',
+        '£' => '&#163;',
+        '¥' => '&#165;',
+        '€' => '&#8364;',
+        '©' => '&#169;',
+        'Data ®' => 'Data &#174;',
+      );
+
+      foreach ($data as $expect => $string) {
+        $output = \Xparse\ElementFinder\Helper::safeEncodeStr($string);
+        $this->assertEquals($expect, $output);
+      }
+
     }
 
   }
