@@ -80,7 +80,7 @@
      */
     public function __toString() {
       $result = $this->html('.')->item(0);
-      return (string) $result;
+      return (string)$result;
     }
 
     /**
@@ -279,7 +279,13 @@
 
       $documentHtml = $this->html('.')->getFirst();
 
-      $collection = Helper::match($regex, $i, array($documentHtml));
+      if (is_int($i)) {
+        $collection = \Xparse\ElementFinder\Helper\RegexHelper::match($regex, $i, array($documentHtml));
+      } elseif (is_callable($i)) {
+        $collection = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback($regex, $i, array($documentHtml));
+      } else {
+        throw new \InvalidArgumentException('Invalid argument. Expect integer or callable');
+      }
 
       return $collection;
     }

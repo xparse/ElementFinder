@@ -55,7 +55,7 @@
      * @return StringCollection
      */
     public function match($regexp, $index = 1) {
-      return \Xparse\ElementFinder\Helper::match($regexp, $index, $this->items);
+      return \Xparse\ElementFinder\Helper\RegexHelper::match($regexp, $index, $this->items);
     }
 
     /**
