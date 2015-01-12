@@ -21,11 +21,41 @@ $ composer require xparse/element-finder
 ## Usage
 
 ``` php
-  $page = new ElementFinder();
-  $page->load($html)
+  $page = new ElementFinder($html);
   $title = $page->value('//title')->getFirst();  
   echo $title;  
 ```
+
+### Advanced usage
+
+
+``` php
+$page = new \Xparse\ElementFinder\ElementFinder('<html>
+ 
+<div class="tels">
+    044-12-12,
+    258-16-16
+</div>
+
+<div class="tels">
+    (148) 04-55-16
+</div>
+ 
+ </html>');
+
+  $tels = $page->value('//*[@class="tels"]')->split('!,!')->replace("![^0-9]!");
+  print_r($tels);
+  
+  /* 
+    [0] => 0441212
+    [1] => 2581616
+    [2] => 148045516
+  */
+  
+
+```
+
+
 
 ## Testing
 
