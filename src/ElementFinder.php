@@ -52,7 +52,7 @@
      * Example:
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
-     * @param null|string $data
+     * @param string $data
      * @param null|integer $documentType
      * @param int $options
      */
@@ -80,7 +80,7 @@
      */
     public function __toString() {
       $result = $this->html('.')->item(0);
-      return (string)$result;
+      return (string) $result;
     }
 
     /**
