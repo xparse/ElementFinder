@@ -1,11 +1,11 @@
 <?php
 
-  namespace Xparse\ElementFinder\Test;
+  namespace Test\Xparse\ElementFinder;
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 1/11/15
    */
-  class RegexHelperTest extends \Xparse\ElementFinder\Test\Main {
+  class RegexHelperTest extends \Test\Xparse\ElementFinder\Main {
 
     /**
      * @expectedException \InvalidArgumentException

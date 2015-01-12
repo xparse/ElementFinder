@@ -1,14 +1,14 @@
 <?php
 
-  namespace Xparse\ElementFinder\Test;
+  namespace Test\Xparse\ElementFinder;
 
   use Xparse\ElementFinder\ElementFinder;
 
   /**
    *
-   * @package Xparse\ElementFinder\Test
+   * @package Test\Xparse\ElementFinder
    */
-  class ElementFinderTest extends \Xparse\ElementFinder\Test\Main {
+  class ElementFinderTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testLoad() {
       $html = $this->getHtmlTestObject();

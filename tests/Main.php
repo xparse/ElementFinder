@@ -1,6 +1,6 @@
 <?php
 
-  namespace Xparse\ElementFinder\Test;
+  namespace Test\Xparse\ElementFinder;
 
   /**
    * @codeCoverageIgnore

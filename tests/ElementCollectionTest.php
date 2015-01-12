@@ -1,8 +1,12 @@
 <?php
 
-  namespace Xparse\ElementFinder\Test;
+  namespace Test\Xparse\ElementFinder;
 
-  class ElementCollectionTest extends \Xparse\ElementFinder\Test\Main {
+  /**
+   *
+   * @package Test\Xparse\ElementFinder
+   */
+  class ElementCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
