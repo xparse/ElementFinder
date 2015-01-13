@@ -78,15 +78,8 @@
 
     }
 
-
     /**
-     * Modify elements in page
      *
-     * Convert relative links to absolute
-     *
-     * @param \Xparse\ElementFinder\ElementFinder $page
-     * @param string $currentUrl
-     * @return \Xparse\ElementFinder\ElementFinder
      */
     public function convert() {
 
