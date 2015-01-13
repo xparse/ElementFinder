@@ -15,7 +15,8 @@
 
       $page = new \Xparse\ElementFinder\ElementFinder($data);
 
-      (new \Xparse\ElementFinder\Helper\LinkConverter($page, $firstUrl))->convert();
+      $converter = (new \Xparse\ElementFinder\Helper\LinkConverter($page, $firstUrl));
+      $converter->convert();
 
       $firstUrl = $page->attribute('//*/@href')->getFirst();
       $this->assertEquals('http://funivan.com', $firstUrl);
