@@ -46,17 +46,18 @@
      */
     protected $xpath = null;
 
+
     /**
      *
      *
      * Example:
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
-     * @param null|string $data
+     * @param string $data
      * @param null|integer $documentType
      * @param int $options
      */
-    public function __construct($data = null, $documentType = null, $options = null) {
+    public function __construct($data, $documentType = null, $options = null) {
 
       if (!is_string($data) or empty($data)) {
         throw new \InvalidArgumentException('Expect not empty string');
@@ -74,6 +75,7 @@
       $this->setData($data);
     }
 
+
     /**
      *
      * @return string
@@ -83,6 +85,7 @@
       return (string)$result;
     }
 
+
     /**
      *
      */
@@ -90,6 +93,7 @@
       unset($this->dom);
       unset($this->xpath);
     }
+
 
     /**
      * @param $data
@@ -117,6 +121,7 @@
       return $this;
     }
 
+
     /**
      * @param string $xpath
      * @param bool $outerHtml
@@ -141,6 +146,7 @@
 
       return $collection;
     }
+
 
     /**
      * Remove node by xpath
@@ -205,6 +211,7 @@
       return $collection;
     }
 
+
     /**
      * @param string $xpath
      * @param bool $outerHtml
@@ -237,6 +244,7 @@
       return $collection;
     }
 
+
     /**
      * Fetch nodes from document
      *
@@ -263,6 +271,7 @@
 
       return $collection;
     }
+
 
     /**
      * Match regex in document
@@ -314,6 +323,7 @@
       return $this;
     }
 
+
     /**
      *
      * ```php
@@ -349,12 +359,14 @@
       return $result;
     }
 
+
     /**
      * @return string
      */
     protected function getEmptyDocumentHtml() {
       return '<html data-document-is-empty></html>';
     }
+
 
     /**
      * Return type of document
@@ -364,6 +376,7 @@
     public function getType() {
       return $this->type;
     }
+
 
     /**
      * @param integer $documentType
@@ -380,6 +393,7 @@
       return $this;
     }
 
+
     /**
      * @param $options
      * @return $this
@@ -394,6 +408,7 @@
 
       return $this;
     }
+
 
     /**
      * Get current options
