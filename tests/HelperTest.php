@@ -1,11 +1,11 @@
-<?
+<?php
 
-  namespace Xparse\ElementFinder\Test;
+  namespace Test\Xparse\ElementFinder;
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 12/30/14
    */
-  class HelperTest extends \Xparse\ElementFinder\Test\Main {
+  class HelperTest extends \Test\Xparse\ElementFinder\Main {
 
 
     public function testFormData() {

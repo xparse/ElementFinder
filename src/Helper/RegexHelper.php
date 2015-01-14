@@ -24,9 +24,7 @@
 
       foreach ($strings as $string) {
 
-        if (!preg_match_all($regex, $string, $matchedData)) {
-          continue;
-        }
+        preg_match_all($regex, $string, $matchedData);
 
         if (!isset($matchedData[$i])) {
           continue;
@@ -55,18 +53,17 @@
 
       foreach ($strings as $string) {
 
-        if (!preg_match_all($regex, $string, $matchedData)) {
-          continue;
-        }
+        if (preg_match_all($regex, $string, $matchedData)) {
 
-        # callback function
-        $rawStringResult = $i($matchedData);
-        if (!is_array($rawStringResult)) {
-          throw new \Exception("Invalid value. Expect array from callback");
-        }
+          $rawStringResult = $i($matchedData);
 
-        foreach ($rawStringResult as $resultString) {
-          $items[] = $resultString;
+          if (!is_array($rawStringResult)) {
+            throw new \Exception("Invalid value. Expect array from callback");
+          }
+
+          foreach ($rawStringResult as $resultString) {
+            $items[] = $resultString;
+          }
         }
       }
 

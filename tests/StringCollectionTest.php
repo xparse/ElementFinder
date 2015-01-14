@@ -2,7 +2,11 @@
 
   namespace Xparse\Dom\ElementFinder;
 
-  class StringCollectionTest extends \Xparse\ElementFinder\Test\Main {
+  /**
+   *
+   * @package Xparse\Dom\ElementFinder
+   */
+  class StringCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testInvalidObjectIndex() {
       $html = $this->getHtmlTestObject();
