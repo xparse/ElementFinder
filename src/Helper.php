@@ -39,6 +39,7 @@
       return $innerHtml;
     }
 
+
     /**
      * Simple helper function for str encoding
      *
