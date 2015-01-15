@@ -43,38 +43,9 @@
      */
     public function __construct(\Xparse\ElementFinder\ElementFinder $page, $url) {
 
-      if (!is_string($url)) {
-        throw new \InvalidArgumentException('Invalid $currentUrl. Expect string ' . gettype($url) . ' given');
-      }
-
-      $urlInfo = parse_url($url);
-      if (empty($urlInfo['scheme']) or empty($urlInfo['host'])) {
-        throw new \InvalidArgumentException("Invalid url. Can`t fetch scheme or domain in url:" . $url);
-      }
-
       $this->page = $page;
 
-      $this->urlSchema = $urlInfo['scheme'] . '://';
-
-      $user = isset($urlInfo['user']) ? $urlInfo['user'] : '';
-      $pass = isset($urlInfo['pass']) ? ':' . $urlInfo['pass'] : '';
-
-      if (!empty($user) or !empty($pass)) {
-        $authString = $user . ':' . $pass . '@';
-      } else {
-        $authString = '';
-      }
-
-      $host = $this->urlSchema . $authString . $urlInfo['host'];
-
-      if (isset($urlInfo['port'])) {
-        $host .= ':' . $urlInfo['port'];
-      }
-
-      $this->urlHost = $host;
-      $this->urlPath = isset($urlInfo['path']) ? $urlInfo['path'] : '/';
-      $this->urlQuery = isset($urlInfo['query']) ? ('?' . $urlInfo['query']) : null;
-      $this->urlFragment = isset($urlInfo['fragment']) ? ('#' . $urlInfo['fragment']) : null;
+      $this->parseUrl($url);
 
     }
 
@@ -187,6 +158,79 @@
 
         $element->setAttribute($attrName, $newAttributeValue);
       }
+    }
+
+    /**
+     * @param $url
+     */
+    protected function parseUrl($url) {
+
+      if (!is_string($url)) {
+        throw new \InvalidArgumentException('Invalid $currentUrl. Expect string ' . gettype($url) . ' given');
+      }
+
+      $urlInfo = parse_url($url);
+      if (empty($urlInfo['scheme']) or empty($urlInfo['host'])) {
+        throw new \InvalidArgumentException("Invalid url. Can`t fetch scheme or domain in url:" . $url);
+      }
+
+
+      $this->urlSchema = $urlInfo['scheme'] . '://';
+
+      $user = isset($urlInfo['user']) ? $urlInfo['user'] : '';
+      $pass = isset($urlInfo['pass']) ? (':' . $urlInfo['pass']) : '';
+
+      if (!empty($user) or !empty($pass)) {
+        $authString = $user . $pass . '@';
+      } else {
+        $authString = '';
+      }
+
+      $host = $this->urlSchema . $authString . $urlInfo['host'];
+
+      if (isset($urlInfo['port'])) {
+        $host .= ':' . $urlInfo['port'];
+      }
+
+      $this->urlHost = $host;
+      $this->urlPath = isset($urlInfo['path']) ? $urlInfo['path'] : '/';
+      $this->urlQuery = isset($urlInfo['query']) ? ('?' . $urlInfo['query']) : null;
+      $this->urlFragment = isset($urlInfo['fragment']) ? ('#' . $urlInfo['fragment']) : null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlSchema() {
+      return $this->urlSchema;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlHost() {
+      return $this->urlHost;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlPath() {
+      return $this->urlPath;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getUrlQuery() {
+      return $this->urlQuery;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getUrlFragment() {
+      return $this->urlFragment;
     }
 
   }
