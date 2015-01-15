@@ -63,7 +63,6 @@
       $this->assertContains('<a href="http://funivan.com/" title="my blog">link</a>', (string) $firstLink);
     }
 
-
     public function testObjects() {
       $html = $this->getHtmlTestObject();
 
@@ -91,7 +90,6 @@
 
     }
 
-
     public function testDelete() {
       $html = $this->getHtmlTestObject();
 
@@ -104,7 +102,6 @@
       $this->assertEmpty($title);
 
     }
-
 
     public function testHtmlSelector() {
       $html = $this->getHtmlTestObject();
@@ -153,7 +150,6 @@
       $this->assertContains('451216', $phones->getFirst());
 
     }
-
 
     public function testMatch() {
 
@@ -271,7 +267,6 @@
       $this->assertContains("Unexpected end tag : span\n", $errors[0]->message);
 
     }
-
 
     public function testInitClassWithValidContent() {
       $internalErrors = libxml_use_internal_errors(true);

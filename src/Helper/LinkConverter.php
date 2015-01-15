@@ -174,7 +174,6 @@
         throw new \InvalidArgumentException("Invalid url. Can`t fetch scheme or domain in url:" . $url);
       }
 
-
       $this->urlSchema = $urlInfo['scheme'] . '://';
 
       $user = isset($urlInfo['user']) ? $urlInfo['user'] : '';

@@ -17,10 +17,9 @@
 
       $firstItem = $spanItems->item(0);
 
-      $this->assertContains('<span class="span-1">', (string)$firstItem);
+      $this->assertContains('<span class="span-1">', (string) $firstItem);
 
     }
-
 
     public function testInvalidObjectIndex() {
       $html = $this->getHtmlTestObject();
@@ -33,7 +32,6 @@
       $span = $spanItems->item(0);
       $this->assertNotNull($span);
     }
-
 
     public function testReplace() {
       $html = $this->getHtmlTestObject();

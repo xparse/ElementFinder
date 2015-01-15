@@ -45,7 +45,6 @@
       new \Xparse\ElementFinder\Helper\LinkConverter($page, 'http:///d');
     }
 
-
     public function testSchemaDetect() {
       $page = new \Xparse\ElementFinder\ElementFinder('<html></html>');
       $converter = new \Xparse\ElementFinder\Helper\LinkConverter($page, 'http://test/d');
@@ -71,7 +70,6 @@
       $this->assertEquals('#df', $converter->getUrlFragment());
 
     }
-
 
     public function testUrlHostTest() {
       $page = new \Xparse\ElementFinder\ElementFinder('<html></html>');
