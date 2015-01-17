@@ -23,7 +23,6 @@
       return $html;
     }
 
-
     /**
      * @param \DOMNode $itemObj
      * @return string
@@ -39,7 +38,6 @@
       return $innerHtml;
     }
 
-
     /**
      * Simple helper function for str encoding
      *
@@ -48,12 +46,11 @@
      */
     public static function safeEncodeStr($str) {
       return preg_replace_callback("/&#([a-z\d]+);/i", function ($m) {
-        $m[0] = (string)$m[0];
+        $m[0] = (string) $m[0];
         $m[0] = mb_convert_encoding($m[0], "UTF-8", "HTML-ENTITIES");
         return $m[0];
       }, $str);
     }
-
 
     /**
      * Get data from <form> element

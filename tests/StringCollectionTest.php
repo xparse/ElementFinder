@@ -20,7 +20,6 @@
       $this->assertNotEmpty($span);
     }
 
-
     public function testReplace() {
       $html = $this->getHtmlTestObject();
       $spanItems = $html->html('//span[@class]');

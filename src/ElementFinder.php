@@ -75,7 +75,6 @@
       $this->setData($data);
     }
 
-
     /**
      *
      * @return string
@@ -85,7 +84,6 @@
       return (string) $result;
     }
 
-
     /**
      *
      */
@@ -93,7 +91,6 @@
       unset($this->dom);
       unset($this->xpath);
     }
-
 
     /**
      * @param $data
@@ -121,7 +118,6 @@
       return $this;
     }
 
-
     /**
      * @param string $xpath
      * @param bool $outerHtml
@@ -147,7 +143,6 @@
       return $collection;
     }
 
-
     /**
      * Remove node by xpath
      *
@@ -169,7 +164,6 @@
       return $this;
     }
 
-
     /**
      * Get nodeValue of node
      *
@@ -184,7 +178,6 @@
       }
       return $collection;
     }
-
 
     /**
      * ```
@@ -210,7 +203,6 @@
 
       return $collection;
     }
-
 
     /**
      * @param string $xpath
@@ -244,7 +236,6 @@
       return $collection;
     }
 
-
     /**
      * Fetch nodes from document
      *
@@ -254,7 +245,6 @@
     public function node($xpath) {
       return $this->xpath->query($xpath);
     }
-
 
     /**
      * @param string $xpath
@@ -271,7 +261,6 @@
 
       return $collection;
     }
-
 
     /**
      * Match regex in document
@@ -299,7 +288,6 @@
       return $collection;
     }
 
-
     /**
      * Replace in document and refresh it
      *
@@ -322,7 +310,6 @@
       $this->setData($newDoc);
       return $this;
     }
-
 
     /**
      *
@@ -359,14 +346,12 @@
       return $result;
     }
 
-
     /**
      * @return string
      */
     protected function getEmptyDocumentHtml() {
       return '<html data-document-is-empty></html>';
     }
-
 
     /**
      * Return type of document
@@ -376,7 +361,6 @@
     public function getType() {
       return $this->type;
     }
-
 
     /**
      * @param integer $documentType
@@ -393,7 +377,6 @@
       return $this;
     }
 
-
     /**
      * @param $options
      * @return $this
@@ -408,7 +391,6 @@
 
       return $this;
     }
-
 
     /**
      * Get current options

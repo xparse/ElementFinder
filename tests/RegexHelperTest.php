@@ -14,8 +14,6 @@
       \Xparse\ElementFinder\Helper\RegexHelper::match('![a-z]!', null, array());
     }
 
-
-    
     public function testInvalidRegexForCallback() {
       $items = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback('![a-z]!', function () {
         return array();

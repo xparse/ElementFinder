@@ -15,7 +15,6 @@
       return '\Xparse\ElementFinder\ElementFinder\Element';
     }
 
-
     /**
      * @param int $index
      * @return null|Element
@@ -27,7 +26,6 @@
         return null;
       }
     }
-
 
     /**
      * Array of all elements attributes
