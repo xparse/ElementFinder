@@ -46,7 +46,6 @@
      */
     protected $xpath = null;
 
-
     /**
      *
      *
