@@ -57,7 +57,7 @@
       $this->urlSchema = $urlInfo['scheme'] . '://';
 
       $user = isset($urlInfo['user']) ? $urlInfo['user'] : '';
-      $pass = isset($urlInfo['pass']) ? ':' . $urlInfo['pass'] : '';
+      $pass = isset($urlInfo['pass']) ? $urlInfo['pass'] : '';
 
       if (!empty($user) or !empty($pass)) {
         $authString = $user . ':' . $pass . '@';
@@ -83,7 +83,17 @@
      */
     public function convert() {
 
-      $this->addScheme();
+      # order matters
+      $this->convertScheme();
+      $this->convertEmptyUrl();
+
+      $this->convertTopUrls();
+
+      $this->convertCurrentLevelUrl();
+      $this->convertUrlsWithQuery();
+      $this->convertUrlsWithFragment();
+
+      $this->convertOtherUrls();
 
 //      $link = parse_url($currentUrl);
 //      $link['path'] = !empty($link['path']) ? $link['path'] : '/';
@@ -92,39 +102,9 @@
 //      $linkWithoutParams = $realDomain . trim($link['path'], '/');
 //      $linkPath = $this->urlHost . $this->urlPath;
 //
-//      $getBaseUrl = $page->attribute('//base/@href')->item(0);
-//      if (!empty($getBaseUrl)) {
-//        $getBaseUrl = rtrim($getBaseUrl, '/') . '/';
-//      }
-//      $srcElements = $page->elements('//*[@src] | //*[@href] | //form[@action]');
 //      foreach ($srcElements as $element) {
-//        if ($element->hasAttribute('src') == true) {
-//          $attrName = 'src';
-//        } elseif ($element->hasAttribute('href') == true) {
-//          $attrName = 'href';
-//        } elseif ($element->hasAttribute('action') == true and $element->tagName == 'form') {
-//          $attrName = 'action';
-//        } else {
-//          continue;
-//        }
-//        $oldPath = $element->getAttribute($attrName);
-//        # don`t change javascript in href
-//        if (preg_match('!^\s*javascript\s*:\s*!', $oldPath)) {
-//          continue;
-//        }
-//        if (empty($oldPath)) {
-//          # URL is empty. So current url is used
-//          $newPath = $currentUrl;
-//        } else if ((strpos($oldPath, './') === 0)) {
-//          # Current level
-//          $newPath = $linkPath . substr($oldPath, 2);
-//        } else if ($oldPath[0] == '/') {
-//          # start with single slash
-//          $newPath = $realDomain . ltrim($oldPath, '/');
-//        } else if ($oldPath[0] == '?') {
-//          # params only
-//          $newPath = $linkWithoutParams . $oldPath;
-//        } elseif ((!preg_match('!^[a-z]+://!', $oldPath))) {
+//     
+//       if ((!preg_match('!^[a-z]+://!', $oldPath))) {
 //          # url without scheme
 //          if (empty($getBaseUrl)) {
 //            $newPath = $linkPath . '/' . $oldPath;
@@ -146,12 +126,132 @@
      *
      * @return $this
      */
-    protected function addScheme() {
+    protected function convertScheme() {
 
       $xpath = '//*[starts-with(@src,"//")] | //*[starts-with(@href,"//")] | //form[starts-with(@action, "//")]';
 
       $this->processElementAttribute($xpath, function ($value) {
         $value = $this->urlSchema . preg_replace('!^//!', '', $value);
+        return $value;
+      });
+
+      return $this;
+    }
+
+    /**
+     * Set current link to empty urls urls
+     * FROM : <a href="">
+     * TO   : <a href="http://funivan.com/?post-id=1#test-url">
+     *
+     * @return $this
+     */
+    protected function convertEmptyUrl() {
+
+      $xpath = '//*[@src=""] | //*[@href=""] | //form[@action=""]';
+
+      $this->processElementAttribute($xpath, function () {
+        $value = $this->urlHost . $this->urlPath . $this->urlQuery . $this->urlFragment;
+        return $value;
+      });
+
+      return $this;
+    }
+
+    /**
+     * Set current link to empty urls urls
+     * FROM : <a href="./test.html">
+     * TO   : <a href="http://funivan.com/section/test.html">
+     *
+     * @return $this
+     */
+    protected function convertCurrentLevelUrl() {
+      $xpath = '//*[starts-with(@src,"./")] | //*[starts-with(@href,"./")] | //form[starts-with(@action, "./")]';
+
+      $currentUrlPath = $this->getEffectedUrlSection();
+
+      $this->processElementAttribute($xpath, function ($value) use ($currentUrlPath) {
+        $value = $currentUrlPath . substr($value, 2);
+        return $value;
+      });
+
+      return $this;
+    }
+
+    /**
+     * Set current link to empty urls urls
+     * FROM : <a href="./test.html">
+     * TO   : <a href="http://funivan.com/section/test.html">
+     *
+     * @return $this
+     */
+    protected function convertTopUrls() {
+      $xpath = '//*[starts-with(@src,"/")] | //*[starts-with(@href, "/")] | //form[starts-with(@action, "/")]';
+
+      $this->processElementAttribute($xpath, function ($value) {
+        $value = $this->urlHost . '/' . ltrim($value, '/');
+        return $value;
+      });
+
+      return $this;
+    }
+
+    /**
+     * Links with query params
+     * FROM : <a href="?user=123">
+     * TO   : <a href="http://funivan.com/section/?user=123">
+     *
+     * @return $this
+     */
+    protected function convertUrlsWithQuery() {
+
+      $xpath = '//*[starts-with(@src,"?")] | //*[starts-with(@href, "?")] | //form[starts-with(@action, "?")]';
+
+      $this->processElementAttribute($xpath, function ($value) {
+        $value = $this->urlHost . $this->urlPath . $value;
+        return $value;
+      });
+
+      return $this;
+    }
+
+    /**
+     * Links with query params
+     * FROM : <a href="#df">
+     * TO   : <a href="http://funivan.com/section/?user=123#df">
+     *
+     * @return $this
+     */
+    protected function convertUrlsWithFragment() {
+
+      $xpath = '//*[starts-with(@src,"#")] | //*[starts-with(@href, "#")] | //form[starts-with(@action, "#")]';
+
+      $this->processElementAttribute($xpath, function ($value) {
+        $value = $value = $this->urlHost . $this->urlPath . $this->urlQuery . $value;
+        return $value;
+      });
+
+      return $this;
+    }
+
+    /**
+     * Links with query params
+     * FROM : <a href="#df">
+     * TO   : <a href="http://funivan.com/section/?user=123#df">
+     *
+     * @return $this
+     */
+    protected function convertOtherUrls() {
+
+      $xpath = '//*[@src] | //*[@href] | //form[@action]';
+
+      $currentUrlPath = $this->getEffectedUrlSection();
+
+      $this->processElementAttribute($xpath, function ($value) use ($currentUrlPath) {
+        if (preg_match('!^[a-z]+://!', $value)) {
+          return $value;
+        }
+
+        $value = $currentUrlPath . $value;
         return $value;
       });
 
@@ -185,8 +285,24 @@
           throw new \Exception('Invalid result from callback function. Expect string ' . gettype($newAttributeValue) . ' given');
         }
 
-        $element->setAttribute($attrName, $newAttributeValue);
+        if ($newAttributeValue != $oldAttributeValue) {
+          $element->setAttribute($attrName, $newAttributeValue);
+        }
       }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getEffectedUrlSection() {
+      $path = $this->urlPath;
+      if (substr($path, -1) !== '/') {
+        $path = $path . '/';
+      } else {
+        $path = preg_replace('!/[^/]+$!', '/', $path);
+      }
+      $currentUrlPath = $this->urlHost . $path;
+      return $currentUrlPath;
     }
 
   }
