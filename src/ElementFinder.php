@@ -46,7 +46,6 @@
      */
     protected $xpath = null;
 
-
     /**
      *
      *
@@ -81,7 +80,7 @@
      */
     public function __toString() {
       $result = $this->html('.')->item(0);
-      return (string) $result;
+      return (string)$result;
     }
 
     /**
