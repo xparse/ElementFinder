@@ -314,4 +314,31 @@
       $this->assertContains('<list>123</list>', (string) $document);
     }
 
+    public function testFetchTextNode() {
+
+      $html = new ElementFinder('
+<div>
+  <ul>
+    <li><b>param1:</b>t1<span>or</span>t2</li>
+    <li><b>param2:</b>other</li>
+    <li>param3: new</li>
+  </ul>
+</div>');
+
+
+      $firstTextNodes = $html->value('//b/following-sibling::text()[1]')->getItems();
+
+      $this->assertEquals(array(
+        't1', 'other'
+      ), $firstTextNodes);
+
+
+      $allFollowingSiblingTextNodes = $html->value('//b/following-sibling::text()')->getItems();
+
+      $this->assertEquals(array(
+        't1', 't2', 'other'
+      ), $allFollowingSiblingTextNodes);
+
+    }
+
   } 
