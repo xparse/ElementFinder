@@ -46,6 +46,7 @@
      */
     protected $xpath = null;
 
+
     /**
      *
      *
@@ -64,6 +65,8 @@
 
       $this->dom = new \DomDocument();
 
+      $this->dom->registerNodeClass('DOMElement', '\Xparse\ElementFinder\ElementFinder\Element');
+
       $documentType = ($documentType !== null) ? $documentType : static::DOCUMENT_HTML;
       $this->setDocumentType($documentType);
 
@@ -74,14 +77,16 @@
       $this->setData($data);
     }
 
+
     /**
      *
      * @return string
      */
     public function __toString() {
       $result = $this->html('.')->item(0);
-      return (string)$result;
+      return (string) $result;
     }
+
 
     /**
      *
@@ -90,6 +95,7 @@
       unset($this->dom);
       unset($this->xpath);
     }
+
 
     /**
      * @param $data
@@ -103,7 +109,7 @@
       if ($this->type == static::DOCUMENT_HTML) {
         $data = \Xparse\ElementFinder\Helper::safeEncodeStr($data);
         $data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
-        $this->dom->loadHTML($data, $this->options);
+        $this->dom->loadHTML($data);
       } else {
         $this->dom->loadXML($data, $this->options);
       }
@@ -116,6 +122,7 @@
 
       return $this;
     }
+
 
     /**
      * @param string $xpath
@@ -142,6 +149,7 @@
       return $collection;
     }
 
+
     /**
      * Remove node by xpath
      *
@@ -163,6 +171,7 @@
       return $this;
     }
 
+
     /**
      * Get nodeValue of node
      *
@@ -177,6 +186,7 @@
       }
       return $collection;
     }
+
 
     /**
      * ```
@@ -202,6 +212,7 @@
 
       return $collection;
     }
+
 
     /**
      * @param string $xpath
@@ -235,6 +246,7 @@
       return $collection;
     }
 
+
     /**
      * Fetch nodes from document
      *
@@ -245,12 +257,12 @@
       return $this->xpath->query($xpath);
     }
 
+
     /**
      * @param string $xpath
      * @return \Xparse\ElementFinder\ElementFinder\ElementCollection
      */
     public function elements($xpath) {
-      $this->dom->registerNodeClass('DOMElement', '\Xparse\ElementFinder\ElementFinder\Element');
       $nodeList = $this->xpath->query($xpath);
 
       $collection = new \Xparse\ElementFinder\ElementFinder\ElementCollection();
@@ -260,6 +272,7 @@
 
       return $collection;
     }
+
 
     /**
      * Match regex in document
@@ -277,15 +290,16 @@
       $documentHtml = $this->html('.')->getFirst();
 
       if (is_int($i)) {
-        $collection = \Xparse\ElementFinder\Helper\RegexHelper::match($regex, $i, array($documentHtml));
+        $collection = \Xparse\ElementFinder\Helper\RegexHelper::match($regex, $i, [$documentHtml]);
       } elseif (is_callable($i)) {
-        $collection = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback($regex, $i, array($documentHtml));
+        $collection = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback($regex, $i, [$documentHtml]);
       } else {
         throw new \InvalidArgumentException('Invalid argument. Expect integer or callable');
       }
 
       return $collection;
     }
+
 
     /**
      * Replace in document and refresh it
@@ -310,6 +324,7 @@
       return $this;
     }
 
+
     /**
      *
      * ```php
@@ -330,10 +345,10 @@
      * @return array
      */
     public function getNodeItems($path, array $itemsParams) {
-      $result = array();
+      $result = [];
       $nodes = $this->object($path);
       foreach ($nodes as $nodeIndex => $nodeDocument) {
-        $nodeValues = array();
+        $nodeValues = [];
 
         foreach ($itemsParams as $elementResultIndex => $elementResultPath) {
           /** @var ElementFinder $nodeDocument */
@@ -345,12 +360,14 @@
       return $result;
     }
 
+
     /**
      * @return string
      */
     protected function getEmptyDocumentHtml() {
       return '<html data-document-is-empty></html>';
     }
+
 
     /**
      * Return type of document
@@ -360,6 +377,7 @@
     public function getType() {
       return $this->type;
     }
+
 
     /**
      * @param integer $documentType
@@ -376,6 +394,7 @@
       return $this;
     }
 
+
     /**
      * @param $options
      * @return $this
@@ -390,6 +409,7 @@
 
       return $this;
     }
+
 
     /**
      * Get current options
