@@ -22,6 +22,7 @@
       throw new \InvalidArgumentException("Expect string");
     }
 
+
     /**
      * @param int $index
      * @return string
@@ -33,6 +34,7 @@
         return "";
       }
     }
+
 
     /**
      * @param string $regexp
@@ -47,6 +49,7 @@
       return $this;
     }
 
+
     /**
      * Match strings and return new collection
      *
@@ -57,6 +60,7 @@
     public function match($regexp, $index = 1) {
       return \Xparse\ElementFinder\Helper\RegexHelper::match($regexp, $index, $this->items);
     }
+
 
     /**
      * Split strings by regexp

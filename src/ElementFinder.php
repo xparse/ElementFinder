@@ -345,10 +345,10 @@
      * @return array
      */
     public function getNodeItems($path, array $itemsParams) {
-      $result = [];
+      $result = array();
       $nodes = $this->object($path);
       foreach ($nodes as $nodeIndex => $nodeDocument) {
-        $nodeValues = [];
+        $nodeValues = array();
 
         foreach ($itemsParams as $elementResultIndex => $elementResultPath) {
           /** @var ElementFinder $nodeDocument */
