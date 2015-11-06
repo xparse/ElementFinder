@@ -72,6 +72,11 @@ Please see [CONTRIBUTING](https://github.com/xparse/ElementFinder/blob/master/CO
 - [funivan](https://github.com/funivan)
 - [All Contributors](https://github.com/xparse/ElementFinder/contributors)
 
+## Xpath info
+- [XPath/CSS Equivalents](https://en.wikibooks.org/wiki/XPath/CSS_Equivalents)
+- [Choose between XPath and jQuery with an XPath-jQuery phrase book](http://www.ibm.com/developerworks/library/x-xpathjquery/)
+- [XPath and CSS Selectors](http://ejohn.org/blog/xpath-css-selectors/)
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
