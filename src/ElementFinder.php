@@ -189,6 +189,37 @@
 
 
     /**
+     * Return array of keys and values
+     *
+     * @param string $baseXpath
+     * @param string $keyXpath
+     * @param string $valueXpath
+     * @throws \Exception
+     * @return array
+     */
+    public function keyValue($baseXpath, $keyXpath, $valueXpath) {
+      $keyNodes = $this->xpath->query($baseXpath . $keyXpath);
+      $valueNodes = $this->xpath->query($baseXpath . $valueXpath);
+
+      if ($keyNodes->length != $valueNodes->length) {
+        throw new \Exception('Keys and values must have equal numbers of elements');
+      }
+
+      $keys = [];
+      $values = [];
+      foreach ($keyNodes as $node) {
+        $keys[] = $node->nodeValue;
+      }
+
+      foreach ($valueNodes as $node) {
+        $values[] = $node->nodeValue;
+      }
+
+      return array_combine($keys, $values);
+    }
+
+
+    /**
      * ```
      * // return all href elements
      *
@@ -345,10 +376,10 @@
      * @return array
      */
     public function getNodeItems($path, array $itemsParams) {
-      $result = array();
+      $result = [];
       $nodes = $this->object($path);
       foreach ($nodes as $nodeIndex => $nodeDocument) {
-        $nodeValues = array();
+        $nodeValues = [];
 
         foreach ($itemsParams as $elementResultIndex => $elementResultPath) {
           /** @var ElementFinder $nodeDocument */

@@ -15,12 +15,14 @@
       $this->assertContains('<title>test doc</title>', (string) $html);
     }
 
+
     /**
      * @expectedException \Exception
      */
     public function testInvalidType() {
       new ElementFinder("", "df");
     }
+
 
     /**
      * @expectedException \InvalidArgumentException
@@ -29,6 +31,7 @@
       new ElementFinder("");
     }
 
+
     /**
      *
      */
@@ -36,6 +39,7 @@
       $elementFinder = new ElementFinder("   0 ");
       $this->assertContains('0', (string) $elementFinder);
     }
+
 
     public function testNodeList() {
 
@@ -46,6 +50,7 @@
 
       $this->assertEquals(4, $spanNodes->length);
     }
+
 
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
@@ -62,6 +67,7 @@
 
       $this->assertContains('<a href="http://funivan.com/" title="my blog">link</a>', (string) $firstLink);
     }
+
 
     public function testObjects() {
       $html = $this->getHtmlTestObject();
@@ -90,6 +96,7 @@
 
     }
 
+
     public function testDelete() {
       $html = $this->getHtmlTestObject();
 
@@ -102,6 +109,7 @@
       $this->assertEmpty($title);
 
     }
+
 
     public function testHtmlSelector() {
       $html = $this->getHtmlTestObject();
@@ -117,13 +125,14 @@
       $this->assertEmpty((string) $title);
     }
 
+
     public function testGetNodeItems() {
       $html = $this->getHtmlTestObject();
-      $group = $html->getNodeItems('//span', array(
+      $group = $html->getNodeItems('//span', [
         'b' => '//b[1]',
         'i' => '//o',
         'if' => '//i/@df',
-      ));
+      ]);
 
       $this->assertCount(4, $group);
 
@@ -134,6 +143,7 @@
       }
 
     }
+
 
     public function testRegexpReplace() {
       $html = $this->getHtmlDataObject();
@@ -151,10 +161,11 @@
 
     }
 
+
     public function testMatch() {
 
       $html = $this->getHtmlDataObject();
-      $regex = '!([\d-]+)[<|\n]{1}!';
+      $regex = '!([\d-]+)[<|\n]!';
 
       $phones = $html->match($regex);
       $this->assertCount(2, $phones);
@@ -169,10 +180,11 @@
 
     }
 
+
     public function testMatchWithCallback() {
 
       $html = $this->getHtmlDataObject();
-      $regex = '!([\d-]+)[<|\n]{1}!';
+      $regex = '!([\d-]+)[<|\n]!';
 
       $phones = $html->match($regex, function ($items) {
         foreach ($items[1] as $index => $tel) {
@@ -188,14 +200,16 @@
 
     }
 
+
     /**
      * @expectedException \InvalidArgumentException
      */
     public function testMatchWithInvalidArgument() {
 
       $html = $this->getHtmlDataObject();
-      $html->match('!([\d-]+)[<|\n]{1}!', new \stdClass());
+      $html->match('!([\d-]+)[<|\n]!', new \stdClass());
     }
+
 
     /**
      * @expectedException \Exception
@@ -203,10 +217,11 @@
     public function testMatchWithInvalidCallback() {
 
       $html = $this->getHtmlDataObject();
-      $html->match('!([\d-]+)[<|\n]{1}!', function () {
+      $html->match('!([\d-]+)[<|\n]!', function () {
         return 123;
       });
     }
+
 
     /**
      * @expectedException \Exception
@@ -214,11 +229,12 @@
     public function testMatchWithInvalidCallbackData() {
 
       $html = $this->getHtmlDataObject();
-      $html->match('!([\d-]+)[<|\n]{1}!', function () {
-        return array(new \stdClass());
+      $html->match('!([\d-]+)[<|\n]!', function () {
+        return [new \stdClass()];
       });
 
     }
+
 
     public function testMatchWithEmptyElements() {
 
@@ -227,6 +243,7 @@
       $this->assertEmpty($items);
 
     }
+
 
     public function testObjectWithInnerHtml() {
 
@@ -242,10 +259,12 @@
       $this->assertContains('<b>1 </b>', (string) $firstItem);
     }
 
+
     public function testReplaceAllData() {
       $html = $this->getHtmlTestObject();
       $html->replace('!.*!');
     }
+
 
     public function testInitClassWithInvalidContent() {
       $internalErrors = libxml_use_internal_errors(true);
@@ -257,8 +276,7 @@
             <span></span></span>
           </body>
         </html>
-'
-      );
+      ');
 
       $errors = libxml_get_errors();
       libxml_clear_errors();
@@ -267,6 +285,7 @@
       $this->assertContains("Unexpected end tag : span\n", $errors[0]->message);
 
     }
+
 
     public function testInitClassWithValidContent() {
       $internalErrors = libxml_use_internal_errors(true);
@@ -278,6 +297,7 @@
       $this->assertCount(0, $errors);
 
     }
+
 
     public function testGetObjectWithEmptyHtml() {
       $page = new ElementFinder("<div></div><div><a>df</a></div>");
@@ -292,6 +312,7 @@
 
     }
 
+
     /**
      * @expectedException \InvalidArgumentException
      */
@@ -299,12 +320,14 @@
       new ElementFinder("<div></div>", false);
     }
 
+
     /**
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidDocumentOptions() {
       new ElementFinder("<div></div>", null, 'test');
     }
+
 
     /**
      *
@@ -314,30 +337,87 @@
       $this->assertContains('<list>123</list>', (string) $document);
     }
 
+
     public function testFetchTextNode() {
 
       $html = new ElementFinder('
-<div>
-  <ul>
-    <li><b>param1:</b>t1<span>or</span>t2</li>
-    <li><b>param2:</b>other</li>
-    <li>param3: new</li>
-  </ul>
-</div>');
+        <div>
+          <ul>
+            <li><b>param1:</b>t1<span>or</span>t2</li>
+            <li><b>param2:</b>other</li>
+            <li>param3: new</li>
+          </ul>
+        </div>
+      ');
 
 
       $firstTextNodes = $html->value('//b/following-sibling::text()[1]')->getItems();
 
-      $this->assertEquals(array(
-        't1', 'other'
-      ), $firstTextNodes);
+      $this->assertEquals([
+        't1', 'other',
+      ], $firstTextNodes);
 
 
       $allFollowingSiblingTextNodes = $html->value('//b/following-sibling::text()')->getItems();
 
-      $this->assertEquals(array(
-        't1', 't2', 'other'
-      ), $allFollowingSiblingTextNodes);
+      $this->assertEquals([
+        't1', 't2', 'other',
+      ], $allFollowingSiblingTextNodes);
+
+    }
+
+
+    public function testKeyValue() {
+      $html = new ElementFinder('
+        <table>
+          <tbody>
+          <tr>
+            <td>Year</td>
+            <td>2016</td>
+          </tr>
+          <tr>
+            <td>Make</td>
+            <td>CAT</td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td>560G</td>
+          </tr>
+          </tbody>
+        </table>
+      ');
+      $values = $html->keyValue("//table", "//td[1]", "//td[2]");
+
+      $this->assertEquals([
+        'Year' => '2016',
+        'Make' => 'CAT',
+        'Model' => '560G',
+      ], $values);
+    }
+
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testKeyValueFail() {
+      $html = new ElementFinder('
+        <table>
+          <tbody>
+          <tr>
+            <td>Year</td>
+            <td>2016</td>
+          </tr>
+          <tr>
+            <td>Make</td>
+            <td>CAT</td>
+          </tr>
+          <tr>
+            <td>560G</td>
+          </tr>
+          </tbody>
+        </table>
+      ');
+      $html->keyValue("//table", "//td[1]", "//td[2]");
 
     }
 
