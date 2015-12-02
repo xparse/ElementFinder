@@ -474,7 +474,7 @@
      * @return string
      */
     private function convertExpression($expression) {
-      return $this->expressionTranslator->toXpath($expression);
+      return $this->expressionTranslator->convertToXpath($expression);
     }
 
 

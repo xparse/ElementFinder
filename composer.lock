@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ed9f029d8617d5c472d98d8021699f2",
-    "content-hash": "50f47546cf7872e90408ffa31fd3afaa",
+    "hash": "a7e781df971d69c3e6d269112cde0dc3",
+    "content-hash": "df8ce00499e310be8ea9d8097a8a90da",
     "packages": [
         {
             "name": "fiv/collection",
@@ -54,16 +54,16 @@
         },
         {
             "name": "xparse/expression-translator",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xparse/ExpressionTranslator.git",
-                "reference": "8188a01355326b787894d8ff04546cdc7d7590f2"
+                "reference": "077158c291419c8693813b580659e9db8ecadfa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xparse/ExpressionTranslator/zipball/8188a01355326b787894d8ff04546cdc7d7590f2",
-                "reference": "8188a01355326b787894d8ff04546cdc7d7590f2",
+                "url": "https://api.github.com/repos/xparse/ExpressionTranslator/zipball/077158c291419c8693813b580659e9db8ecadfa8",
+                "reference": "077158c291419c8693813b580659e9db8ecadfa8",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
             ],
             "description": "Translate custom expressions to xpath",
             "homepage": "https://github.com/",
-            "time": "2015-12-02 12:03:30"
+            "time": "2015-12-02 13:29:01"
         }
     ],
     "packages-dev": [
