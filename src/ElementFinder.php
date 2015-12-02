@@ -7,6 +7,8 @@
   use Xparse\ElementFinder\ElementFinder\ObjectCollection;
   use Xparse\ElementFinder\ElementFinder\StringCollection;
   use Xparse\ElementFinder\Helper\RegexHelper;
+  use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
+  use Xparse\ExpressionTranslator\XpathExpression;
 
   /**
    * @author  Ivan Scherbak <dev@funivan.com> 03.08.2011 10:25:00
@@ -52,6 +54,11 @@
      */
     protected $xpath = null;
 
+    /**
+     * @var ExpressionTranslatorInterface
+     */
+    protected $expressionTranslator;
+
 
     /**
      *
@@ -81,6 +88,10 @@
       $this->setDocumentOption($options);
 
       $this->setData($data);
+
+      # set default expression to xpath
+      $this->expressionTranslator = new XpathExpression();
+
     }
 
 
@@ -137,7 +148,7 @@
      */
     public function html($xpath, $outerHtml = false) {
 
-      $items = $this->xpath->query($xpath);
+      $items = $this->xpath->query($this->convertExpression($xpath));
 
       $collection = new StringCollection();
 
@@ -168,7 +179,7 @@
      */
     public function remove($xpath) {
 
-      $items = $this->xpath->query($xpath);
+      $items = $this->xpath->query($this->convertExpression($xpath));
 
       foreach ($items as $key => $node) {
         $node->parentNode->removeChild($node);
@@ -185,7 +196,7 @@
      * @return StringCollection
      */
     public function value($xpath) {
-      $items = $this->xpath->query($xpath);
+      $items = $this->xpath->query($this->convertExpression($xpath));
       $collection = new StringCollection();
       foreach ($items as $node) {
         $collection->append($node->nodeValue);
@@ -204,8 +215,8 @@
      * @return array
      */
     public function keyValue($baseXpath, $keyXpath, $valueXpath) {
-      $keyNodes = $this->xpath->query($baseXpath . $keyXpath);
-      $valueNodes = $this->xpath->query($baseXpath . $valueXpath);
+      $keyNodes = $this->xpath->query($this->convertExpression($baseXpath ). $keyXpath);
+      $valueNodes = $this->xpath->query($this->convertExpression($baseXpath ). $valueXpath);
 
       if ($keyNodes->length != $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
@@ -239,7 +250,7 @@
      * @return StringCollection
      */
     public function attribute($xpath) {
-      $items = $this->xpath->query($xpath);
+      $items = $this->xpath->query($this->convertExpression($xpath));
 
       $collection = new StringCollection();
       foreach ($items as $item) {
@@ -261,7 +272,7 @@
       $options = $this->getOptions();
       $type = $this->getType();
 
-      $items = $this->xpath->query($xpath);
+      $items = $this->xpath->query($this->convertExpression($xpath));
 
       $collection = new ObjectCollection();
 
@@ -291,7 +302,7 @@
      * @return \DOMNodeList
      */
     public function node($xpath) {
-      return $this->xpath->query($xpath);
+      return $this->xpath->query($this->convertExpression($xpath));
     }
 
 
@@ -300,7 +311,7 @@
      * @return ElementCollection
      */
     public function elements($xpath) {
-      $nodeList = $this->xpath->query($xpath);
+      $nodeList = $this->xpath->query($this->convertExpression($xpath));
 
       $collection = new ElementCollection();
       foreach ($nodeList as $item) {
@@ -455,6 +466,33 @@
      */
     public function getOptions() {
       return $this->options;
+    }
+
+
+    /**                               
+     * @param string $expression
+     * @return string
+     */
+    private function convertExpression($expression) {
+      return $this->expressionTranslator->toXpath($expression);
+    }
+
+
+    /**
+     * @return ExpressionTranslatorInterface
+     */
+    public function getExpressionTranslator() {
+      return $this->expressionTranslator;
+    }
+
+
+    /**
+     * @param ExpressionTranslatorInterface $expressionTranslator
+     * @return $this
+     */
+    public function setExpressionTranslator(ExpressionTranslatorInterface $expressionTranslator) {
+      $this->expressionTranslator = $expressionTranslator;
+      return $this;
     }
 
   }
