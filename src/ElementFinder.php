@@ -148,7 +148,7 @@
      */
     public function html($xpath, $outerHtml = false) {
 
-      $items = $this->xpath->query($this->convertExpression($xpath));
+      $items = $this->query($xpath);
 
       $collection = new StringCollection();
 
@@ -179,7 +179,7 @@
      */
     public function remove($xpath) {
 
-      $items = $this->xpath->query($this->convertExpression($xpath));
+      $items = $this->query($xpath);
 
       foreach ($items as $key => $node) {
         $node->parentNode->removeChild($node);
@@ -196,7 +196,7 @@
      * @return StringCollection
      */
     public function value($xpath) {
-      $items = $this->xpath->query($this->convertExpression($xpath));
+      $items = $this->query($xpath);
       $collection = new StringCollection();
       foreach ($items as $node) {
         $collection->append($node->nodeValue);
@@ -215,8 +215,8 @@
      * @return array
      */
     public function keyValue($baseXpath, $keyXpath, $valueXpath) {
-      $keyNodes = $this->xpath->query($this->convertExpression($baseXpath ). $keyXpath);
-      $valueNodes = $this->xpath->query($this->convertExpression($baseXpath ). $valueXpath);
+      $keyNodes = $this->xpath->query($this->convertExpression($baseXpath . $keyXpath));
+      $valueNodes = $this->xpath->query($this->convertExpression($baseXpath . $valueXpath));
 
       if ($keyNodes->length != $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
@@ -250,7 +250,7 @@
      * @return StringCollection
      */
     public function attribute($xpath) {
-      $items = $this->xpath->query($this->convertExpression($xpath));
+      $items = $this->query($xpath);
 
       $collection = new StringCollection();
       foreach ($items as $item) {
@@ -272,7 +272,7 @@
       $options = $this->getOptions();
       $type = $this->getType();
 
-      $items = $this->xpath->query($this->convertExpression($xpath));
+      $items = $this->query($xpath);
 
       $collection = new ObjectCollection();
 
@@ -302,7 +302,7 @@
      * @return \DOMNodeList
      */
     public function node($xpath) {
-      return $this->xpath->query($this->convertExpression($xpath));
+      return $this->query($xpath);
     }
 
 
@@ -311,7 +311,7 @@
      * @return ElementCollection
      */
     public function elements($xpath) {
-      $nodeList = $this->xpath->query($this->convertExpression($xpath));
+      $nodeList = $this->query($xpath);
 
       $collection = new ElementCollection();
       foreach ($nodeList as $item) {
@@ -469,7 +469,16 @@
     }
 
 
-    /**                               
+    /**
+     * @param string $expression
+     * @return \DOMNodeList
+     */
+    private function query($expression) {
+      return $this->xpath->query($this->convertExpression($expression));
+    }
+
+
+    /**
      * @param string $expression
      * @return string
      */
@@ -494,5 +503,6 @@
       $this->expressionTranslator = $expressionTranslator;
       return $this;
     }
+
 
   }
