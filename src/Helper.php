@@ -2,6 +2,8 @@
 
   namespace Xparse\ElementFinder;
 
+  use Xparse\ElementFinder\ElementFinder;
+
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
    */
@@ -61,12 +63,12 @@
      * Form is get by $xpath
      * Return key->value array where key is name of field
      *
-     * @param \Xparse\ElementFinder\ElementFinder $page
+     * @param ElementFinder $page
      * @param string $xpath xpath to form
      * @return array
      * @throws \Exception
      */
-    public static function getDefaultFormData(\Xparse\ElementFinder\ElementFinder $page, $xpath) {
+    public static function getDefaultFormData(ElementFinder $page, $xpath) {
 
       /** @var ElementFinder $form */
       $form = $page->object($xpath, true)->getFirst();
@@ -74,7 +76,7 @@
         throw new \Exception("Cant find form. Possible invalid xpath ");
       }
 
-      $formData = array();
+      $formData = [];
       # textarea
       foreach ($form->elements('//textarea') as $textArea) {
         $formData[$textArea->getAttribute('name')] = $textArea->nodeValue;

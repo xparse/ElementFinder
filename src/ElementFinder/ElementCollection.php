@@ -2,17 +2,19 @@
 
   namespace Xparse\ElementFinder\ElementFinder;
 
+  use Fiv\Collection\ObjectCollection;
+
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
-   * @method \Xparse\ElementFinder\ElementFinder\Element offsetGet($offset);
+   * @method Element offsetGet($offset);
    */
-  class ElementCollection extends \Fiv\Collection\ObjectCollection {
+  class ElementCollection extends ObjectCollection {
 
     /**
      * @inheritdoc
      */
     public function objectsClassName() {
-      return '\Xparse\ElementFinder\ElementFinder\Element';
+      return Element::class;
     }
 
 
@@ -35,9 +37,9 @@
      * @return array
      */
     public function getAttributes() {
-      $allAttributes = array();
+      $allAttributes = [];
       foreach ($this as $key => $element) {
-        $allAttributes[$key] = array();
+        $allAttributes[$key] = [];
         $allAttributes[$key] = $element->getAttributes();
       }
 

@@ -2,6 +2,8 @@
 
   namespace Xparse\ElementFinder\Helper;
 
+  use Xparse\ElementFinder\ElementFinder\StringCollection;
+
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 1/11/15
    */
@@ -11,7 +13,7 @@
      * @param string $regex
      * @param integer $i
      * @param array $strings
-     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
+     * @return StringCollection
      * @throws \Exception
      */
     public static function match($regex, $i, array $strings) {
@@ -20,7 +22,7 @@
         throw new \InvalidArgumentException('Expect integer');
       }
 
-      $items = new \Xparse\ElementFinder\ElementFinder\StringCollection();
+      $items = new StringCollection();
 
       foreach ($strings as $string) {
 
@@ -44,12 +46,12 @@
      * @param string $regex
      * @param callable $i
      * @param array $strings
-     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
+     * @return StringCollection
      * @throws \Exception
      */
     public static function matchCallback($regex, callable $i, array $strings) {
 
-      $items = new \Xparse\ElementFinder\ElementFinder\StringCollection();
+      $items = new StringCollection();
 
       foreach ($strings as $string) {
 

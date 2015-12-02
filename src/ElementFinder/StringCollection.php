@@ -2,11 +2,14 @@
 
   namespace Xparse\ElementFinder\ElementFinder;
 
+  use Fiv\Collection\TypedCollection;
+  use Xparse\ElementFinder\Helper\RegexHelper;
+
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
    * @method string offsetGet($offset);
    */
-  class StringCollection extends \Fiv\Collection\TypedCollection {
+  class StringCollection extends TypedCollection {
 
     /**
      * You can add or append only one type of items to this collection
@@ -58,7 +61,7 @@
      * @return StringCollection
      */
     public function match($regexp, $index = 1) {
-      return \Xparse\ElementFinder\Helper\RegexHelper::match($regexp, $index, $this->items);
+      return RegexHelper::match($regexp, $index, $this->items);
     }
 
 

@@ -13,7 +13,7 @@
      * @return array
      */
     public function getAttributes() {
-      $attributes = array();
+      $attributes = [];
       foreach ($this->attributes as $attr) {
         $attributes[$attr->name] = $attr->value;
       }

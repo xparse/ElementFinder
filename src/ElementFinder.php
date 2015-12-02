@@ -2,6 +2,12 @@
 
   namespace Xparse\ElementFinder;
 
+  use Xparse\ElementFinder\ElementFinder\Element;
+  use Xparse\ElementFinder\ElementFinder\ElementCollection;
+  use Xparse\ElementFinder\ElementFinder\ObjectCollection;
+  use Xparse\ElementFinder\ElementFinder\StringCollection;
+  use Xparse\ElementFinder\Helper\RegexHelper;
+
   /**
    * @author  Ivan Scherbak <dev@funivan.com> 03.08.2011 10:25:00
    * @link    <funivan.com>
@@ -65,7 +71,7 @@
 
       $this->dom = new \DomDocument();
 
-      $this->dom->registerNodeClass('DOMElement', '\Xparse\ElementFinder\ElementFinder\Element');
+      $this->dom->registerNodeClass('DOMElement', Element::class);
 
       $documentType = ($documentType !== null) ? $documentType : static::DOCUMENT_HTML;
       $this->setDocumentType($documentType);
@@ -127,13 +133,13 @@
     /**
      * @param string $xpath
      * @param bool $outerHtml
-     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
+     * @return StringCollection
      */
     public function html($xpath, $outerHtml = false) {
 
       $items = $this->xpath->query($xpath);
 
-      $collection = new \Xparse\ElementFinder\ElementFinder\StringCollection();
+      $collection = new StringCollection();
 
       foreach ($items as $node) {
         if ($outerHtml) {
@@ -176,11 +182,11 @@
      * Get nodeValue of node
      *
      * @param string $xpath
-     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
+     * @return StringCollection
      */
     public function value($xpath) {
       $items = $this->xpath->query($xpath);
-      $collection = new \Xparse\ElementFinder\ElementFinder\StringCollection();
+      $collection = new StringCollection();
       foreach ($items as $node) {
         $collection->append($node->nodeValue);
       }
@@ -230,12 +236,12 @@
      *
      * ```
      * @param $xpath
-     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
+     * @return StringCollection
      */
     public function attribute($xpath) {
       $items = $this->xpath->query($xpath);
 
-      $collection = new \Xparse\ElementFinder\ElementFinder\StringCollection();
+      $collection = new StringCollection();
       foreach ($items as $item) {
         /** @var \DOMAttr $item */
         $collection->append($item->value);
@@ -249,7 +255,7 @@
      * @param string $xpath
      * @param bool $outerHtml
      * @throws \Exception
-     * @return \Xparse\ElementFinder\ElementFinder\ObjectCollection
+     * @return ObjectCollection
      */
     public function object($xpath, $outerHtml = false) {
       $options = $this->getOptions();
@@ -257,7 +263,7 @@
 
       $items = $this->xpath->query($xpath);
 
-      $collection = new \Xparse\ElementFinder\ElementFinder\ObjectCollection();
+      $collection = new ObjectCollection();
 
       foreach ($items as $node) {
         /** @var \DOMElement $node */
@@ -291,12 +297,12 @@
 
     /**
      * @param string $xpath
-     * @return \Xparse\ElementFinder\ElementFinder\ElementCollection
+     * @return ElementCollection
      */
     public function elements($xpath) {
       $nodeList = $this->xpath->query($xpath);
 
-      $collection = new \Xparse\ElementFinder\ElementFinder\ElementCollection();
+      $collection = new ElementCollection();
       foreach ($nodeList as $item) {
         $collection->append($item);
       }
@@ -313,7 +319,7 @@
      *
      * @param string $regex
      * @param integer|callable $i
-     * @return \Xparse\ElementFinder\ElementFinder\StringCollection
+     * @return StringCollection
      * @throws \Exception
      */
     public function match($regex, $i = 1) {
@@ -321,9 +327,9 @@
       $documentHtml = $this->html('.')->getFirst();
 
       if (is_int($i)) {
-        $collection = \Xparse\ElementFinder\Helper\RegexHelper::match($regex, $i, [$documentHtml]);
+        $collection = RegexHelper::match($regex, $i, [$documentHtml]);
       } elseif (is_callable($i)) {
-        $collection = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback($regex, $i, [$documentHtml]);
+        $collection = RegexHelper::matchCallback($regex, $i, [$documentHtml]);
       } else {
         throw new \InvalidArgumentException('Invalid argument. Expect integer or callable');
       }
