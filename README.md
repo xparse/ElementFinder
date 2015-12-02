@@ -55,7 +55,8 @@ $page = new \Xparse\ElementFinder\ElementFinder('<html>
 
 ```
 
-
+## Css selectors
+Read this document. [Using css selectors](doc/using_css_selectors.md).
 
 ## Testing
 
