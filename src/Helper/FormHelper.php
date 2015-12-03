@@ -1,61 +1,13 @@
 <?php
 
-  namespace Xparse\ElementFinder;
+  namespace Xparse\ElementFinder\Helper;
 
   use Xparse\ElementFinder\ElementFinder;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
+   * @author Ivan Shcherbak <dev@funivan.com> 03.12.15
    */
-  class Helper {
-
-    /**
-     * @param \DOMNode $node
-     * @return string
-     */
-    public static function getOuterHtml(\DOMNode $node) {
-
-      $domDocument = new \DOMDocument('1.0');
-      $b = $domDocument->importNode($node->cloneNode(true), true);
-      $domDocument->appendChild($b);
-
-      $html = $domDocument->saveHtml();
-      $html = static::safeEncodeStr($html);
-
-      return $html;
-    }
-
-
-    /**
-     * @param \DOMNode $itemObj
-     * @return string
-     */
-    public static function getInnerHtml(\DOMNode $itemObj) {
-      $innerHtml = '';
-      $children = $itemObj->childNodes;
-      /** @var \DOMNode $child */
-      foreach ($children as $child) {
-        $innerHtml .= $child->ownerDocument->saveXML($child);
-      }
-      $innerHtml = static::safeEncodeStr($innerHtml);
-      return $innerHtml;
-    }
-
-
-    /**
-     * Simple helper function for str encoding
-     *
-     * @param string $str
-     * @return string
-     */
-    public static function safeEncodeStr($str) {
-      return preg_replace_callback("/&#([a-z\d]+);/i", function ($m) {
-        $m[0] = (string) $m[0];
-        $m[0] = mb_convert_encoding($m[0], "UTF-8", "HTML-ENTITIES");
-        return $m[0];
-      }, $str);
-    }
-
+  class FormHelper {
 
     /**
      * Get data from <form> element
@@ -107,5 +59,4 @@
 
       return $formData;
     }
-
-  } 
+  }

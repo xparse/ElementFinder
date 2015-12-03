@@ -6,7 +6,9 @@
   use Xparse\ElementFinder\ElementFinder\ElementCollection;
   use Xparse\ElementFinder\ElementFinder\ObjectCollection;
   use Xparse\ElementFinder\ElementFinder\StringCollection;
+  use Xparse\ElementFinder\Helper\NodeHelper;
   use Xparse\ElementFinder\Helper\RegexHelper;
+  use Xparse\ElementFinder\Helper\StringHelper;
   use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
   use Xparse\ExpressionTranslator\XpathExpression;
 
@@ -124,7 +126,7 @@
       $disableEntities = libxml_disable_entity_loader(true);
 
       if ($this->type == static::DOCUMENT_HTML) {
-        $data = \Xparse\ElementFinder\Helper::safeEncodeStr($data);
+        $data = StringHelper::safeEncodeStr($data);
         $data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
         $this->dom->loadHTML($data);
       } else {
@@ -154,9 +156,9 @@
 
       foreach ($items as $node) {
         if ($outerHtml) {
-          $html = Helper::getOuterHtml($node);
+          $html = NodeHelper::getOuterHtml($node);
         } else {
-          $html = Helper::getInnerHtml($node);
+          $html = NodeHelper::getInnerHtml($node);
         }
 
         $collection->append($html);
@@ -279,9 +281,9 @@
       foreach ($items as $node) {
         /** @var \DOMElement $node */
         if ($outerHtml) {
-          $html = Helper::getOuterHtml($node);
+          $html = NodeHelper::getOuterHtml($node);
         } else {
-          $html = Helper::getInnerHtml($node);
+          $html = NodeHelper::getInnerHtml($node);
         }
 
         if (trim($html) === "") {

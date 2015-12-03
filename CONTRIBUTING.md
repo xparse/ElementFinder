@@ -7,7 +7,7 @@ We accept contributions via Pull Requests on [Github](https://github.com/xparse/
 
 ## Pull Requests
 
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+- **Add tests!** - Your patch won't be accepted if it doesn`t have tests.
 
 - **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
 

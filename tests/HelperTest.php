@@ -2,6 +2,9 @@
 
   namespace Test\Xparse\ElementFinder;
 
+  use Xparse\ElementFinder\Helper\FormHelper;
+  use Xparse\ElementFinder\Helper\StringHelper;
+
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 12/30/14
    */
@@ -28,7 +31,7 @@
       
       ';
       $page = new \Xparse\ElementFinder\ElementFinder($html);
-      $formData = \Xparse\ElementFinder\Helper::getDefaultFormData($page, '//form');
+      $formData = FormHelper::getDefaultFormData($page, '//form');
       $this->assertCount(5, $formData);
       $this->assertEquals(123, $formData['test']);
       $this->assertEquals(2, $formData['sf']);
@@ -43,7 +46,7 @@
      */
     public function testInvalidFormPath() {
       $page = new \Xparse\ElementFinder\ElementFinder('<div></div>');
-      \Xparse\ElementFinder\Helper::getDefaultFormData($page, '//form');
+      FormHelper::getDefaultFormData($page, '//form');
     }
 
     public function testEncode() {
@@ -61,7 +64,7 @@
       );
 
       foreach ($data as $expect => $string) {
-        $output = \Xparse\ElementFinder\Helper::safeEncodeStr($string);
+        $output = StringHelper::safeEncodeStr($string);
         $this->assertEquals($expect, $output);
       }
 
