@@ -255,7 +255,7 @@
       $collection = new StringCollection();
       foreach ($items as $item) {
         /** @var \DOMAttr $item */
-        $collection->append($item->value);
+        $collection->append($item->nodeValue);
       }
 
       return $collection;

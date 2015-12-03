@@ -1,19 +1,5 @@
-#Changelog
+# Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## NEXT - YYYY-MM-DD
-
-### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+## Version 0.0.3
+- Feature #4 Use `DOMAttr::nodeValue` instead of `DOMAttr::value`    
