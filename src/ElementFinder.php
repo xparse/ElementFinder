@@ -224,17 +224,12 @@
         throw new \Exception('Keys and values must have equal numbers of elements');
       }
 
-      $keys = [];
-      $values = [];
-      foreach ($keyNodes as $node) {
-        $keys[] = $node->nodeValue;
+      $result = [];
+      foreach ($keyNodes as $index => $node) {
+        $result[$node->nodeValue] = $valueNodes->item($index)->nodeValue;
       }
 
-      foreach ($valueNodes as $node) {
-        $values[] = $node->nodeValue;
-      }
-
-      return array_combine($keys, $values);
+      return $result;
     }
 
 
