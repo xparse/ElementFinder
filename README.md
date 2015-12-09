@@ -7,8 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/xparse/ElementFinder.svg?style=flat-square)](https://scrutinizer-ci.com/g/xparse/ElementFinder)
 [![Total Downloads](https://img.shields.io/packagist/dt/xparse/element-finder.svg?style=flat-square)](https://packagist.org/packages/xparse/element-finder)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+Extract data from html with elegant xpath/css expressions and prepare data with regexp in single line.  
 
 ## Install
 
@@ -26,7 +25,7 @@ $ composer require xparse/element-finder
   echo $title;  
 ```
 
-### Advanced usage
+## Advanced usage with regexp
 
 
 ``` php
