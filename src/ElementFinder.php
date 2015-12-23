@@ -285,7 +285,9 @@
           $html = $this->getEmptyDocumentHtml();
         }
 
-        $collection[] = new ElementFinder($html, $type, $options);
+        $elementFinder = new ElementFinder($html, $type, $options);
+        $elementFinder->setExpressionTranslator($this->expressionTranslator);
+        $collection[] = $elementFinder;
       }
 
       return $collection;
