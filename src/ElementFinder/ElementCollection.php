@@ -2,13 +2,11 @@
 
   namespace Xparse\ElementFinder\ElementFinder;
 
-  use Fiv\Collection\ObjectCollection;
-
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
    * @method Element offsetGet($offset);
    */
-  class ElementCollection extends ObjectCollection {
+  class ElementCollection extends \Fiv\Collection\ObjectCollection {
 
     /**
      * @inheritdoc
