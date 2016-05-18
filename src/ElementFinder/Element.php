@@ -3,7 +3,7 @@
   namespace Xparse\ElementFinder\ElementFinder;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
+   * @author Ivan Shcherbak <dev@funivan.com>
    */
   class Element extends \DOMElement {
 
@@ -21,4 +21,4 @@
       return $attributes;
     }
 
-  } 
+  }

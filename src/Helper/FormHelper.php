@@ -5,7 +5,7 @@
   use Xparse\ElementFinder\ElementFinder;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 03.12.15
+   * @author Ivan Shcherbak <dev@funivan.com>
    */
   class FormHelper {
 
@@ -24,7 +24,7 @@
 
       /** @var ElementFinder $form */
       $form = $page->object($xpath, true)->getFirst();
-      if (empty($form)) {
+      if (null === $form) {
         throw new \Exception("Cant find form. Possible invalid xpath ");
       }
 

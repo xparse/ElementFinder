@@ -5,7 +5,7 @@
   use Xparse\ElementFinder\ElementFinder\StringCollection;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 1/11/15
+   * @author Ivan Shcherbak <dev@funivan.com>
    */
   class RegexHelper {
 
@@ -14,7 +14,7 @@
      * @param integer $i
      * @param array $strings
      * @return StringCollection
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public static function match($regex, $i, array $strings) {
 

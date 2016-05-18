@@ -13,8 +13,7 @@
   use Xparse\ExpressionTranslator\XpathExpression;
 
   /**
-   * @author  Ivan Scherbak <dev@funivan.com> 03.08.2011 10:25:00
-   * @link    <funivan.com>
+   * @author Ivan Scherbak <dev@funivan.com>
    */
   class ElementFinder {
 
@@ -71,6 +70,7 @@
      * @param string $data
      * @param null|integer $documentType
      * @param int $options
+     * @throws \InvalidArgumentException
      */
     public function __construct($data, $documentType = null, $options = null) {
 
@@ -111,8 +111,7 @@
      *
      */
     public function __destruct() {
-      unset($this->dom);
-      unset($this->xpath);
+      unset($this->dom, $this->xpath);
     }
 
 
@@ -125,9 +124,9 @@
       $internalErrors = libxml_use_internal_errors(true);
       $disableEntities = libxml_disable_entity_loader(true);
 
-      if ($this->type == static::DOCUMENT_HTML) {
+      if (static::DOCUMENT_HTML == $this->type) {
         $data = StringHelper::safeEncodeStr($data);
-        $data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+        $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
         $this->dom->loadHTML($data);
       } else {
         $this->dom->loadXML($data, $this->options);
@@ -275,6 +274,7 @@
      * @param bool $outerHtml
      * @throws \Exception
      * @return ObjectCollection
+     * @throws \InvalidArgumentException
      */
     public function object($xpath, $outerHtml = false) {
       $options = $this->getOptions();
@@ -292,7 +292,7 @@
           $html = NodeHelper::getInnerHtml($node);
         }
 
-        if (trim($html) === "") {
+        if (trim($html) === '') {
           $html = $this->getEmptyDocumentHtml();
         }
 
@@ -341,6 +341,7 @@
      * @param string $regex
      * @param integer|callable $i
      * @return StringCollection
+     * @throws \InvalidArgumentException
      * @throws \Exception
      */
     public function match($regex, $i = 1) {
@@ -374,7 +375,7 @@
       $newDoc = $this->html('.', true)->getFirst();
       $newDoc = preg_replace($regex, $to, $newDoc);
 
-      if (trim($newDoc) === "") {
+      if (trim($newDoc) === '') {
         $newDoc = $this->getEmptyDocumentHtml();
       }
 
@@ -401,6 +402,8 @@
      * @param string $path
      * @param array $itemsParams
      * @return array
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function getNodeItems($path, array $itemsParams) {
       $result = [];
@@ -440,11 +443,12 @@
     /**
      * @param integer $documentType
      * @return $this
+     * @throws \InvalidArgumentException
      */
     protected function setDocumentType($documentType) {
 
       if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
-        throw new \InvalidArgumentException("Doc type not valid. use xml or html");
+        throw new \InvalidArgumentException('Doc type not valid. use xml or html');
       }
 
       $this->type = $documentType;
@@ -456,11 +460,12 @@
     /**
      * @param $options
      * @return $this
+     * @throws \InvalidArgumentException
      */
     protected function setDocumentOption($options) {
 
-      if (!is_integer($options)) {
-        throw new \InvalidArgumentException("Expect int options");
+      if (!is_int($options)) {
+        throw new \InvalidArgumentException('Expect int options');
       }
 
       $this->options = $options;

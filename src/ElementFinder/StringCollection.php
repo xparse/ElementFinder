@@ -6,7 +6,7 @@
   use Xparse\ElementFinder\Helper\RegexHelper;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
+   * @author Ivan Shcherbak <dev@funivan.com>
    * @method string offsetGet($offset);
    */
   class StringCollection extends TypedCollection {
@@ -19,7 +19,7 @@
      * @throws \Exception
      */
     public function validateType($item) {
-      if (is_string($item) or is_float($item) or is_integer($item)) {
+      if (is_string($item) or is_float($item) or is_int($item)) {
         return true;
       }
       throw new \InvalidArgumentException("Expect string");

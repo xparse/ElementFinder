@@ -5,8 +5,9 @@
   use Xparse\ElementFinder\ElementFinder;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
-   * @method ElementFinder offsetGet($offset);
+   * @author Ivan Shcherbak <dev@funivan.com>
+   * @method ElementFinder current();
+   * @method null|ElementFinder offsetGet($offset);
    */
   class ObjectCollection extends \Fiv\Collection\ObjectCollection {
 
@@ -29,9 +30,9 @@
     public function item($index) {
       if (isset($this->items[$index])) {
         return $this->items[$index];
-      } else {
-        return null;
       }
+
+      return null;
     }
 
 

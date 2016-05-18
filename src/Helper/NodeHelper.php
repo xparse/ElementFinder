@@ -3,9 +3,8 @@
   namespace Xparse\ElementFinder\Helper;
 
   /**            
-   * @access private
-   * 
-   * @author Ivan Shcherbak <dev@funivan.com> 03.12.15
+   *
+   * @author Ivan Shcherbak <dev@funivan.com>
    */
   class NodeHelper {
 
@@ -19,7 +18,7 @@
       $b = $domDocument->importNode($node->cloneNode(true), true);
       $domDocument->appendChild($b);
 
-      $html = $domDocument->saveHtml();
+      $html = $domDocument->saveHTML();
       $html = StringHelper::safeEncodeStr($html);
 
       return $html;

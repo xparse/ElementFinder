@@ -3,7 +3,7 @@
   namespace Xparse\ElementFinder\ElementFinder;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 6/3/14
+   * @author Ivan Shcherbak <dev@funivan.com>
    * @method Element offsetGet($offset);
    */
   class ElementCollection extends \Fiv\Collection\ObjectCollection {

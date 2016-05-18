@@ -3,7 +3,7 @@
   namespace Xparse\ElementFinder\Helper;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com> 03.12.15
+   * @author Ivan Shcherbak <dev@funivan.com>
    */
   class StringHelper {
 
