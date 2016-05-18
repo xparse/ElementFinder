@@ -170,10 +170,12 @@
 
 
     /**
-     * Remove node by xpath
+     * You can remove elements and attributes
      *
-     * ```
-     * $page->remove('//a')
+     * ```php
+     * $html->remove("//span/@class");
+     *
+     * $html->remove("//input");
      * ```
      *
      * @param string $xpath
@@ -183,8 +185,17 @@
 
       $items = $this->query($xpath);
 
+      if ($items === false) {
+        return $this;
+      }
+
       foreach ($items as $key => $node) {
-        $node->parentNode->removeChild($node);
+        if ($node instanceof \DOMAttr) {
+          $node->ownerElement->removeAttribute($node->name);
+        } else {
+          $node->parentNode->removeChild($node);
+        }
+
       }
 
       return $this;

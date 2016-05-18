@@ -97,7 +97,7 @@
     }
 
 
-    public function testDelete() {
+    public function testDeleteNode() {
       $html = $this->getHtmlTestObject();
 
       $title = $html->value('//title')->item(0);
@@ -106,6 +106,20 @@
       $html->remove('//title');
 
       $title = $html->value('//title')->item(0);
+      $this->assertEmpty($title);
+
+    }
+
+
+    public function testDeleteAttribute() {
+      $html = $this->getHtmlTestObject();
+
+      $title = $html->attribute('//a/@title')->getFirst();
+      $this->assertEquals('my blog', $title);
+
+      $html->remove('//a/@title');
+
+      $title = $html->attribute('//a/@title')->getFirst();
       $this->assertEmpty($title);
 
     }
@@ -249,7 +263,7 @@
 
       $html = $this->getHtmlTestObject();
 
-      # inner 
+      # inner
       $spanItems = $html->object('//span');
       $this->assertCount(4, $spanItems);
 
@@ -421,4 +435,4 @@
 
     }
 
-  } 
+  }
