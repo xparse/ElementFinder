@@ -24,7 +24,7 @@
 
       /** @var ElementFinder $form */
       $form = $page->object($xpath, true)->getFirst();
-      if (null === $form) {
+      if (empty($form)) {
         throw new \Exception("Cant find form. Possible invalid xpath ");
       }
 
