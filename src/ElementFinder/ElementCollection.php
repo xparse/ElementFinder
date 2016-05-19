@@ -5,6 +5,11 @@
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
    * @method Element offsetGet($offset);
+   * @method Element current()
+   * @method Element getFirst()
+   * @method Element getPrevious($step)
+   * @method Element getNext($step)
+   * @method Element[] getItems()
    */
   class ElementCollection extends \Fiv\Collection\ObjectCollection {
 
