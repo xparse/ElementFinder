@@ -2,6 +2,7 @@
 
   namespace Test\Xparse\ElementFinder;
 
+  use Xparse\CssExpressionTranslator\CssExpressionTranslator;
   use Xparse\ElementFinder\ElementFinder;
 
   /**
@@ -55,15 +56,15 @@
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
 
-      $links = $html->attribute("//a/@href");
+      $links = $html->value("//a/@href");
 
       $this->assertCount(1, $links);
 
-      foreach ($html->html("//a") as $htmlString) {
+      foreach ($html->content("//a") as $htmlString) {
         $this->assertTrue(is_string($htmlString));
       }
 
-      $firstLink = $html->html("//a", true)->item(0);
+      $firstLink = $html->content("//a", true)->item(0);
 
       $this->assertContains('<a href="http://funivan.com/" title="my blog">link</a>', (string) $firstLink);
     }
@@ -78,7 +79,7 @@
 
       /** @var ElementFinder $span */
       foreach ($spanItems->extractItems(0, 3) as $index => $span) {
-        $itemHtml = $span->html('//i')->item(0);
+        $itemHtml = $span->content('//i')->item(0);
 
         $this->assertEquals('r', trim($itemHtml));
 
@@ -86,12 +87,12 @@
 
       $html->remove('//span[2]');
 
-      $spanItems = $html->html("//span");
+      $spanItems = $html->content("//span");
       $this->assertCount(3, $spanItems);
 
       $html->remove('//span[@class]');
 
-      $spanItems = $html->html("//span");
+      $spanItems = $html->content("//span");
       $this->assertCount(1, $spanItems);
 
     }
@@ -114,12 +115,12 @@
     public function testDeleteAttribute() {
       $html = $this->getHtmlTestObject();
 
-      $title = $html->attribute('//a/@title')->getFirst();
+      $title = $html->value('//a/@title')->getFirst();
       $this->assertEquals('my blog', $title);
 
       $html->remove('//a/@title');
 
-      $title = $html->attribute('//a/@title')->getFirst();
+      $title = $html->value('//a/@title')->getFirst();
       $this->assertEmpty($title);
 
     }
@@ -127,7 +128,7 @@
 
     public function testHtmlSelector() {
       $html = $this->getHtmlTestObject();
-      $stringCollection = $html->html('//td');
+      $stringCollection = $html->content('//td');
 
       $this->assertCount(1, $stringCollection);
       $this->assertEquals('', $stringCollection->item(10));
@@ -135,7 +136,7 @@
       $title = $stringCollection->item(0);
       $this->assertEquals('custom <a href="http://funivan.com/" title="my blog">link</a>', (string) $title);
 
-      $title = $html->html('//td/@df')->item(0);
+      $title = $html->content('//td/@df')->item(0);
       $this->assertEmpty((string) $title);
     }
 
@@ -165,7 +166,7 @@
 
       $this->assertContains('45+12+16', (string) $html);
 
-      $phones = $html->html('//*[@id="tels"]');
+      $phones = $html->content('//*[@id="tels"]');
 
       $this->assertCount(1, $phones);
 
@@ -281,8 +282,7 @@
 
 
     public function testInitClassWithInvalidContent() {
-      $internalErrors = libxml_use_internal_errors(true);
-      new ElementFinder('
+      $htmlObject = new ElementFinder('
         <!DOCTYPE html>
         <html>
           <head></head>
@@ -290,11 +290,9 @@
             <span></span></span>
           </body>
         </html>
-      ');
+        ');
 
-      $errors = libxml_get_errors();
-      libxml_clear_errors();
-      libxml_use_internal_errors($internalErrors);
+      $errors = $htmlObject->getLoadErrors();
       $this->assertCount(1, $errors);
       $this->assertContains("Unexpected end tag : span\n", $errors[0]->message);
 
@@ -302,14 +300,10 @@
 
 
     public function testInitClassWithValidContent() {
-      $internalErrors = libxml_use_internal_errors(true);
-      $this->getHtmlDataObject();
+      $htmlDataObject = $this->getHtmlDataObject();
 
-      $errors = libxml_get_errors();
-      libxml_clear_errors();
-      libxml_use_internal_errors($internalErrors);
-      $this->assertCount(0, $errors);
-
+      $loadErrors = $htmlDataObject->getLoadErrors();
+      $this->assertCount(0, $loadErrors);
     }
 
 
@@ -318,7 +312,7 @@
       $objects = $page->object('//div');
 
       $this->assertEmpty((string) $objects->item(0));
-      $this->assertContains('data-document-is-empty', $objects[0]->html('/')->item(0));
+      $this->assertContains('data-document-is-empty', $objects[0]->content('/')->item(0));
 
       $this->assertNotEmpty((string) $objects->item(1));
       $linkText = $objects->item(1)->value('//a')->item(0);
@@ -381,26 +375,30 @@
     }
 
 
-    public function testKeyValue() {
-      $html = new ElementFinder('
-        <table>
-          <tbody>
-          <tr>
-            <td>Year</td>
-            <td>2016</td>
-          </tr>
-          <tr>
-            <td>Make</td>
-            <td>CAT</td>
-          </tr>
-          <tr>
-            <td>Model</td>
-            <td>560G</td>
-          </tr>
-          </tbody>
-        </table>
-      ');
-      $values = $html->keyValue("//table", "//td[1]", "//td[2]");
+    public function testKeyValueCssExpression() {
+      $html = $this->initFromFile('key-value-data.html');
+      $html->setExpressionTranslator(new CssExpressionTranslator());
+
+      $values = $html->keyValue(
+        ".main > table > tbody > tr > td:first-child",
+        ".main > table > tbody > tr > td:nth-child(2)"
+      );
+
+      $this->assertEquals([
+        'Year' => '2016',
+        'Make' => 'CAT',
+        'Model' => '560G',
+      ], $values);
+    }
+
+
+    public function testKeyValueXpathExpression() {
+      $html = $this->initFromFile('key-value-data.html');
+
+      $values = $html->keyValue(
+        "//div[@class='main']/table/tbody/tr/td[1]",
+        "//div[@class='main']/table/tbody/tr/td[2]"
+      );
 
       $this->assertEquals([
         'Year' => '2016',
@@ -431,8 +429,58 @@
           </tbody>
         </table>
       ');
-      $html->keyValue("//table", "//td[1]", "//td[2]");
+      $html->keyValue("//table//td[1]", "//table//td[2]");
 
+    }
+
+
+    public function testBadExpression() {
+      $html = $this->getHtmlTestObject();
+      try {
+        $html->object('b://or:other');
+      } catch (\Exception $e) {
+        $this->assertContains('Invalid expression', $e->getMessage());
+      }
+
+    }
+
+
+    public function testXmlData() {
+      $xml = $this->getXmlTestObject();
+      $foods = $xml->object('//food');
+
+      $this->assertCount(5, $foods);
+
+      $xml->remove('//food[3]');
+
+      $foods = $xml->object('//food');
+      $this->assertCount(4, $foods);
+
+      $this->assertEquals('$5.95', $xml->value("//food[1]/price/@value")->getFirst());
+
+      $this->assertEquals(950, $xml->value('//food/calories')->getLast());
+
+      $this->assertEquals(900, $xml->content('//food[2]/calories')->getFirst());
+
+      $this->assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
+
+    }
+
+
+    public function testXmlValidData() {
+      $xml = $this->getXmlTestObject();
+
+      $this->assertCount(0, $xml->getLoadErrors());
+    }
+
+
+    public function testXmlSetDataError() {
+      $xml = $this->getXmlErrorTestObject();
+      $errors = $xml->getLoadErrors();
+
+      $this->assertCount(1, $errors);
+
+      $this->assertContains("Opening and ending tag mismatch: from", $errors[0]->message);
     }
 
   }

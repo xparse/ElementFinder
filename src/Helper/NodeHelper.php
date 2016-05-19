@@ -12,7 +12,7 @@
      * @param \DOMNode $node
      * @return string
      */
-    public static function getOuterHtml(\DOMNode $node) {
+    public static function getOuterContent(\DOMNode $node) {
 
       $domDocument = new \DOMDocument('1.0');
       $b = $domDocument->importNode($node->cloneNode(true), true);
@@ -26,12 +26,12 @@
 
 
     /**
-     * @param \DOMNode $itemObj
+     * @param \DOMNode $node
      * @return string
      */
-    public static function getInnerHtml(\DOMNode $itemObj) {
+    public static function getInnerContent(\DOMNode $node) {
       $innerHtml = '';
-      $children = $itemObj->childNodes;
+      $children = $node->childNodes;
       /** @var \DOMNode $child */
       foreach ($children as $child) {
         $innerHtml .= $child->ownerDocument->saveXML($child);

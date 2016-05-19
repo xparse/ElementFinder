@@ -19,6 +19,7 @@
   "require": {
     "php": ">=5.6",
     "fiv/collection": "0.0.1.*",
+    "xparse/css-expression-translator": "^0.0.2",
     "xparse/expression-translator": "0.0.3"
   },
   "require-dev": {
