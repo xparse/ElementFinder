@@ -437,7 +437,7 @@
     /**
      * Return type of document
      *
-     * @return boolean
+     * @return int
      */
     public function getType() {
       return $this->type;

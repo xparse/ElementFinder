@@ -6,9 +6,10 @@
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
-   * @method null|ElementFinder offsetGet($offset);
-   * @method ElementFinder current();
+   * @method null|ElementFinder offsetGet($offset)
+   * @method ElementFinder current()
    * @method ElementFinder getFirst()
+   * @method ElementFinder getLast()
    * @method ElementFinder getPrevious($step)
    * @method ElementFinder getNext($step)
    * @method ElementFinder[] getItems()
