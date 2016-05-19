@@ -4,9 +4,10 @@
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
-   * @method Element offsetGet($offset);
+   * @method Element offsetGet($offset)
    * @method Element current()
    * @method Element getFirst()
+   * @method Element getLast()
    * @method Element getPrevious($step)
    * @method Element getNext($step)
    * @method Element[] getItems()

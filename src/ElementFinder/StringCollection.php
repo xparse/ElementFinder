@@ -7,9 +7,10 @@
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
-   * @method string offsetGet($offset);
+   * @method string offsetGet($offset)
    * @method string current()
    * @method string getFirst()
+   * @method string getLast()
    * @method string getPrevious($step)
    * @method string getNext($step)
    * @method string[] getItems()
