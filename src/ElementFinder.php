@@ -10,7 +10,6 @@
   use Xparse\ElementFinder\Helper\RegexHelper;
   use Xparse\ElementFinder\Helper\StringHelper;
   use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
-  use Xparse\ExpressionTranslator\XpathExpression;
 
   /**
    * @author Ivan Scherbak <dev@funivan.com>
@@ -58,7 +57,12 @@
     /**
      * @var ExpressionTranslatorInterface
      */
-    protected $expressionTranslator;
+    protected $expressionTranslator = null;
+
+    /**
+     * @var array
+     */
+    protected $loadErrors;
 
 
     /**
@@ -91,9 +95,6 @@
 
       $this->setData($data);
 
-      # set default expression to xpath
-      $this->expressionTranslator = new XpathExpression();
-
     }
 
 
@@ -102,7 +103,7 @@
      * @return string
      */
     public function __toString() {
-      $result = $this->html('.')->item(0);
+      $result = $this->content('.')->item(0);
       return (string) $result;
     }
 
@@ -132,6 +133,9 @@
         $this->dom->loadXML($data, $this->options);
       }
 
+      $this->loadErrors = libxml_get_errors();
+      libxml_clear_errors();
+
       libxml_use_internal_errors($internalErrors);
       libxml_disable_entity_loader($disableEntities);
 
@@ -144,23 +148,23 @@
 
     /**
      * @param string $xpath
-     * @param bool $outerHtml
+     * @param bool $outerContent
      * @return StringCollection
      */
-    public function html($xpath, $outerHtml = false) {
+    public function content($xpath, $outerContent = false) {
 
       $items = $this->query($xpath);
 
       $collection = new StringCollection();
 
       foreach ($items as $node) {
-        if ($outerHtml) {
-          $html = NodeHelper::getOuterHtml($node);
+        if ($outerContent) {
+          $content = NodeHelper::getOuterContent($node);
         } else {
-          $html = NodeHelper::getInnerHtml($node);
+          $content = NodeHelper::getInnerContent($node);
         }
 
-        $collection->append($html);
+        $collection->append($content);
 
       }
 
@@ -220,21 +224,20 @@
     /**
      * Return array of keys and values
      *
-     * @param string $baseXpath
      * @param string $keyXpath
      * @param string $valueXpath
      * @throws \Exception
      * @return array
      */
-    public function keyValue($baseXpath, $keyXpath, $valueXpath) {
-      $keyNodes = $this->xpath->query($this->convertExpression($baseXpath . $keyXpath));
-      $valueNodes = $this->xpath->query($this->convertExpression($baseXpath . $valueXpath));
+    public function keyValue($keyXpath, $valueXpath) {
 
+      $result = [];
+      $keyNodes = $this->query($keyXpath);
+      $valueNodes = $this->query($valueXpath);
       if ($keyNodes->length != $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
       }
 
-      $result = [];
       foreach ($keyNodes as $index => $node) {
         $result[$node->nodeValue] = $valueNodes->item($index)->nodeValue;
       }
@@ -253,10 +256,12 @@
      * $page->attribute('//a[1]/@title')-item(0);
      *
      * ```
+     * @deprecated
      * @param $xpath
      * @return StringCollection
      */
     public function attribute($xpath) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       $items = $this->query($xpath);
 
       $collection = new StringCollection();
@@ -287,9 +292,9 @@
       foreach ($items as $node) {
         /** @var \DOMElement $node */
         if ($outerHtml) {
-          $html = NodeHelper::getOuterHtml($node);
+          $html = NodeHelper::getOuterContent($node);
         } else {
-          $html = NodeHelper::getInnerHtml($node);
+          $html = NodeHelper::getInnerContent($node);
         }
 
         if (trim($html) === '') {
@@ -297,7 +302,6 @@
         }
 
         $elementFinder = new ElementFinder($html, $type, $options);
-        $elementFinder->setExpressionTranslator($this->expressionTranslator);
         $collection[] = $elementFinder;
       }
 
@@ -346,7 +350,7 @@
      */
     public function match($regex, $i = 1) {
 
-      $documentHtml = $this->html('.')->getFirst();
+      $documentHtml = $this->content('.')->getFirst();
 
       if (is_int($i)) {
         $collection = RegexHelper::match($regex, $i, [$documentHtml]);
@@ -372,7 +376,7 @@
      * @return $this
      */
     public function replace($regex, $to = '') {
-      $newDoc = $this->html('.', true)->getFirst();
+      $newDoc = $this->content('.', true)->getFirst();
       $newDoc = preg_replace($regex, $to, $newDoc);
 
       if (trim($newDoc) === '') {
@@ -413,7 +417,7 @@
 
         foreach ($itemsParams as $elementResultIndex => $elementResultPath) {
           /** @var ElementFinder $nodeDocument */
-          $nodeValues[$elementResultIndex] = $nodeDocument->html($elementResultPath)->item(0);
+          $nodeValues[$elementResultIndex] = $nodeDocument->content($elementResultPath)->item(0);
         }
         $result[$nodeIndex] = $nodeValues;
       }
@@ -489,7 +493,12 @@
      * @return \DOMNodeList
      */
     private function query($expression) {
-      return $this->xpath->query($this->convertExpression($expression));
+
+      if (!is_null($this->expressionTranslator)) {
+        $expression = $this->convertExpression($expression);
+      }
+
+      return $this->xpath->query($expression);
     }
 
 
@@ -517,6 +526,14 @@
     public function setExpressionTranslator(ExpressionTranslatorInterface $expressionTranslator) {
       $this->expressionTranslator = $expressionTranslator;
       return $this;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getLoadErrors() {
+      return $this->loadErrors;
     }
 
 

@@ -10,7 +10,7 @@
 
     public function testInvalidObjectIndex() {
       $html = $this->getHtmlTestObject();
-      $spanItems = $html->html('//span');
+      $spanItems = $html->content('//span');
       $this->assertCount(4, $spanItems);
 
       $span = $spanItems->item(5);
@@ -22,7 +22,7 @@
 
     public function testReplace() {
       $html = $this->getHtmlTestObject();
-      $spanItems = $html->html('//span[@class]');
+      $spanItems = $html->content('//span[@class]');
       $this->assertCount(3, $spanItems);
 
       $spanItems->replace('!<[\/]*[a-z]+>!');
@@ -43,7 +43,7 @@
 
     public function testMatch() {
       $html = $this->getHtmlTestObject();
-      $spanItems = $html->html('//span[@class]');
+      $spanItems = $html->content('//span[@class]');
       $this->assertCount(3, $spanItems);
 
       $tags = $spanItems->match('!(<[a-z]+>.)!');
@@ -66,7 +66,7 @@
 
     public function testSplit() {
       $html = $this->getHtmlDataObject();
-      $telsDiv = $html->html('//*[@id="tels"]');
+      $telsDiv = $html->content('//*[@id="tels"]');
       $this->assertCount(1, $telsDiv);
 
       $tels = $telsDiv->replace('!\s*!')->split('!<br[/]>!');
