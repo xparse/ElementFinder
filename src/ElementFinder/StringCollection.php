@@ -8,6 +8,11 @@
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
    * @method string offsetGet($offset);
+   * @method string current()
+   * @method string getFirst()
+   * @method string getPrevious($step)
+   * @method string getNext($step)
+   * @method string[] getItems()
    */
   class StringCollection extends TypedCollection {
 
