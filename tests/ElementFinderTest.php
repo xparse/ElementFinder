@@ -20,7 +20,7 @@
      * @expectedException \Exception
      */
     public function testInvalidType() {
-      new ElementFinder("", "df");
+      new \Xparse\ElementFinder\ElementFinder("", "df");
     }
 
 
@@ -28,7 +28,7 @@
      * @expectedException \InvalidArgumentException
      */
     public function testLoadEmptyDoc() {
-      new ElementFinder("");
+      new \Xparse\ElementFinder\ElementFinder("");
     }
 
 
@@ -36,7 +36,7 @@
      *
      */
     public function testLoadDocumentWithZero() {
-      $elementFinder = new ElementFinder("   0 ");
+      $elementFinder = new \Xparse\ElementFinder\ElementFinder("   0 ");
       $this->assertContains('0', (string) $elementFinder);
     }
 
@@ -76,7 +76,7 @@
 
       $this->assertCount(4, $spanItems);
 
-      /** @var ElementFinder $span */
+      /** @var \Xparse\ElementFinder\ElementFinder $span */
       foreach ($spanItems->extractItems(0, 3) as $index => $span) {
         $itemHtml = $span->html('//i')->item(0);
 
@@ -281,7 +281,7 @@
 
 
     public function testInitClassWithInvalidContent() {
-      $elementFinder = new ElementFinder('
+      $elementFinder = new \Xparse\ElementFinder\ElementFinder('
         <!DOCTYPE html>
         <html>
           <head></head>
@@ -309,7 +309,7 @@
 
 
     public function testGetObjectWithEmptyHtml() {
-      $page = new ElementFinder("<div></div><div><a>df</a></div>");
+      $page = new \Xparse\ElementFinder\ElementFinder("<div></div><div><a>df</a></div>");
       $objects = $page->object('//div');
 
       $this->assertEmpty((string) $objects->item(0));
@@ -326,7 +326,7 @@
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidDocumentType() {
-      new ElementFinder("<div></div>", false);
+      new \Xparse\ElementFinder\ElementFinder("<div></div>", false);
     }
 
 
@@ -334,7 +334,7 @@
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidDocumentOptions() {
-      new ElementFinder("<div></div>", null, 'test');
+      new \Xparse\ElementFinder\ElementFinder("<div></div>", null, 'test');
     }
 
 
@@ -342,14 +342,14 @@
      *
      */
     public function testValidDocumentType() {
-      $document = new ElementFinder("<xml><list>123</list></xml>", ElementFinder::DOCUMENT_XML);
+      $document = new \Xparse\ElementFinder\ElementFinder("<xml><list>123</list></xml>", ElementFinder::DOCUMENT_XML);
       $this->assertContains('<list>123</list>', (string) $document);
     }
 
 
     public function testFetchTextNode() {
 
-      $html = new ElementFinder('
+      $html = new \Xparse\ElementFinder\ElementFinder('
         <div>
           <ul>
             <li><b>param1:</b>t1<span>or</span>t2</li>
@@ -377,7 +377,7 @@
 
 
     public function testKeyValue() {
-      $html = new ElementFinder('
+      $html = new \Xparse\ElementFinder\ElementFinder('
         <table>
           <tbody>
           <tr>
@@ -409,7 +409,7 @@
      * @expectedException \Exception
      */
     public function testKeyValueFail() {
-      $html = new ElementFinder('
+      $html = new \Xparse\ElementFinder\ElementFinder('
         <table>
           <tbody>
           <tr>
@@ -428,6 +428,16 @@
       ');
       $html->keyValue("//table//td[1]", "//table//td[2]");
 
+    }
+
+
+    public function testInvalidExpression() {
+      $html = $this->getHtmlTestObject();
+      try {
+        $html->value('b://or:other')->getFirst();
+      } catch (\Exception $e) {
+        $this->assertContains('Invalid expression', $e->getMessage());
+      }
     }
 
   }
