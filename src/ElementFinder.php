@@ -485,7 +485,7 @@
      */
     private function query($expression) {
 
-      if (!is_null($this->expressionTranslator)) {
+      if ($this->expressionTranslator !== null) {
         $expression = $this->convertExpression($expression);
       }
 
