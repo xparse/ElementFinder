@@ -48,7 +48,7 @@
       # select
       $selectItems = $form->object('//select', true);
       foreach ($selectItems as $select) {
-        $name = $select->attribute('//select/@name')->item(0);
+        $name = $select->value('//select/@name')->item(0);
         $option = $select->value('//option[@selected]');
 
         if (!isset($option[0])) {

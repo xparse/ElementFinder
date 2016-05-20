@@ -41,7 +41,7 @@
       $spanItems->replace('!span-(\d+)!', 'class-span--$1');
 
       foreach ($spanItems as $index => $item) {
-        $class = $item->attribute('//@class')->getFirst();
+        $class = $item->value('//@class')->getFirst();
         $expectClass = 'class-span--' . ($index + 1);
         $this->assertEquals($expectClass, $class);
       }
@@ -49,7 +49,7 @@
       $spanItems->replace('!class=".*"!U');
 
       foreach ($spanItems as $index => $item) {
-        $classAttributes = $item->attribute('//@class');
+        $classAttributes = $item->value('//@class');
         $this->assertCount(0, $classAttributes);
       }
 
