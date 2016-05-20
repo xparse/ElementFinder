@@ -478,19 +478,10 @@
     private function query($expression) {
 
       if ($this->expressionTranslator !== null) {
-        $expression = $this->convertExpression($expression);
+        $expression = $this->expressionTranslator->convertToXpath($expression);
       }
 
       return $this->xpath->query($expression);
-    }
-
-
-    /**
-     * @param string $expression
-     * @return string
-     */
-    private function convertExpression($expression) {
-      return $this->expressionTranslator->convertToXpath($expression);
     }
 
 
