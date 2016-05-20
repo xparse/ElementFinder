@@ -247,30 +247,13 @@
 
 
     /**
-     * ```
-     * // return all href elements
-     *
-     * $page->attribute('//a/@href');
-     *
-     * // get title of first link
-     * $page->attribute('//a[1]/@title')-item(0);
-     *
-     * ```
      * @deprecated
      * @param $xpath
      * @return StringCollection
      */
     public function attribute($xpath) {
       trigger_error('Deprecated', E_USER_DEPRECATED);
-      $items = $this->query($xpath);
-
-      $collection = new StringCollection();
-      foreach ($items as $item) {
-        /** @var \DOMAttr $item */
-        $collection->append($item->nodeValue);
-      }
-
-      return $collection;
+      return $this->value($xpath);
     }
 
 
