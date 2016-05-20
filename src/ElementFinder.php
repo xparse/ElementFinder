@@ -10,7 +10,6 @@
   use Xparse\ElementFinder\Helper\RegexHelper;
   use Xparse\ElementFinder\Helper\StringHelper;
   use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
-  use Xparse\ExpressionTranslator\XpathExpression;
 
   /**
    * @author Ivan Scherbak <dev@funivan.com>
@@ -58,7 +57,7 @@
     /**
      * @var ExpressionTranslatorInterface
      */
-    protected $expressionTranslator;
+    protected $expressionTranslator = null;
 
 
     /**
@@ -90,9 +89,6 @@
       $this->setDocumentOption($options);
 
       $this->setData($data);
-
-      # set default expression to xpath
-      $this->expressionTranslator = new XpathExpression();
 
     }
 
@@ -227,8 +223,8 @@
      * @return array
      */
     public function keyValue($baseXpath, $keyXpath, $valueXpath) {
-      $keyNodes = $this->xpath->query($this->convertExpression($baseXpath . $keyXpath));
-      $valueNodes = $this->xpath->query($this->convertExpression($baseXpath . $valueXpath));
+      $keyNodes = $this->query($baseXpath . $keyXpath);
+      $valueNodes = $this->query($baseXpath . $valueXpath);
 
       if ($keyNodes->length != $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
@@ -297,7 +293,6 @@
         }
 
         $elementFinder = new ElementFinder($html, $type, $options);
-        $elementFinder->setExpressionTranslator($this->expressionTranslator);
         $collection[] = $elementFinder;
       }
 
@@ -489,7 +484,12 @@
      * @return \DOMNodeList
      */
     private function query($expression) {
-      return $this->xpath->query($this->convertExpression($expression));
+
+      if (!is_null($this->expressionTranslator)) {
+        $expression = $this->convertExpression($expression);
+      }
+
+      return $this->xpath->query($expression);
     }
 
 
