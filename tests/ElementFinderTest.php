@@ -55,7 +55,7 @@
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
 
-      $links = $html->attribute("//a/@href");
+      $links = $html->value("//a/@href");
 
       $this->assertCount(1, $links);
 
@@ -114,12 +114,12 @@
     public function testDeleteAttribute() {
       $html = $this->getHtmlTestObject();
 
-      $title = $html->attribute('//a/@title')->getFirst();
+      $title = $html->value('//a/@title')->getFirst();
       $this->assertEquals('my blog', $title);
 
       $html->remove('//a/@title');
 
-      $title = $html->attribute('//a/@title')->getFirst();
+      $title = $html->value('//a/@title')->getFirst();
       $this->assertEmpty($title);
 
     }

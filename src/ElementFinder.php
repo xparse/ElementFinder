@@ -64,6 +64,7 @@
      */
     protected $loadErrors;
 
+
     /**
      *
      *
@@ -255,10 +256,12 @@
      * $page->attribute('//a[1]/@title')-item(0);
      *
      * ```
+     * @deprecated
      * @param $xpath
      * @return StringCollection
      */
     public function attribute($xpath) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       $items = $this->query($xpath);
 
       $collection = new StringCollection();
