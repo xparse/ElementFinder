@@ -59,6 +59,10 @@
      */
     protected $expressionTranslator = null;
 
+    /**
+     * @var array
+     */
+    protected $loadErrors;
 
     /**
      *
@@ -127,6 +131,8 @@
       } else {
         $this->dom->loadXML($data, $this->options);
       }
+      $this->loadErrors = libxml_get_errors();
+      libxml_clear_errors();
 
       libxml_use_internal_errors($internalErrors);
       libxml_disable_entity_loader($disableEntities);
@@ -519,5 +525,12 @@
       return $this;
     }
 
+
+    /**
+     * @return array
+     */
+    public function getLoadErrors() {
+      return $this->loadErrors;
+    }
 
   }
