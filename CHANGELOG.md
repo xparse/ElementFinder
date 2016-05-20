@@ -2,6 +2,7 @@
 All Notable changes to `ElementFinder` will be documented in this file
 
 ## Version 0.1.0-alpha.2
+- Improved `ElementFinder::KeyValue()`. Removed 3rd parameter.
 - Deprecated `ElementFinder::attribute()`. Use `ElementFinder::value()` instead.
 - Skip `XpathExpression` creation. By default use Xpath. Use `CssExpression` only when needed.  
 

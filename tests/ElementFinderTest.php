@@ -395,7 +395,7 @@
           </tbody>
         </table>
       ');
-      $values = $html->keyValue("//table", "//td[1]", "//td[2]");
+      $values = $html->keyValue("//table//td[1]", "//table//td[2]");
 
       $this->assertEquals([
         'Year' => '2016',
@@ -426,7 +426,7 @@
           </tbody>
         </table>
       ');
-      $html->keyValue("//table", "//td[1]", "//td[2]");
+      $html->keyValue("//table//td[1]", "//table//td[2]");
 
     }
 
