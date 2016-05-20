@@ -223,16 +223,15 @@
     /**
      * Return array of keys and values
      *
-     * @param string $baseXpath
      * @param string $keyXpath
      * @param string $valueXpath
      * @throws \Exception
      * @return array
      */
-    public function keyValue($baseXpath, $keyXpath, $valueXpath) {
-      $keyNodes = $this->query($baseXpath . $keyXpath);
-      $valueNodes = $this->query($baseXpath . $valueXpath);
+    public function keyValue($keyXpath, $valueXpath) {
 
+      $keyNodes = $this->query($keyXpath);
+      $valueNodes = $this->query($valueXpath);
       if ($keyNodes->length != $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
       }
