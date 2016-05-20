@@ -281,8 +281,7 @@
 
 
     public function testInitClassWithInvalidContent() {
-      $internalErrors = libxml_use_internal_errors(true);
-      new ElementFinder('
+      $elementFinder = new ElementFinder('
         <!DOCTYPE html>
         <html>
           <head></head>
@@ -292,9 +291,8 @@
         </html>
       ');
 
-      $errors = libxml_get_errors();
-      libxml_clear_errors();
-      libxml_use_internal_errors($internalErrors);
+      $errors = $elementFinder->getLoadErrors();
+
       $this->assertCount(1, $errors);
       $this->assertContains("Unexpected end tag : span\n", $errors[0]->message);
 
@@ -302,14 +300,11 @@
 
 
     public function testInitClassWithValidContent() {
-      $internalErrors = libxml_use_internal_errors(true);
-      $this->getHtmlDataObject();
+      $dataObject = $this->getHtmlDataObject();
 
-      $errors = libxml_get_errors();
-      libxml_clear_errors();
-      libxml_use_internal_errors($internalErrors);
+      $errors = $dataObject->getLoadErrors();
+
       $this->assertCount(0, $errors);
-
     }
 
 
