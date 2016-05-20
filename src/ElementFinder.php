@@ -230,6 +230,10 @@
      */
     public function keyValue($keyXpath, $valueXpath) {
 
+      if (func_num_args() > 2) {
+        trigger_error('Only two parameters allowed', E_USER_DEPRECATED);
+      }
+
       $keyNodes = $this->query($keyXpath);
       $valueNodes = $this->query($valueXpath);
       if ($keyNodes->length != $valueNodes->length) {
