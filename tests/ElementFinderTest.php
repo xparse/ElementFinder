@@ -431,13 +431,98 @@
     }
 
 
-    public function testInvalidExpression() {
-      $html = $this->getHtmlTestObject();
-      try {
-        $html->value('b://or:other')->getFirst();
-      } catch (\Exception $e) {
-        $this->assertContains('Invalid expression', $e->getMessage());
-      }
+    public function testXmlData() {
+      $xml = new ElementFinder($this->getXmlDemoData(), ElementFinder::DOCUMENT_XML);
+      $foods = $xml->object('//food');
+
+      $this->assertCount(5, $foods);
+
+      $xml->remove('//food[3]');
+
+      $foods = $xml->object('//food');
+      $this->assertCount(4, $foods);
+
+      $this->assertEquals('$5.95', $xml->value("//food[1]/price/@value")->getFirst());
+
+      $this->assertEquals(950, $xml->value('//food/calories')->getLast());
+
+      $this->assertEquals(900, $xml->html('//food[2]/calories')->getFirst());
+
+      $this->assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
+
     }
 
+
+    public function testXmlValidData() {
+      $xml = new ElementFinder($this->getXmlDemoData(), ElementFinder::DOCUMENT_XML);
+
+      $this->assertCount(0, $xml->getLoadErrors());
+    }
+
+
+    public function testXmlSetDataError() {
+      $xml = new ElementFinder($this->getXmlInvalidDemoData(), ElementFinder::DOCUMENT_XML);
+      $errors = $xml->getLoadErrors();
+
+      $this->assertCount(1, $errors);
+      $this->assertContains("Opening and ending tag mismatch: from", $errors[0]->message);
+    }
+
+
+    /**
+     * @return string
+     */
+    private
+    function getXmlInvalidDemoData() {
+      return '<?xml version="1.0" encoding="UTF-8"?>
+      <note>
+        <to>Tove</to>
+        <from>Jani</Ffrom>
+          <heading>Reminder</heading>
+          <body>Don\'t forget me this weekend!</body>
+      </note>
+      ';
+    }
+
+
+    /**
+     * @return string
+     */
+    private
+    function getXmlDemoData() {
+      return '<?xml version="1.0" encoding="UTF-8"?>
+      <breakfast_menu>
+          <food>
+              <name>Belgian Waffles</name>
+              <price value="$5.95"/>
+              <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+              <calories>650</calories>
+          </food>
+          <food>
+              <name>Strawberry Belgian Waffles</name>
+              <price value="$7.95"/>
+              <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+              <calories>900</calories>
+          </food>
+          <food>
+              <name>Berry-Berry Belgian Waffles</name>
+              <price value="$8.95"/>
+              <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
+              <calories>900</calories>
+          </food>
+          <food>
+              <name>French Toast</name>
+              <price value="$4.50"/>
+              <description>Thick slices made from our homemade sourdough bread</description>
+              <calories>600</calories>
+          </food>
+          <food>
+              <name>Homestyle Breakfast</name>
+              <price value="$6.95"/>
+              <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
+              <calories>950</calories>
+          </food>
+      </breakfast_menu>
+      ';
+    }
   }

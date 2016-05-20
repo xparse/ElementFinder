@@ -117,8 +117,9 @@
 
 
     /**
-     * @param $data
+     * @param string $data
      * @return $this
+     * @throws \Exception
      */
     protected function setData($data) {
 
@@ -128,10 +129,14 @@
       if (static::DOCUMENT_HTML == $this->type) {
         $data = StringHelper::safeEncodeStr($data);
         $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-        $this->dom->loadHTML($data);
+        $this->dom->loadHTML($data, $this->options);
       } else {
+        if (strpos($data, '<?xml') === false) {
+          $data = '<root>' . $data . '</root>';
+        }
         $this->dom->loadXML($data, $this->options);
       }
+
       $this->loadErrors = libxml_get_errors();
       libxml_clear_errors();
 
