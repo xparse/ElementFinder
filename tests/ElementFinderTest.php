@@ -430,4 +430,14 @@
 
     }
 
+
+    public function testInvalidExpression() {
+      $html = $this->getHtmlTestObject();
+      try {
+        $html->value('b://or:other')->getFirst();
+      } catch (\Exception $e) {
+        $this->assertContains('Invalid expression', $e->getMessage());
+      }
+    }
+
   }
