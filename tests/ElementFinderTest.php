@@ -140,25 +140,6 @@
     }
 
 
-    public function testGetNodeItems() {
-      $html = $this->getHtmlTestObject();
-      $group = $html->getNodeItems('//span', [
-        'b' => '//b[1]',
-        'i' => '//o',
-        'if' => '//i/@df',
-      ]);
-
-      $this->assertCount(4, $group);
-
-      $this->assertNotEmpty($group[0]['b']);
-
-      foreach ($group as $i => $item) {
-        $this->assertEmpty($item['if']);
-      }
-
-    }
-
-
     public function testRegexpReplace() {
       $html = $this->getHtmlDataObject();
       $html->replace('!-!', '+');

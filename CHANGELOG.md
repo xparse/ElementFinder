@@ -1,11 +1,15 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## Version 0.1.0-alpha.2
-- Improved `ElementFinder::KeyValue()`. Removed 3rd parameter.
-- Deprecated `ElementFinder::attribute()`. Use `ElementFinder::value()` instead.
-- Skip `XpathExpression` creation. By default use Xpath. Use `CssExpression` only when needed.  
+## Unreleased [0.1.0-alpha.2 2016-05-26]
+### Changed
+- #18 Skip `XpathExpression` creation. Use `CssExpression` only when needed.
+### Deprecated
+- #29 `ElementFinder::getNodeItems()`
+- #10 `ElementFinder::attribute()`. See `ElementFinder::value()`
+- #14 Remove 3 parameter inside `ElementFinder::KeyValue()`
 
 ## Version 0.0.3
-- Feature #4 Use `DOMAttr::nodeValue` instead of `DOMAttr::value`    
-- BC #7 Refactor `Helper` class. Create `FormHelper`, `NodeHelper` and `StringHelper`    
+### Changed
+- Feature #4 Use `DOMAttr::nodeValue` instead of `DOMAttr::value`
+- BC #7 Refactor `Helper` class. Create `FormHelper`, `NodeHelper` and `StringHelper`

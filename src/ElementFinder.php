@@ -393,6 +393,7 @@
      * By default we get html property of element
      * Properties to fetch can be set in path //a@rel  for rel property of tag A
      *
+     * @deprecated
      * @param string $path
      * @param array $itemsParams
      * @return array
@@ -400,6 +401,7 @@
      * @throws \Exception
      */
     public function getNodeItems($path, array $itemsParams) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       $result = [];
       $nodes = $this->object($path);
       foreach ($nodes as $nodeIndex => $nodeDocument) {
