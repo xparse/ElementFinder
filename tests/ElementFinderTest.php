@@ -453,6 +453,13 @@
     }
 
 
+    public function testXmlRootNode() {
+      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+      $food = $xml->object('//food')[2];
+      $this->assertEquals(900, $food->value('/root/calories')->getFirst());
+    }
+
+
     public function testLoadXmlWithoutErrors() {
       $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
 
