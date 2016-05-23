@@ -469,6 +469,36 @@
     }
 
 
+    public function testXmlRootNodes() {
+      $xml = new ElementFinder($this->getInvalidRootNodesXml(), ElementFinder::DOCUMENT_XML);
+      $errors = $xml->getLoadErrors();
+
+      $this->assertCount(1, $errors);
+      $this->assertContains("Extra content at the end of the document", $errors[0]->message);
+    }
+
+
+    /**
+     * @return string
+     */
+    private function getInvalidRootNodesXml() {
+      return '<?xml version="1.0" encoding="UTF-8"?>
+      <note>
+        <to>Tove</to>
+        <from>Jani</from>
+          <heading>Reminder</heading>
+          <body>Don\'t forget me this weekend!</body>
+      </note>
+      <note>
+        <to>John</to>
+        <from>Doe</from>
+          <heading>Reminder 2</heading>
+          <body>Don\'t forget me this month!</body>
+      </note>
+      ';
+    }
+
+
     /**
      * @return string
      */
