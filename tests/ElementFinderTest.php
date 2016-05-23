@@ -432,7 +432,7 @@
 
 
     public function testXmlData() {
-      $xml = new ElementFinder($this->getXmlDemoData(), ElementFinder::DOCUMENT_XML);
+      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
       $foods = $xml->object('//food');
 
       $this->assertCount(5, $foods);
@@ -453,15 +453,15 @@
     }
 
 
-    public function testXmlValidData() {
-      $xml = new ElementFinder($this->getXmlDemoData(), ElementFinder::DOCUMENT_XML);
+    public function testLoadXmlWithoutErrors() {
+      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
 
       $this->assertCount(0, $xml->getLoadErrors());
     }
 
 
-    public function testXmlSetDataError() {
-      $xml = new ElementFinder($this->getXmlInvalidDemoData(), ElementFinder::DOCUMENT_XML);
+    public function testLoadXmlWithErrors() {
+      $xml = new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML);
       $errors = $xml->getLoadErrors();
 
       $this->assertCount(1, $errors);
@@ -472,8 +472,7 @@
     /**
      * @return string
      */
-    private
-    function getXmlInvalidDemoData() {
+    private function getInvalidXml() {
       return '<?xml version="1.0" encoding="UTF-8"?>
       <note>
         <to>Tove</to>
@@ -488,8 +487,7 @@
     /**
      * @return string
      */
-    private
-    function getXmlDemoData() {
+    private function getValidXml() {
       return '<?xml version="1.0" encoding="UTF-8"?>
       <breakfast_menu>
           <food>

@@ -131,9 +131,6 @@
         $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
         $this->dom->loadHTML($data, $this->options);
       } else {
-        if (strpos($data, '<?xml') === false) {
-          $data = '<root>' . $data . '</root>';
-        }
         $this->dom->loadXML($data, $this->options);
       }
 
@@ -291,7 +288,9 @@
         if (trim($html) === '') {
           $html = $this->getEmptyDocumentHtml();
         }
-
+        if (strpos($html, '<?xml') === false) {
+          $html = '<root>' . $html . '</root>';
+        }
         $elementFinder = new ElementFinder($html, $type, $options);
         $collection[] = $elementFinder;
       }
