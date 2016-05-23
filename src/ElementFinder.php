@@ -288,7 +288,7 @@
         if (trim($html) === '') {
           $html = $this->getEmptyDocumentHtml();
         }
-        if ($this->getType() == self::DOCUMENT_XML and strpos($html, '<?xml') === false) {
+        if ($this->getType() == static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
           $html = '<root>' . $html . '</root>';
         }
         $elementFinder = new ElementFinder($html, $type, $options);
