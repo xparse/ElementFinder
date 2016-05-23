@@ -430,4 +430,134 @@
 
     }
 
+
+    public function testXmlData() {
+      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+      $foods = $xml->object('//food');
+
+      $this->assertCount(5, $foods);
+
+      $xml->remove('//food[3]');
+
+      $foods = $xml->object('//food');
+      $this->assertCount(4, $foods);
+
+      $this->assertEquals('$5.95', $xml->value("//food[1]/price/@value")->getFirst());
+
+      $this->assertEquals(950, $xml->value('//food/calories')->getLast());
+
+      $this->assertEquals(900, $xml->html('//food[2]/calories')->getFirst());
+
+      $this->assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
+
+    }
+
+
+    public function testXmlRootNode() {
+      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+      $food = $xml->object('//food')[2];
+      $this->assertEquals(900, $food->value('/root/calories')->getFirst());
+    }
+
+
+    public function testLoadXmlWithoutErrors() {
+      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+
+      $this->assertCount(0, $xml->getLoadErrors());
+    }
+
+
+    public function testLoadXmlWithErrors() {
+      $xml = new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML);
+      $errors = $xml->getLoadErrors();
+
+      $this->assertCount(1, $errors);
+      $this->assertContains("Opening and ending tag mismatch: from", $errors[0]->message);
+    }
+
+
+    public function testXmlRootNodes() {
+      $xml = new ElementFinder($this->getInvalidRootNodesXml(), ElementFinder::DOCUMENT_XML);
+      $errors = $xml->getLoadErrors();
+
+      $this->assertCount(1, $errors);
+      $this->assertContains("Extra content at the end of the document", $errors[0]->message);
+    }
+
+
+    /**
+     * @return string
+     */
+    private function getInvalidRootNodesXml() {
+      return '<?xml version="1.0" encoding="UTF-8"?>
+      <note>
+        <to>Tove</to>
+        <from>Jani</from>
+          <heading>Reminder</heading>
+          <body>Don\'t forget me this weekend!</body>
+      </note>
+      <note>
+        <to>John</to>
+        <from>Doe</from>
+          <heading>Reminder 2</heading>
+          <body>Don\'t forget me this month!</body>
+      </note>
+      ';
+    }
+
+
+    /**
+     * @return string
+     */
+    private function getInvalidXml() {
+      return '<?xml version="1.0" encoding="UTF-8"?>
+      <note>
+        <to>Tove</to>
+        <from>Jani</Ffrom>
+          <heading>Reminder</heading>
+          <body>Don\'t forget me this weekend!</body>
+      </note>
+      ';
+    }
+
+
+    /**
+     * @return string
+     */
+    private function getValidXml() {
+      return '<?xml version="1.0" encoding="UTF-8"?>
+      <breakfast_menu>
+          <food>
+              <name>Belgian Waffles</name>
+              <price value="$5.95"/>
+              <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+              <calories>650</calories>
+          </food>
+          <food>
+              <name>Strawberry Belgian Waffles</name>
+              <price value="$7.95"/>
+              <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+              <calories>900</calories>
+          </food>
+          <food>
+              <name>Berry-Berry Belgian Waffles</name>
+              <price value="$8.95"/>
+              <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
+              <calories>900</calories>
+          </food>
+          <food>
+              <name>French Toast</name>
+              <price value="$4.50"/>
+              <description>Thick slices made from our homemade sourdough bread</description>
+              <calories>600</calories>
+          </food>
+          <food>
+              <name>Homestyle Breakfast</name>
+              <price value="$6.95"/>
+              <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
+              <calories>950</calories>
+          </food>
+      </breakfast_menu>
+      ';
+    }
   }

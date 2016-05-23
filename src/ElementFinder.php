@@ -117,8 +117,9 @@
 
 
     /**
-     * @param $data
+     * @param string $data
      * @return $this
+     * @throws \Exception
      */
     protected function setData($data) {
 
@@ -128,10 +129,11 @@
       if (static::DOCUMENT_HTML == $this->type) {
         $data = StringHelper::safeEncodeStr($data);
         $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-        $this->dom->loadHTML($data);
+        $this->dom->loadHTML($data, $this->options);
       } else {
         $this->dom->loadXML($data, $this->options);
       }
+
       $this->loadErrors = libxml_get_errors();
       libxml_clear_errors();
 
@@ -286,7 +288,9 @@
         if (trim($html) === '') {
           $html = $this->getEmptyDocumentHtml();
         }
-
+        if ($this->getType() == static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
+          $html = '<root>' . $html . '</root>';
+        }
         $elementFinder = new ElementFinder($html, $type, $options);
         $collection[] = $elementFinder;
       }
