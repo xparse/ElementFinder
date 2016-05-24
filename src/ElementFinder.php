@@ -103,7 +103,7 @@
      * @return string
      */
     public function __toString() {
-      $result = $this->html('.')->item(0);
+      $result = $this->content('.')->item(0);
       return (string) $result;
     }
 
@@ -149,27 +149,39 @@
 
     /**
      * @param string $xpath
-     * @param bool $outerHtml
+     * @param bool $outerContent
      * @return StringCollection
      */
-    public function html($xpath, $outerHtml = false) {
+    public function content($xpath, $outerContent = false) {
 
-      $items = $this->query($xpath);
+      $items = $this->executeQuery($xpath);
 
       $collection = new StringCollection();
 
       foreach ($items as $node) {
-        if ($outerHtml) {
-          $html = NodeHelper::getOuterHtml($node);
+        if ($outerContent) {
+          $content = NodeHelper::getOuterContent($node);
         } else {
-          $html = NodeHelper::getInnerHtml($node);
+          $content = NodeHelper::getInnerContent($node);
         }
 
-        $collection->append($html);
+        $collection->append($content);
 
       }
 
       return $collection;
+    }
+
+
+    /**
+     * @deprecated
+     * @param string $xpath
+     * @param bool $outerHtml
+     * @return StringCollection
+     */
+    public function html($xpath, $outerHtml = false) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
+      return self::content($xpath, $outerHtml);
     }
 
 
@@ -187,7 +199,7 @@
      */
     public function remove($xpath) {
 
-      $items = $this->query($xpath);
+      $items = $this->executeQuery($xpath);
 
       if ($items === false) {
         return $this;
@@ -213,7 +225,7 @@
      * @return StringCollection
      */
     public function value($xpath) {
-      $items = $this->query($xpath);
+      $items = $this->executeQuery($xpath);
       $collection = new StringCollection();
       foreach ($items as $node) {
         $collection->append($node->nodeValue);
@@ -236,8 +248,8 @@
         trigger_error('Only two parameters allowed', E_USER_DEPRECATED);
       }
 
-      $keyNodes = $this->query($keyXpath);
-      $valueNodes = $this->query($valueXpath);
+      $keyNodes = $this->executeQuery($keyXpath);
+      $valueNodes = $this->executeQuery($valueXpath);
       if ($keyNodes->length != $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
       }
@@ -273,16 +285,16 @@
       $options = $this->getOptions();
       $type = $this->getType();
 
-      $items = $this->query($xpath);
+      $items = $this->executeQuery($xpath);
 
       $collection = new ObjectCollection();
 
       foreach ($items as $node) {
         /** @var \DOMElement $node */
         if ($outerHtml) {
-          $html = NodeHelper::getOuterHtml($node);
+          $html = NodeHelper::getOuterContent($node);
         } else {
-          $html = NodeHelper::getInnerHtml($node);
+          $html = NodeHelper::getInnerContent($node);
         }
 
         if (trim($html) === '') {
@@ -300,13 +312,24 @@
 
 
     /**
-     * Fetch nodes from document
+     * Alias of ElementFinder::query
      *
      * @param string $xpath
      * @return \DOMNodeList
      */
     public function node($xpath) {
-      return $this->query($xpath);
+      return self::query($xpath);
+    }
+
+
+    /**
+     * Fetch nodes from document
+     *
+     * @param string $xpath
+     * @return \DOMNodeList
+     */
+    public function query($xpath) {
+      return $this->executeQuery($xpath);
     }
 
 
@@ -314,8 +337,8 @@
      * @param string $xpath
      * @return ElementCollection
      */
-    public function elements($xpath) {
-      $nodeList = $this->query($xpath);
+    public function element($xpath) {
+      $nodeList = $this->executeQuery($xpath);
 
       $collection = new ElementCollection();
       foreach ($nodeList as $item) {
@@ -323,6 +346,17 @@
       }
 
       return $collection;
+    }
+
+
+    /**
+     * @deprecated
+     * @param string $xpath
+     * @return ElementCollection
+     */
+    public function elements($xpath) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
+      return self::element($xpath);
     }
 
 
@@ -340,7 +374,7 @@
      */
     public function match($regex, $i = 1) {
 
-      $documentHtml = $this->html('.')->getFirst();
+      $documentHtml = $this->content('.')->getFirst();
 
       if (is_int($i)) {
         $collection = RegexHelper::match($regex, $i, [$documentHtml]);
@@ -366,7 +400,7 @@
      * @return $this
      */
     public function replace($regex, $to = '') {
-      $newDoc = $this->html('.', true)->getFirst();
+      $newDoc = $this->content('.', true)->getFirst();
       $newDoc = preg_replace($regex, $to, $newDoc);
 
       if (trim($newDoc) === '') {
@@ -409,7 +443,7 @@
 
         foreach ($itemsParams as $elementResultIndex => $elementResultPath) {
           /** @var ElementFinder $nodeDocument */
-          $nodeValues[$elementResultIndex] = $nodeDocument->html($elementResultPath)->item(0);
+          $nodeValues[$elementResultIndex] = $nodeDocument->content($elementResultPath)->item(0);
         }
         $result[$nodeIndex] = $nodeValues;
       }
@@ -484,7 +518,7 @@
      * @param string $expression
      * @return \DOMNodeList
      */
-    private function query($expression) {
+    private function executeQuery($expression) {
 
       if ($this->expressionTranslator !== null) {
         $expression = $this->expressionTranslator->convertToXpath($expression);

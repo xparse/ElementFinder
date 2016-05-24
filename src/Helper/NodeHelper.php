@@ -2,7 +2,7 @@
 
   namespace Xparse\ElementFinder\Helper;
 
-  /**            
+  /**
    *
    * @author Ivan Shcherbak <dev@funivan.com>
    */
@@ -12,16 +12,16 @@
      * @param \DOMNode $node
      * @return string
      */
-    public static function getOuterHtml(\DOMNode $node) {
+    public static function getOuterContent(\DOMNode $node) {
 
       $domDocument = new \DOMDocument('1.0');
       $b = $domDocument->importNode($node->cloneNode(true), true);
       $domDocument->appendChild($b);
 
-      $html = $domDocument->saveHTML();
-      $html = StringHelper::safeEncodeStr($html);
+      $content = $domDocument->saveHTML();
+      $content = StringHelper::safeEncodeStr($content);
 
-      return $html;
+      return $content;
     }
 
 
@@ -29,14 +29,36 @@
      * @param \DOMNode $itemObj
      * @return string
      */
-    public static function getInnerHtml(\DOMNode $itemObj) {
-      $innerHtml = '';
+    public static function getInnerContent(\DOMNode $itemObj) {
+      $innerContent = '';
       $children = $itemObj->childNodes;
       /** @var \DOMNode $child */
       foreach ($children as $child) {
-        $innerHtml .= $child->ownerDocument->saveXML($child);
+        $innerContent .= $child->ownerDocument->saveXML($child);
       }
-      $innerHtml = StringHelper::safeEncodeStr($innerHtml);
-      return $innerHtml;
+      $innerContent = StringHelper::safeEncodeStr($innerContent);
+      return $innerContent;
+    }
+
+
+    /**
+     * @deprecated Use NodeHelper::getOuterContent instead
+     * @param \DOMNode $node
+     * @return string
+     */
+    public static function getOuterHtml(\DOMNode $node) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
+      return static::getOuterContent($node);
+    }
+
+
+    /**
+     * @deprecated Use NodeHelper::getInnerContent instead
+     * @param \DOMNode $itemObj
+     * @return string
+     */
+    public static function getInnerHtml(\DOMNode $itemObj) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
+      return static::getInnerContent($itemObj);
     }
   }

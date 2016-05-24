@@ -30,17 +30,17 @@
 
       $formData = [];
       # textarea
-      foreach ($form->elements('//textarea') as $textArea) {
+      foreach ($form->element('//textarea') as $textArea) {
         $formData[$textArea->getAttribute('name')] = $textArea->nodeValue;
       }
 
       # radio and checkboxes
-      foreach ($form->elements('//input[@checked]') as $textArea) {
+      foreach ($form->element('//input[@checked]') as $textArea) {
         $formData[$textArea->getAttribute('name')] = $textArea->getAttribute('value');
       }
 
       # hidden, text, submit
-      $hiddenAndTextElements = $form->elements('//input[@type="hidden" or @type="text" or @type="submit" or not(@type)]');
+      $hiddenAndTextElements = $form->element('//input[@type="hidden" or @type="text" or @type="submit" or not(@type)]');
       foreach ($hiddenAndTextElements as $element) {
         $formData[$element->getAttribute('name')] = $element->getAttribute('value');
       }

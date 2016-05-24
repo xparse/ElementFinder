@@ -59,11 +59,11 @@
 
       $this->assertCount(1, $links);
 
-      foreach ($html->html("//a") as $htmlString) {
+      foreach ($html->content("//a") as $htmlString) {
         $this->assertTrue(is_string($htmlString));
       }
 
-      $firstLink = $html->html("//a", true)->item(0);
+      $firstLink = $html->content("//a", true)->item(0);
 
       $this->assertContains('<a href="http://funivan.com/" title="my blog">link</a>', (string) $firstLink);
     }
@@ -78,7 +78,7 @@
 
       /** @var ElementFinder $span */
       foreach ($spanItems->extractItems(0, 3) as $index => $span) {
-        $itemHtml = $span->html('//i')->item(0);
+        $itemHtml = $span->content('//i')->item(0);
 
         $this->assertEquals('r', trim($itemHtml));
 
@@ -86,12 +86,12 @@
 
       $html->remove('//span[2]');
 
-      $spanItems = $html->html("//span");
+      $spanItems = $html->content("//span");
       $this->assertCount(3, $spanItems);
 
       $html->remove('//span[@class]');
 
-      $spanItems = $html->html("//span");
+      $spanItems = $html->content("//span");
       $this->assertCount(1, $spanItems);
 
     }
@@ -127,7 +127,7 @@
 
     public function testHtmlSelector() {
       $html = $this->getHtmlTestObject();
-      $stringCollection = $html->html('//td');
+      $stringCollection = $html->content('//td');
 
       $this->assertCount(1, $stringCollection);
       $this->assertEquals('', $stringCollection->item(10));
@@ -135,7 +135,7 @@
       $title = $stringCollection->item(0);
       $this->assertEquals('custom <a href="http://funivan.com/" title="my blog">link</a>', (string) $title);
 
-      $title = $html->html('//td/@df')->item(0);
+      $title = $html->content('//td/@df')->item(0);
       $this->assertEmpty((string) $title);
     }
 
@@ -146,7 +146,7 @@
 
       $this->assertContains('45+12+16', (string) $html);
 
-      $phones = $html->html('//*[@id="tels"]');
+      $phones = $html->content('//*[@id="tels"]');
 
       $this->assertCount(1, $phones);
 
@@ -240,7 +240,7 @@
     }
 
 
-    public function testObjectWithInnerHtml() {
+    public function testObjectWithInnerContent() {
 
       $html = $this->getHtmlTestObject();
 
@@ -294,7 +294,7 @@
       $objects = $page->object('//div');
 
       $this->assertEmpty((string) $objects->item(0));
-      $this->assertContains('data-document-is-empty', $objects[0]->html('/')->item(0));
+      $this->assertContains('data-document-is-empty', $objects[0]->content('/')->item(0));
 
       $this->assertNotEmpty((string) $objects->item(1));
       $linkText = $objects->item(1)->value('//a')->item(0);
@@ -427,7 +427,7 @@
 
       $this->assertEquals(950, $xml->value('//food/calories')->getLast());
 
-      $this->assertEquals(900, $xml->html('//food[2]/calories')->getFirst());
+      $this->assertEquals(900, $xml->content('//food[2]/calories')->getFirst());
 
       $this->assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
 
