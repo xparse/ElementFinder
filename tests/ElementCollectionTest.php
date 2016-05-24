@@ -11,7 +11,7 @@
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
 
-      $spanElements = $html->elements("//span");
+      $spanElements = $html->element("//span");
       $spanItems = $spanElements->getAttributes();
 
       $this->assertCount(count($spanElements), $spanItems);
@@ -20,7 +20,7 @@
     public function testItem() {
       $html = $this->getHtmlTestObject();
 
-      $spanElements = $html->elements("//span");
+      $spanElements = $html->element("//span");
       $this->assertCount(4, $spanElements);
       $this->assertNull($spanElements->item(20));
 
