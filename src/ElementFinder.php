@@ -174,29 +174,14 @@
 
 
     /**
-     * @deprecated Use ElementFinder::content instead
+     * @deprecated
      * @param string $xpath
      * @param bool $outerHtml
      * @return StringCollection
      */
     public function html($xpath, $outerHtml = false) {
       trigger_error('Deprecated', E_USER_DEPRECATED);
-      $items = $this->executeQuery($xpath);
-
-      $collection = new StringCollection();
-
-      foreach ($items as $node) {
-        if ($outerHtml) {
-          $html = NodeHelper::getOuterContent($node);
-        } else {
-          $html = NodeHelper::getInnerContent($node);
-        }
-
-        $collection->append($html);
-
-      }
-
-      return $collection;
+      return self::content($xpath, $outerHtml);
     }
 
 
@@ -279,7 +264,7 @@
 
 
     /**
-     * @deprecated Use ElementFinder::value instead
+     * @deprecated
      * @param $xpath
      * @return StringCollection
      */
@@ -365,20 +350,13 @@
 
 
     /**
-     * @deprecated Use ElementFinder::element instead
+     * @deprecated
      * @param string $xpath
      * @return ElementCollection
      */
     public function elements($xpath) {
       trigger_error('Deprecated', E_USER_DEPRECATED);
-      $nodeList = $this->executeQuery($xpath);
-
-      $collection = new ElementCollection();
-      foreach ($nodeList as $item) {
-        $collection->append($item);
-      }
-
-      return $collection;
+      return self::element($xpath);
     }
 
 
