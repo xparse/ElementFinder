@@ -3,13 +3,6 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## Unreleased [0.1.0-alpha.2 2016-05-26]
 
-### Deprecated 
-- #28 Method `ElementFinder::elements()` has been renamed to `ElementFinder::element()`, 
-- #28 Method `ElementFinder::html()` has been renamed to `ElementFinder::content()`, 
-- #28 Method `ElementFinder::query()` has been renamed to `ElementFinder::executeQuery()`,
-- #28 Method `NodeHelper::getOuterHtml()` has been renamed to `NodeHelper::getOuterContent()`,
-- #28 Method `NodeHelper::getInnerHtml()` has been renamed to `NodeHelper::getInnerContent()`,
-
 ### Added
 - Added `ElementFinder::query()` as an alias of `ElementFinder::node()`
   
@@ -18,6 +11,11 @@ All Notable changes to `ElementFinder` will be documented in this file
  
 ### Deprecated
 - #29 `ElementFinder::getNodeItems()`
+- #28 Method `ElementFinder::elements()` has been renamed to `ElementFinder::element()`, 
+- #28 Method `ElementFinder::html()` has been renamed to `ElementFinder::content()`, 
+- #28 Method `ElementFinder::query()` has been renamed to `ElementFinder::executeQuery()`,
+- #28 Method `NodeHelper::getOuterHtml()` has been renamed to `NodeHelper::getOuterContent()`,
+- #28 Method `NodeHelper::getInnerHtml()` has been renamed to `NodeHelper::getInnerContent()`,
 - #10 `ElementFinder::attribute()`. See `ElementFinder::value()`
 - #14 Remove 3 parameter inside `ElementFinder::KeyValue()`
 

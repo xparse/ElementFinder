@@ -325,7 +325,7 @@
     /**
      * Fetch nodes from document
      *
-     * @param $xpath
+     * @param string $xpath
      * @return \DOMNodeList
      */
     public function query($xpath) {
