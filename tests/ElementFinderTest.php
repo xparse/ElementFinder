@@ -261,6 +261,41 @@
     }
 
 
+    /**
+     * How would you find all nodes between all H2's?
+     *
+     * Using Kayessian XPath formula
+     *
+     * `$ns1[count(.|$ns2) = count($ns2)]`
+     *
+     * you can select all the nodes that belong both to the node sets $ns1 and $ns2.
+     *
+     */
+    public function testGetAllNodesBetweenSiblings() {
+      $html = new ElementFinder('
+        <html>
+          <h2>Title1</h2>
+            <p>Text 1</p>
+          <h2>Title2</h2>
+            <p>Text 2</p>
+          <h2>Title3</h2>
+            <p>Text 3</p>
+          <h2>Title4</h2>
+            <p>Text 4</p>
+          <h2>Title5</h2>
+        </html>
+      ');
+      $ns1 = '//*/h2[1]/following-sibling::p';
+      $ns2 = '//*/h2[count(//h2)]/preceding-sibling::p';
+      $result = $html->value($ns1 . '[count(.|' . $ns2 . ') = count(' . $ns2 . ')]')->getItems();
+
+      $this->assertCount(4, $result);
+      $this->assertEquals($result[0], 'Text 1');
+      $this->assertEquals($result[3], 'Text 4');
+
+    }
+
+
     public function testInitClassWithInvalidContent() {
       $elementFinder = new ElementFinder('
         <!DOCTYPE html>
