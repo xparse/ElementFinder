@@ -3,6 +3,10 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## Unreleased [0.1.0-alpha.3]
 
+### Fixed
+- #33 copy expression translator to child objects
+
+
 ## 0.1.0-alpha.2 [2016-05-25]
 
 ### Added

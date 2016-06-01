@@ -2,6 +2,7 @@
 
   namespace Test\Xparse\ElementFinder;
 
+  use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
   use Xparse\ElementFinder\ElementFinder;
 
   /**
@@ -576,4 +577,33 @@
       </breakfast_menu>
       ';
     }
+
+
+    public function testShareExpressionTranslator() {
+      $page = new ElementFinder('
+          <div class="node"> 
+            <a href="#text0" class="link">test0</a>
+          </div>
+          <div class="node"> 
+            <a href="#text1" class="link">test1</a>
+          </div>
+          <div class="node"> 
+            <a href="#text2" class="link">test2</a>
+          </div>
+');
+
+      $page->setExpressionTranslator(new ItemsByClassExpressionTranslator());
+
+      $objects = $page->object('node');
+      $this->assertCount(3, $objects);
+
+      foreach ($objects as $index => $object) {
+        $this->assertNotNull($object->getExpressionTranslator());
+        $link = $object->content('link');
+        $this->assertCount(1, $link);
+        $this->assertEquals('test' . $index, $link->getFirst());
+      }
+
+    }
+
   }

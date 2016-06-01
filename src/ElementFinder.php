@@ -304,6 +304,9 @@
           $html = '<root>' . $html . '</root>';
         }
         $elementFinder = new ElementFinder($html, $type, $options);
+        if ($this->expressionTranslator !== null) {
+          $elementFinder->setExpressionTranslator($this->expressionTranslator);
+        }
         $collection[] = $elementFinder;
       }
 
