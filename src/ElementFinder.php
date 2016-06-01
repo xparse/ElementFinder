@@ -174,18 +174,6 @@
 
 
     /**
-     * @deprecated
-     * @param string $xpath
-     * @param bool $outerHtml
-     * @return StringCollection
-     */
-    public function html($xpath, $outerHtml = false) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return self::content($xpath, $outerHtml);
-    }
-
-
-    /**
      * You can remove elements and attributes
      *
      * ```php
@@ -244,10 +232,6 @@
      */
     public function keyValue($keyXpath, $valueXpath) {
 
-      if (func_num_args() > 2) {
-        trigger_error('Only two parameters allowed', E_USER_DEPRECATED);
-      }
-
       $keyNodes = $this->executeQuery($keyXpath);
       $valueNodes = $this->executeQuery($valueXpath);
       if ($keyNodes->length != $valueNodes->length) {
@@ -260,17 +244,6 @@
       }
 
       return $result;
-    }
-
-
-    /**
-     * @deprecated
-     * @param $xpath
-     * @return StringCollection
-     */
-    public function attribute($xpath) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return $this->value($xpath);
     }
 
 
@@ -353,17 +326,6 @@
 
 
     /**
-     * @deprecated
-     * @param string $xpath
-     * @return ElementCollection
-     */
-    public function elements($xpath) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return self::element($xpath);
-    }
-
-
-    /**
      * Match regex in document
      * ```php
      *  $tels = $html->match('!([0-9]{4,6})!');
@@ -412,46 +374,6 @@
 
       $this->setData($newDoc);
       return $this;
-    }
-
-
-    /**
-     *
-     * ```php
-     *  $elements = array(
-     *    'link'      => '//a@href',
-     *    'title'     => '//a',
-     *    'shortText' => '//p[2]',
-     *    'img'       => '//img/@src',
-     *  );
-     * $news = $html->getNodeItems('//*[@class="news"]', $params);
-     * ```
-     * By default we get first element
-     * By default we get html property of element
-     * Properties to fetch can be set in path //a@rel  for rel property of tag A
-     *
-     * @deprecated
-     * @param string $path
-     * @param array $itemsParams
-     * @return array
-     * @throws \InvalidArgumentException
-     * @throws \Exception
-     */
-    public function getNodeItems($path, array $itemsParams) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      $result = [];
-      $nodes = $this->object($path);
-      foreach ($nodes as $nodeIndex => $nodeDocument) {
-        $nodeValues = [];
-
-        foreach ($itemsParams as $elementResultIndex => $elementResultPath) {
-          /** @var ElementFinder $nodeDocument */
-          $nodeValues[$elementResultIndex] = $nodeDocument->content($elementResultPath)->item(0);
-        }
-        $result[$nodeIndex] = $nodeValues;
-      }
-
-      return $result;
     }
 
 
