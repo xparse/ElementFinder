@@ -8,7 +8,11 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ### Removed
 - method `ElementFinder::attribute()` has been removed
+- method `ElementFinder::elements()` has been removed
 - method `ElementFinder::getNodeItems()` has been removed
+- method `ElementFinder::html()` has been removed
+- method `NodeHelper::getInnerHtml()` has been removed
+- method `NodeHelper::getOuterHtml()` has been removed
  
 
 ## 0.1.0-alpha.2 [2016-05-25]
