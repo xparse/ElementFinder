@@ -40,25 +40,4 @@
       return $innerContent;
     }
 
-
-    /**
-     * @deprecated Use NodeHelper::getOuterContent instead
-     * @param \DOMNode $node
-     * @return string
-     */
-    public static function getOuterHtml(\DOMNode $node) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return static::getOuterContent($node);
-    }
-
-
-    /**
-     * @deprecated Use NodeHelper::getInnerContent instead
-     * @param \DOMNode $itemObj
-     * @return string
-     */
-    public static function getInnerHtml(\DOMNode $itemObj) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return static::getInnerContent($itemObj);
-    }
   }

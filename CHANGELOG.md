@@ -6,6 +6,14 @@ All Notable changes to `ElementFinder` will be documented in this file
 ### Fixed
 - #33 copy expression translator to child objects
 
+### Removed
+- method `ElementFinder::attribute()` has been removed
+- method `ElementFinder::elements()` has been removed
+- method `ElementFinder::getNodeItems()` has been removed
+- method `ElementFinder::html()` has been removed
+- method `NodeHelper::getInnerHtml()` has been removed
+- method `NodeHelper::getOuterHtml()` has been removed
+ 
 
 ## 0.1.0-alpha.2 [2016-05-25]
 
@@ -17,11 +25,11 @@ All Notable changes to `ElementFinder` will be documented in this file
  
 ### Deprecated
 - #29 `ElementFinder::getNodeItems()`
-- #28 Method `ElementFinder::elements()` has been renamed to `ElementFinder::element()`,
-- #28 Method `ElementFinder::html()` has been renamed to `ElementFinder::content()`,
-- #28 Method `ElementFinder::query()` has been renamed to `ElementFinder::executeQuery()`,
-- #28 Method `NodeHelper::getOuterHtml()` has been renamed to `NodeHelper::getOuterContent()`,
-- #28 Method `NodeHelper::getInnerHtml()` has been renamed to `NodeHelper::getInnerContent()`,
+- #28 Method `ElementFinder::elements()` has been renamed to `ElementFinder::element()`
+- #28 Method `ElementFinder::html()` has been renamed to `ElementFinder::content()`
+- #28 Method `ElementFinder::query()` has been renamed to `ElementFinder::executeQuery()`
+- #28 Method `NodeHelper::getOuterHtml()` has been renamed to `NodeHelper::getOuterContent()`
+- #28 Method `NodeHelper::getInnerHtml()` has been renamed to `NodeHelper::getInnerContent()`
 - #10 `ElementFinder::attribute()`. See `ElementFinder::value()`
 - #14 Remove 3 parameter inside `ElementFinder::KeyValue()`
 
