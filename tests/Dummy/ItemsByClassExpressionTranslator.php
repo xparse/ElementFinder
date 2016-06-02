@@ -1,4 +1,4 @@
-<?
+<?php
 
   namespace Test\Xparse\ElementFinder\Dummy;
 
