@@ -1,7 +1,9 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## Unreleased [0.1.0-alpha.3]
+## Unreleased
+
+## 0.1.0-alpha.3 [2016-06-02]
 
 ### Fixed
 - #33 copy expression translator to child objects
