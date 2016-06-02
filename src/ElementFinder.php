@@ -75,6 +75,7 @@
      * @param null|integer $documentType
      * @param int $options
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function __construct($data, $documentType = null, $options = null) {
 
@@ -126,7 +127,7 @@
       $internalErrors = libxml_use_internal_errors(true);
       $disableEntities = libxml_disable_entity_loader(true);
 
-      if (static::DOCUMENT_HTML == $this->type) {
+      if (static::DOCUMENT_HTML === $this->type) {
         $data = StringHelper::safeEncodeStr($data);
         $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
         $this->dom->loadHTML($data, $this->options);
@@ -234,7 +235,7 @@
 
       $keyNodes = $this->executeQuery($keyXpath);
       $valueNodes = $this->executeQuery($valueXpath);
-      if ($keyNodes->length != $valueNodes->length) {
+      if ($keyNodes->length !== $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
       }
 
@@ -273,7 +274,7 @@
         if (trim($html) === '') {
           $html = $this->getEmptyDocumentHtml();
         }
-        if ($this->getType() == static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
+        if ($this->getType() === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
           $html = '<root>' . $html . '</root>';
         }
         $elementFinder = new ElementFinder($html, $type, $options);
@@ -294,7 +295,7 @@
      * @return \DOMNodeList
      */
     public function node($xpath) {
-      return self::query($xpath);
+      return $this->query($xpath);
     }
 
 
@@ -363,6 +364,7 @@
      * @param string $regex
      * @param string $to
      * @return $this
+     * @throws \Exception
      */
     public function replace($regex, $to = '') {
       $newDoc = $this->content('.', true)->getFirst();
