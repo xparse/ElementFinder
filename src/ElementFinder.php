@@ -149,13 +149,13 @@
 
 
     /**
-     * @param string $xpath
+     * @param string $expression
      * @param bool $outerContent
      * @return StringCollection
      */
-    public function content($xpath, $outerContent = false) {
+    public function content($expression, $outerContent = false) {
 
-      $items = $this->executeQuery($xpath);
+      $items = $this->executeQuery($expression);
 
       $collection = new StringCollection();
 
@@ -183,12 +183,12 @@
      * $html->remove("//input");
      * ```
      *
-     * @param string $xpath
+     * @param string $expression
      * @return $this
      */
-    public function remove($xpath) {
+    public function remove($expression) {
 
-      $items = $this->executeQuery($xpath);
+      $items = $this->executeQuery($expression);
 
       if ($items === false) {
         return $this;
@@ -210,11 +210,11 @@
     /**
      * Get nodeValue of node
      *
-     * @param string $xpath
+     * @param string $expression
      * @return StringCollection
      */
-    public function value($xpath) {
-      $items = $this->executeQuery($xpath);
+    public function value($expression) {
+      $items = $this->executeQuery($expression);
       $collection = new StringCollection();
       foreach ($items as $node) {
         $collection->append($node->nodeValue);
@@ -249,17 +249,17 @@
 
 
     /**
-     * @param string $xpath
+     * @param string $expression
      * @param bool $outerHtml
      * @throws \Exception
      * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
-    public function object($xpath, $outerHtml = false) {
+    public function object($expression, $outerHtml = false) {
       $options = $this->getOptions();
       $type = $this->getType();
 
-      $items = $this->executeQuery($xpath);
+      $items = $this->executeQuery($expression);
 
       $collection = new ObjectCollection();
 
@@ -291,31 +291,31 @@
     /**
      * Alias of ElementFinder::query
      *
-     * @param string $xpath
+     * @param string $expression
      * @return \DOMNodeList
      */
-    public function node($xpath) {
-      return $this->query($xpath);
+    public function node($expression) {
+      return $this->query($expression);
     }
 
 
     /**
      * Fetch nodes from document
      *
-     * @param string $xpath
+     * @param string $expression
      * @return \DOMNodeList
      */
-    public function query($xpath) {
-      return $this->executeQuery($xpath);
+    public function query($expression) {
+      return $this->executeQuery($expression);
     }
 
 
     /**
-     * @param string $xpath
+     * @param string $expression
      * @return ElementCollection
      */
-    public function element($xpath) {
-      $nodeList = $this->executeQuery($xpath);
+    public function element($expression) {
+      $nodeList = $this->executeQuery($expression);
 
       $collection = new ElementCollection();
       foreach ($nodeList as $item) {
