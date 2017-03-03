@@ -11,6 +11,7 @@
     /**
      * Array of element attributes
      *
+     * @return array
      */
     public function getAttributes() : array {
       $attributes = [];

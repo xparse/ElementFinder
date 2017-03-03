@@ -34,6 +34,7 @@
     /**
      * Return number of items in this collection
      *
+     * @return int
      */
     public function count() : int {
       return count($this->items);
@@ -43,6 +44,8 @@
      * Add one item to begin of collection
      * This item is accessible via `$collection->getFirst();`
      *
+     * @param Element $item
+     * @return ElementCollection
      */
     public function prepend(Element $item) : self {
       array_unshift($this->items, $item);
@@ -53,6 +56,8 @@
      * Add one item to the end of collection
      * This item is accessible via `$collection->getLast();`
      *
+     * @param Element $item
+     * @return ElementCollection
      */
     public function append(Element $item) : self {
       $this->items[] = $item;
@@ -62,7 +67,7 @@
     /**
      * @param int $index
      * @param Element[] $items
-     * @return $this
+     * @return self
      */
     public function addAfter(int $index, array $items) : self {
 
@@ -81,7 +86,7 @@
      * Truncate current list of items and add new
      *
      * @param Element[] $items
-     * @return $this
+     * @return self
      */
     public function setItems(array $items) : self {
 
@@ -98,6 +103,9 @@
      * Remove part of items from collection
      * Works as array_slice
      *
+     * @param int $offset
+     * @param int|null $length
+     * @return ElementCollection
      */
     public function slice(int $offset, int $length = null) : self {
       $this->items = array_slice($this->items, $offset, $length);
@@ -109,6 +117,9 @@
      * Works as array_slice
      * At this point items in 2 collection is same
      *
+     * @param int $offset
+     * @param int|null $length
+     * @return ElementCollection
      */
     public function extractItems(int $offset, int $length = null) : self {
       $items = array_slice($this->items, $offset, $length);
@@ -187,6 +198,7 @@
     /**
      * Return current position
      *
+     * @return int
      */
     public function key() : int {
       return $this->position;
@@ -202,6 +214,7 @@
     /**
      * Check if item exist in current position
      *
+     * @return bool
      */
     public function valid() : bool {
       return isset($this->items[$this->position]);
@@ -213,7 +226,7 @@
      * @deprecated
      * @param int|null $offset
      * @param Element $item
-     * @return $this
+     * @return self
      */
     public function offsetSet($offset, $item) {
       $this->validateType($item);
@@ -270,6 +283,7 @@
      *  echo get_class($item)."\n;
      * }
      * </code>
+     *
      * @return Element[]
      */
     public function getItems() : array {
@@ -287,6 +301,8 @@
      * })
      * </code>
      *
+     * @param callable $callback
+     * @return ElementCollection
      */
     public function map(callable $callback) : self {
 
@@ -300,6 +316,7 @@
     }
 
     /**
+     * @deprecated
      * @param int $index
      */
     private function validateIndex($index) {
@@ -335,6 +352,7 @@
     /**
      * Array of all elements attributes
      *
+     * @return array
      */
     public function getAttributes() : array {
       $allAttributes = [];

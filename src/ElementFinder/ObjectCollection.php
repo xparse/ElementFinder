@@ -47,6 +47,7 @@
     /**
      * Return number of items in this collection
      *
+     * @return int
      */
     public function count() : int {
       return count($this->items);
@@ -56,6 +57,8 @@
      * Add one item to begin of collection
      * This item is accessible via `$collection->getFirst();`
      *
+     * @param ElementFinder $item
+     * @return self
      */
     public function prepend(ElementFinder $item) : self {
       array_unshift($this->items, $item);
@@ -66,6 +69,8 @@
      * Add one item to the end of collection
      * This item is accessible via `$collection->getLast();`
      *
+     * @param ElementFinder $item
+     * @return self
      */
     public function append(ElementFinder $item) : self {
       $this->items[] = $item;
@@ -75,7 +80,7 @@
     /**
      * @param int $index
      * @param ElementFinder[] $items
-     * @return $this
+     * @return self
      */
     public function addAfter(int $index, array $items) : self {
 
@@ -94,7 +99,7 @@
      * Truncate current list of items and add new
      *
      * @param ElementFinder[] $items
-     * @return $this
+     * @return self
      */
     public function setItems(array $items) : self {
 
@@ -110,6 +115,9 @@
      * Remove part of items from collection
      * Works as array_slice
      *
+     * @param int $offset
+     * @param int|null $length
+     * @return self
      */
     public function slice(int $offset, int $length = null) : self {
       $this->items = array_slice($this->items, $offset, $length);
@@ -121,6 +129,9 @@
      * Works as array_slice
      * At this point items in 2 collection is same
      *
+     * @param int $offset
+     * @param int|null $length
+     * @return self
      */
     public function extractItems(int $offset, int $length = null) : self {
       $items = array_slice($this->items, $offset, $length);
@@ -150,6 +161,7 @@
 
     /**
      * Return first item from collection
+     *
      * @return null|ElementFinder
      */
     public function getFirst() {
@@ -200,7 +212,7 @@
      *
      * @return int
      */
-    public function key() {
+    public function key() : int {
       return $this->position;
     }
 
@@ -216,7 +228,7 @@
      *
      * @return bool
      */
-    public function valid() {
+    public function valid() : bool {
       return isset($this->items[$this->position]);
     }
 
@@ -283,6 +295,7 @@
      *  echo get_class($item)."\n;
      * }
      * </code>
+     *
      * @return ElementFinder[]
      */
     public function getItems() : array {
@@ -299,7 +312,8 @@
      *    }
      * })
      * </code>
-     *
+     * @param callable $callback
+     * @return self
      */
     public function map(callable $callback) : self {
 
@@ -335,6 +349,11 @@
     }
 
 
+    /**
+     * @param string $regexp
+     * @param string $to
+     * @return self
+     */
     public function replace(string $regexp, string $to = '') : self {
       foreach ($this as $item) {
         $item->replace($regexp, $to);

@@ -44,6 +44,7 @@
     /**
      * Return number of items in this collection
      *
+     * @return int
      */
     public function count() : int {
       return count($this->items);
@@ -54,7 +55,7 @@
      * This item is accessible via `$collection->getFirst();`
      *
      * @param mixed $item
-     * @return $this
+     * @return self
      */
     public function prepend($item) : self {
       $this->validateType($item);
@@ -67,7 +68,7 @@
      * This item is accessible via `$collection->getLast();`
      *
      * @param mixed $item
-     * @return $this
+     * @return self
      */
     public function append($item) : self {
       $this->validateType($item);
@@ -75,6 +76,11 @@
       return $this;
     }
 
+    /**
+     * @param int $index
+     * @param string[] $items
+     * @return self
+     */
     public function addAfter(int $index, array $items) : self {
       foreach ($items as $item) {
         $this->validateType($item);
@@ -89,7 +95,8 @@
 
     /**
      * Truncate current list of items and add new
-     *
+     * @param string[] $items
+     * @return self
      */
     public function setItems(array $items) : self {
 
@@ -104,7 +111,9 @@
     /**
      * Remove part of items from collection
      * Works as array_slice
-     *
+     * @param int $offset
+     * @param int|null $length
+     * @return self
      */
     public function slice(int $offset, int $length = null) : self {
       $this->items = array_slice($this->items, $offset, $length);
@@ -115,7 +124,9 @@
      * Take part of items and return new collection
      * Works as array_slice
      * At this point items in 2 collection is same
-     *
+     * @param int $offset
+     * @param int|null $length
+     * @return self
      */
     public function extractItems(int $offset, int $length = null) : self {
       $items = array_slice($this->items, $offset, $length);
@@ -194,6 +205,7 @@
     /**
      * Return current position
      *
+     * @return int
      */
     public function key() : int {
       return $this->position;
@@ -209,6 +221,7 @@
     /**
      * Check if item exist in current position
      *
+     * @return bool
      */
     public function valid() : bool {
       return isset($this->items[$this->position]);
@@ -220,7 +233,7 @@
      * @deprecated
      * @param int|null $offset
      * @param string $item
-     * @return $this
+     * @return self
      */
     public function offsetSet($offset, $item) : self {
       $this->validateType($item);
@@ -293,7 +306,8 @@
      *    }
      * })
      * </code>
-     *
+     * @param callable $callback
+     * @return self
      */
     public function map(callable $callback) : self {
 
@@ -331,6 +345,10 @@
     }
 
 
+    /**
+     * @param int $index
+     * @return string
+     */
     public function item(int $index) : string {
       if (isset($this->items[$index])) {
         return $this->items[$index];
@@ -339,6 +357,11 @@
     }
 
 
+    /**
+     * @param string $regexp
+     * @param string $to
+     * @return self
+     */
     public function replace(string $regexp, string $to = '') : self {
       foreach ($this->items as $index => $item) {
         $this->items[$index] = preg_replace($regexp, $to, $item);
@@ -350,6 +373,9 @@
 
     /**
      * Match strings and return new collection
+     * @param string $regexp
+     * @param int $index
+     * @return StringCollection
      */
     public function match(string $regexp, int $index = 1) : StringCollection {
       return RegexHelper::match($regexp, $index, $this->items);
@@ -358,6 +384,8 @@
 
     /**
      * Split strings by regexp
+     * @param string $regexp
+     * @return StringCollection
      */
     public function split(string $regexp) : StringCollection {
       $items = new StringCollection();
