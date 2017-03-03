@@ -2,10 +2,6 @@
 
   namespace Xparse\ElementFinder\Collection;
 
-  /**
-   *
-   * @package Fiv\Spl
-   */
   class BaseCollection implements \Iterator, \ArrayAccess, \Countable {
 
     /**
