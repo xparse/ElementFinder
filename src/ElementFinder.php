@@ -35,29 +35,29 @@
      *
      * @var int
      */
-    protected $options = null;
+    protected $options;
 
     /**
      * Current document type
      *
      * @var integer
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var \DOMDocument
      */
-    protected $dom = null;
+    protected $dom;
 
     /**
      * @var \DomXPath
      */
-    protected $xpath = null;
+    protected $xpath;
 
     /**
      * @var ExpressionTranslatorInterface
      */
-    protected $expressionTranslator = null;
+    protected $expressionTranslator;
 
     /**
      * @var array
@@ -85,7 +85,7 @@
 
       $this->dom = new \DomDocument();
 
-      $this->dom->registerNodeClass('DOMElement', Element::class);
+      $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
       $documentType = ($documentType !== null) ? $documentType : static::DOCUMENT_HTML;
       $this->setDocumentType($documentType);
@@ -281,7 +281,7 @@
         if ($this->expressionTranslator !== null) {
           $elementFinder->setExpressionTranslator($this->expressionTranslator);
         }
-        $collection[] = $elementFinder;
+        $collection->append($elementFinder);
       }
 
       return $collection;

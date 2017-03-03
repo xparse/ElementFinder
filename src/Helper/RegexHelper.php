@@ -12,7 +12,7 @@
     /**
      * @param string $regex
      * @param integer $i
-     * @param array $strings
+     * @param string[] $strings
      * @return StringCollection
      * @throws \InvalidArgumentException
      */
@@ -32,8 +32,8 @@
           continue;
         }
 
-        foreach ($matchedData[$i] as $resultString) {
-          $items[] = $resultString;
+        foreach ((array) $matchedData[$i] as $resultString) {
+          $items->append($resultString);
         }
       }
 
@@ -60,7 +60,7 @@
           $rawStringResult = $i($matchedData);
 
           if (!is_array($rawStringResult)) {
-            throw new \Exception("Invalid value. Expect array from callback");
+            throw new \Exception('Invalid value. Expect array from callback');
           }
 
           foreach ($rawStringResult as $resultString) {

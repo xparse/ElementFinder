@@ -1,4 +1,5 @@
 <?php
+  declare(strict_types=1);
 
   namespace Xparse\ElementFinder\ElementFinder;
 
@@ -10,9 +11,8 @@
     /**
      * Array of element attributes
      *
-     * @return array
      */
-    public function getAttributes() {
+    public function getAttributes() : array {
       $attributes = [];
       foreach ($this->attributes as $attr) {
         $attributes[$attr->name] = $attr->value;

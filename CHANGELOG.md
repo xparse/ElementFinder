@@ -5,6 +5,15 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.5 [2017-03-03]
 
+### Added
+- strict types declaration
+
+### Changed
+- all external collections where moved to appropriate ElementFinder collections
+
+### Deprecated
+- ArrayAccessible methods in Collections (offsetSet, offsetExists, offsetUnset, offsetGet) 
+
 ### Removed
 - fiv/collection package
 

@@ -1,4 +1,5 @@
 <?php
+  declare(strict_types=1);
 
   namespace Xparse\ElementFinder\Helper;
 
@@ -20,12 +21,11 @@
      * @return array
      * @throws \Exception
      */
-    public static function getDefaultFormData(ElementFinder $page, $xpath) {
+    public static function getDefaultFormData(ElementFinder $page, string $xpath) : array {
 
-      /** @var ElementFinder $form */
       $form = $page->object($xpath, true)->getFirst();
-      if (empty($form)) {
-        throw new \Exception("Cant find form. Possible invalid xpath ");
+      if ($form === null) {
+        throw new \Exception('Cant find form. Possible invalid xpath ');
       }
 
       $formData = [];
