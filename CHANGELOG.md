@@ -3,6 +3,11 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## Unreleased
 
+## 0.1.0-alpha.5 [2017-03-03]
+
+### Removed
+- fiv/collection package
+
 ## 0.1.0-alpha.3 [2016-06-02]
 
 ### Fixed

@@ -18,7 +18,6 @@
   ],
   "require": {
     "php": "^7.0",
-    "fiv/collection": "0.0.1.*",
     "xparse/expression-translator": "0.0.3"
   },
   "require-dev": {
