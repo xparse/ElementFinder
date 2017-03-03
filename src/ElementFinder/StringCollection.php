@@ -236,6 +236,7 @@
      * @return self
      */
     public function offsetSet($offset, $item) : self {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       $this->validateType($item);
 
       if (null === $offset) {
@@ -256,6 +257,7 @@
      * @return bool
      */
     public function offsetExists($offset) : bool {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       return isset($this->items[$offset]);
     }
 
@@ -266,6 +268,7 @@
      * @param int $offset
      */
     public function offsetUnset($offset) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       unset($this->items[$offset]);
     }
 
@@ -277,6 +280,7 @@
      * @return null|string
      */
     public function offsetGet($offset) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->items[$offset] ?? null;
     }
 
