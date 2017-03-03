@@ -64,7 +64,7 @@
           }
 
           foreach ($rawStringResult as $resultString) {
-            $items[] = $resultString;
+            $items->append($resultString);
           }
         }
       }

@@ -168,8 +168,8 @@
 
       $phones = $html->match($regex, 0);
       $this->assertCount(2, $phones);
-      $this->assertContains('<', $phones[0]);
-      $this->assertContains("\n", $phones[1]);
+      $this->assertContains('<', $phones->item(0));
+      $this->assertContains("\n", $phones->item(1));
 
       $phones = $html->match($regex, 4);
       $this->assertCount(0, $phones);
@@ -191,8 +191,8 @@
 
       $this->assertCount(2, $phones);
 
-      $this->assertEquals('451216', (string) $phones[0]);
-      $this->assertEquals('841890', (string) $phones[1]);
+      $this->assertEquals('451216', (string) $phones->item(0));
+      $this->assertEquals('841890', (string) $phones->item(1));
 
     }
 
@@ -330,7 +330,7 @@
       $objects = $page->object('//div');
 
       $this->assertEmpty((string) $objects->item(0));
-      $this->assertContains('data-document-is-empty', $objects[0]->content('/')->item(0));
+      $this->assertContains('data-document-is-empty', $objects->item(0)->content('/')->item(0));
 
       $this->assertNotEmpty((string) $objects->item(1));
       $linkText = $objects->item(1)->value('//a')->item(0);
@@ -472,7 +472,7 @@
 
     public function testXmlRootNode() {
       $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
-      $food = $xml->object('//food')[2];
+      $food = $xml->object('//food')->item(2);
       $this->assertEquals(900, $food->value('/root/calories')->getFirst());
     }
 

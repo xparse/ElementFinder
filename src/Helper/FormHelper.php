@@ -51,10 +51,10 @@
         $name = $select->value('//select/@name')->item(0);
         $option = $select->value('//option[@selected]');
 
-        if (!isset($option[0])) {
+        if ($option->getFirst() === null) {
           $option = $select->value('//option[1]');
         }
-        $formData[$name] = $option->item(0);
+        $formData[$name] = $option->getFirst();
       }
 
       return $formData;
