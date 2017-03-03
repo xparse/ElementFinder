@@ -2,7 +2,7 @@
 
   namespace Xparse\ElementFinder\ElementFinder;
 
-  use Fiv\Collection\TypedCollection;
+  use Xparse\ElementFinder\Collection\TypedCollection;
   use Xparse\ElementFinder\Helper\RegexHelper;
 
   /**
@@ -28,7 +28,7 @@
       if (is_string($item) or is_float($item) or is_int($item)) {
         return true;
       }
-      throw new \InvalidArgumentException("Expect string");
+      throw new \InvalidArgumentException('Expect string');
     }
 
 
