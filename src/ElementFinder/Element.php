@@ -1,4 +1,5 @@
 <?php
+  declare(strict_types=1);
 
   namespace Xparse\ElementFinder\ElementFinder;
 
@@ -12,7 +13,7 @@
      *
      * @return array
      */
-    public function getAttributes() {
+    public function getAttributes() : array {
       $attributes = [];
       foreach ($this->attributes as $attr) {
         $attributes[$attr->name] = $attr->value;
