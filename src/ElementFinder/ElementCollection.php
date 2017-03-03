@@ -12,7 +12,7 @@
    * @method Element getNext($step)
    * @method Element[] getItems()
    */
-  class ElementCollection extends \Fiv\Collection\ObjectCollection {
+  class ElementCollection extends \Xparse\ElementFinder\Collection\ObjectCollection {
 
     /**
      * @inheritdoc

@@ -14,7 +14,7 @@
    * @method ElementFinder getNext($step)
    * @method ElementFinder[] getItems()
    */
-  class ObjectCollection extends \Fiv\Collection\ObjectCollection {
+  class ObjectCollection extends \Xparse\ElementFinder\Collection\ObjectCollection {
 
     /**
      * Used for validation
