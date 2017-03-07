@@ -17,7 +17,7 @@
      * @expectedException \Exception
      */
     public function testInvalidType() {
-      new ElementFinder("", "df");
+      new ElementFinder("", 'df');
     }
 
 
@@ -33,7 +33,7 @@
      *
      */
     public function testLoadDocumentWithZero() {
-      $elementFinder = new ElementFinder("   0 ");
+      $elementFinder = new ElementFinder('   0 ');
       self::assertContains('0', (string) $elementFinder);
     }
 
@@ -52,15 +52,15 @@
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
 
-      $links = $html->value("//a/@href");
+      $links = $html->value('//a/@href');
 
       self::assertCount(1, $links);
 
-      foreach ($html->content("//a") as $htmlString) {
+      foreach ($html->content('//a') as $htmlString) {
         self::assertTrue(is_string($htmlString));
       }
 
-      $firstLink = $html->content("//a", true)->item(0);
+      $firstLink = $html->content('//a', true)->item(0);
 
       self::assertContains('<a href="http://funivan.com/" title="my blog">link</a>', (string) $firstLink);
     }
@@ -69,7 +69,7 @@
     public function testObjects() {
       $html = $this->getHtmlTestObject();
 
-      $spanItems = $html->object("//span");
+      $spanItems = $html->object('//span');
 
       self::assertCount(4, $spanItems);
 
@@ -83,12 +83,12 @@
 
       $html->remove('//span[2]');
 
-      $spanItems = $html->content("//span");
+      $spanItems = $html->content('//span');
       self::assertCount(3, $spanItems);
 
       $html->remove('//span[@class]');
 
-      $spanItems = $html->content("//span");
+      $spanItems = $html->content('//span');
       self::assertCount(1, $spanItems);
 
     }
@@ -322,7 +322,7 @@
 
 
     public function testGetObjectWithEmptyHtml() {
-      $page = new ElementFinder("<div></div><div><a>df</a></div>");
+      $page = new ElementFinder('<div></div><div><a>df</a></div>');
       $objects = $page->object('//div');
 
       self::assertEmpty((string) $objects->item(0));
@@ -339,7 +339,7 @@
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidDocumentType() {
-      new ElementFinder("<div></div>", false);
+      new ElementFinder('<div></div>', false);
     }
 
 
@@ -347,7 +347,7 @@
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidDocumentOptions() {
-      new ElementFinder("<div></div>", null, 'test');
+      new ElementFinder('<div></div>', null, 'test');
     }
 
 
@@ -355,7 +355,7 @@
      *
      */
     public function testValidDocumentType() {
-      $document = new ElementFinder("<xml><list>123</list></xml>", ElementFinder::DOCUMENT_XML);
+      $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
       self::assertContains('<list>123</list>', (string) $document);
     }
 
@@ -408,7 +408,7 @@
           </tbody>
         </table>
       ');
-      $values = $html->keyValue("//table//td[1]", "//table//td[2]");
+      $values = $html->keyValue('//table//td[1]', '//table//td[2]');
 
       self::assertEquals([
         'Year' => '2016',
@@ -439,7 +439,7 @@
           </tbody>
         </table>
       ');
-      $html->keyValue("//table//td[1]", "//table//td[2]");
+      $html->keyValue('//table//td[1]', '//table//td[2]');
 
     }
 
@@ -455,7 +455,7 @@
       $foods = $xml->object('//food');
       self::assertCount(4, $foods);
 
-      self::assertEquals('$5.95', $xml->value("//food[1]/price/@value")->getFirst());
+      self::assertEquals('$5.95', $xml->value('//food[1]/price/@value')->getFirst());
 
       self::assertEquals(950, $xml->value('//food/calories')->getLast());
 
@@ -485,7 +485,7 @@
       $errors = $xml->getLoadErrors();
 
       self::assertCount(1, $errors);
-      self::assertContains("Opening and ending tag mismatch: from", $errors[0]->message);
+      self::assertContains('Opening and ending tag mismatch: from', $errors[0]->message);
     }
 
 
@@ -494,7 +494,7 @@
       $errors = $xml->getLoadErrors();
 
       self::assertCount(1, $errors);
-      self::assertContains("Extra content at the end of the document", $errors[0]->message);
+      self::assertContains('Extra content at the end of the document', $errors[0]->message);
     }
 
 
