@@ -87,11 +87,10 @@
 
       $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
-      $documentType = ($documentType !== null) ? $documentType : static::DOCUMENT_HTML;
+      $documentType = $documentType ?? static::DOCUMENT_HTML;
       $this->setDocumentType($documentType);
 
-      # default options
-      $options = ($options !== null) ? $options : (LIBXML_NOCDATA & LIBXML_NOERROR);
+      $options = $options ?? (LIBXML_NOCDATA & LIBXML_NOERROR);
       $this->setDocumentOption($options);
 
       $this->setData($data);

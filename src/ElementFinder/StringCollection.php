@@ -1,4 +1,5 @@
 <?php
+
   declare(strict_types=1);
 
   namespace Xparse\ElementFinder\ElementFinder;
@@ -16,22 +17,21 @@
     protected $position = 0;
 
     /**
-     * Array of objects
+     * Array of strings
      *
-     * @var array
+     * @var string[]
      */
     protected $items = [];
 
+
     /**
-     * @param array $items
+     * @param string[] $items
+     * @throws \Exception
      */
     public function __construct(array $items = []) {
-
-      if (!empty($items)) {
-        $this->setItems($items);
-      }
-
+      $this->setItems($items);
     }
+
 
     public function __clone() {
       $items = [];
@@ -40,6 +40,7 @@
       }
       $this->setItems($items);
     }
+
 
     /**
      * Return number of items in this collection
@@ -50,12 +51,14 @@
       return count($this->items);
     }
 
+
     /**
      * Add one item to begin of collection
      * This item is accessible via `$collection->getFirst();`
      *
      * @param mixed $item
      * @return self
+     * @throws \Exception
      */
     public function prepend($item) : self {
       $this->validateType($item);
@@ -63,12 +66,14 @@
       return $this;
     }
 
+
     /**
      * Add one item to the end of collection
      * This item is accessible via `$collection->getLast();`
      *
      * @param mixed $item
      * @return self
+     * @throws \Exception
      */
     public function append($item) : self {
       $this->validateType($item);
@@ -76,10 +81,12 @@
       return $this;
     }
 
+
     /**
      * @param int $index
      * @param string[] $items
      * @return self
+     * @throws \Exception
      */
     public function addAfter(int $index, array $items) : self {
       foreach ($items as $item) {
@@ -93,13 +100,14 @@
       return $this;
     }
 
+
     /**
      * Truncate current list of items and add new
      * @param string[] $items
      * @return self
+     * @throws \Exception
      */
     public function setItems(array $items) : self {
-
       foreach ($items as $key => $item) {
         $this->validateType($item);
       }
@@ -107,6 +115,7 @@
       $this->rewind();
       return $this;
     }
+
 
     /**
      * Remove part of items from collection
@@ -120,6 +129,7 @@
       return $this;
     }
 
+
     /**
      * Take part of items and return new collection
      * Works as array_slice
@@ -127,12 +137,14 @@
      * @param int $offset
      * @param int|null $length
      * @return self
+     * @throws \Exception
      */
     public function extractItems(int $offset, int $length = null) : self {
       $items = array_slice($this->items, $offset, $length);
       $this->setItems($items);
       return $this;
     }
+
 
     /**
      * Rewind current collection
@@ -141,6 +153,7 @@
       $this->position = 0;
       $this->items = array_values($this->items);
     }
+
 
     /**
      * Return last item from collection
@@ -154,6 +167,7 @@
       return end($this->items);
     }
 
+
     /**
      * Return first item from collection
      *
@@ -165,6 +179,7 @@
       }
       return reset($this->items);
     }
+
 
     /**
      * Return next item from current
@@ -178,6 +193,7 @@
       return $this->items[$position] ?? null;
     }
 
+
     /**
      * Return previous item
      * Also can return previous from current position + $step
@@ -189,6 +205,7 @@
       $position = ($this->position - $step);
       return $this->items[$position] ?? null;
     }
+
 
     /**
      * Return current item in collection
@@ -202,6 +219,7 @@
       return $this->items[$this->position];
     }
 
+
     /**
      * Return current position
      *
@@ -211,12 +229,14 @@
       return $this->position;
     }
 
+
     /**
      * Switch to next position
      */
     public function next() {
       ++$this->position;
     }
+
 
     /**
      * Check if item exist in current position
@@ -227,6 +247,7 @@
       return isset($this->items[$this->position]);
     }
 
+
     /**
      * Add item to the end or modify item with given key
      *
@@ -234,6 +255,7 @@
      * @param int|null $offset
      * @param string $item
      * @return self
+     * @throws \Exception
      */
     public function offsetSet($offset, $item) : self {
       trigger_error('Deprecated', E_USER_DEPRECATED);
@@ -249,6 +271,7 @@
       return $this;
     }
 
+
     /**
      * Check if item with given offset exists
      *
@@ -261,6 +284,7 @@
       return isset($this->items[$offset]);
     }
 
+
     /**
      * Remove item from collection
      *
@@ -271,6 +295,7 @@
       trigger_error('Deprecated', E_USER_DEPRECATED);
       unset($this->items[$offset]);
     }
+
 
     /**
      * Get item from collection
@@ -283,6 +308,7 @@
       trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->items[$offset] ?? null;
     }
+
 
     /**
      * Return array of items connected to this collection
@@ -299,6 +325,7 @@
     public function getItems() : array {
       return $this->items;
     }
+
 
     /**
      * Iterate over objects in collection
@@ -324,15 +351,18 @@
       return $this;
     }
 
+
     /**
      * @deprecated
      * @param int $index
+     * @throws \InvalidArgumentException
      */
     private function validateIndex($index) {
       if (!is_int($index)) {
         throw new \InvalidArgumentException('Invalid type of index. Must be integer');
       }
     }
+
 
     /**
      * You can add or append only one type of items to this collection
@@ -380,6 +410,7 @@
      * @param string $regexp
      * @param int $index
      * @return StringCollection
+     * @throws \Exception
      */
     public function match(string $regexp, int $index = 1) : StringCollection {
       return RegexHelper::match($regexp, $index, $this->items);
@@ -390,6 +421,7 @@
      * Split strings by regexp
      * @param string $regexp
      * @return StringCollection
+     * @throws \Exception
      */
     public function split(string $regexp) : StringCollection {
       $items = new StringCollection();

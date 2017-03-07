@@ -32,12 +32,12 @@
       ';
       $page = new \Xparse\ElementFinder\ElementFinder($html);
       $formData = FormHelper::getDefaultFormData($page, '//form');
-      $this->assertCount(5, $formData);
-      $this->assertEquals(123, $formData['test']);
-      $this->assertEquals(2, $formData['sf']);
-      $this->assertEquals(1, $formData['captcha']);
-      $this->assertEquals('custom text', $formData['text']);
-      $this->assertEquals(16, $formData['sc']);
+      self::assertCount(5, $formData);
+      self::assertEquals(123, $formData['test']);
+      self::assertEquals(2, $formData['sf']);
+      self::assertEquals(1, $formData['captcha']);
+      self::assertEquals('custom text', $formData['text']);
+      self::assertEquals(16, $formData['sc']);
 
     }
 
@@ -65,7 +65,7 @@
 
       foreach ($data as $expect => $string) {
         $output = StringHelper::safeEncodeStr($string);
-        $this->assertEquals($expect, $output);
+        self::assertEquals($expect, $output);
       }
 
     }

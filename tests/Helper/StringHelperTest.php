@@ -10,6 +10,6 @@
   class StringHelperTest extends \PHPUnit_Framework_TestCase {
 
     public function testEncodeString() {
-      $this->assertEquals('AA&lt;<', StringHelper::safeEncodeStr('AA&lt;&#60;'));
+      self::assertEquals('AA&lt;<', StringHelper::safeEncodeStr('AA&lt;&#60;'));
     }
   }

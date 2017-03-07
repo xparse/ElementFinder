@@ -1,4 +1,5 @@
 <?php
+
   declare(strict_types=1);
 
   namespace Xparse\ElementFinder\ElementFinder;
@@ -22,16 +23,14 @@
      */
     protected $items = [];
 
+
     /**
      * @param array $items
      */
     public function __construct(array $items = []) {
-
-      if (!empty($items)) {
-        $this->setItems($items);
-      }
-
+      $this->setItems($items);
     }
+
 
     /**
      * Clone each item
@@ -44,6 +43,7 @@
       $this->setItems($items);
     }
 
+
     /**
      * Return number of items in this collection
      *
@@ -52,6 +52,7 @@
     public function count() : int {
       return count($this->items);
     }
+
 
     /**
      * Add one item to begin of collection
@@ -65,6 +66,7 @@
       return $this;
     }
 
+
     /**
      * Add one item to the end of collection
      * This item is accessible via `$collection->getLast();`
@@ -77,10 +79,12 @@
       return $this;
     }
 
+
     /**
      * @param int $index
      * @param ElementFinder[] $items
      * @return self
+     * @throws \Exception
      */
     public function addAfter(int $index, array $items) : self {
 
@@ -95,14 +99,15 @@
       return $this;
     }
 
+
     /**
      * Truncate current list of items and add new
      *
      * @param ElementFinder[] $items
      * @return self
+     * @throws \Exception
      */
     public function setItems(array $items) : self {
-
       foreach ($items as $key => $item) {
         $this->validateType($item);
       }
@@ -110,6 +115,7 @@
       $this->rewind();
       return $this;
     }
+
 
     /**
      * Remove part of items from collection
@@ -123,6 +129,7 @@
       $this->items = array_slice($this->items, $offset, $length);
       return $this;
     }
+
 
     /**
      * Take part of items and return new collection
@@ -139,6 +146,7 @@
       return $this;
     }
 
+
     /**
      * Rewind current collection
      */
@@ -146,6 +154,7 @@
       $this->position = 0;
       $this->items = array_values($this->items);
     }
+
 
     /**
      * Return last item from collection
@@ -159,6 +168,7 @@
       return end($this->items);
     }
 
+
     /**
      * Return first item from collection
      *
@@ -170,6 +180,7 @@
       }
       return reset($this->items);
     }
+
 
     /**
      * Return next item from current
@@ -183,6 +194,7 @@
       return $this->items[$position] ?? null;
     }
 
+
     /**
      * Return previous item
      * Also can return previous from current position + $step
@@ -194,6 +206,7 @@
       $position = ($this->position - $step);
       return $this->items[$position] ?? null;
     }
+
 
     /**
      * Return current item in collection
@@ -207,6 +220,7 @@
       return $this->items[$this->position];
     }
 
+
     /**
      * Return current position
      *
@@ -216,12 +230,14 @@
       return $this->position;
     }
 
+
     /**
      * Switch to next position
      */
     public function next() {
       ++$this->position;
     }
+
 
     /**
      * Check if item exist in current position
@@ -232,6 +248,7 @@
       return isset($this->items[$this->position]);
     }
 
+
     /**
      * Add item to the end or modify item with given key
      *
@@ -239,6 +256,7 @@
      * @param int|null $offset
      * @param ElementFinder $item
      * @return $this
+     * @throws \Exception
      */
     public function offsetSet($offset, $item) {
       trigger_error('Deprecated', E_USER_DEPRECATED);
@@ -254,6 +272,7 @@
       return $this;
     }
 
+
     /**
      * Check if item with given offset exists
      *
@@ -266,6 +285,7 @@
       return isset($this->items[$offset]);
     }
 
+
     /**
      * Remove item from collection
      *
@@ -276,6 +296,7 @@
       trigger_error('Deprecated', E_USER_DEPRECATED);
       unset($this->items[$offset]);
     }
+
 
     /**
      * Get item from collection
@@ -288,6 +309,7 @@
       trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->items[$offset] ?? null;
     }
+
 
     /**
      * Return array of items connected to this collection
@@ -305,6 +327,7 @@
     public function getItems() : array {
       return $this->items;
     }
+
 
     /**
      * Iterate over objects in collection
@@ -330,9 +353,11 @@
       return $this;
     }
 
+
     /**
      * @deprecated
      * @param int $index
+     * @throws \InvalidArgumentException
      */
     private function validateIndex($index) {
       if (!is_int($index)) {
@@ -357,6 +382,7 @@
      * @param string $regexp
      * @param string $to
      * @return self
+     * @throws \Exception
      */
     public function replace(string $regexp, string $to = '') : self {
       foreach ($this as $item) {
@@ -364,6 +390,7 @@
       }
       return $this;
     }
+
 
     /**
      * @deprecated
@@ -377,4 +404,4 @@
         throw new \Exception('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
       }
     }
-  } 
+  }

@@ -14,13 +14,8 @@
      * @param integer $i
      * @param string[] $strings
      * @return StringCollection
-     * @throws \InvalidArgumentException
      */
-    public static function match($regex, $i, array $strings) {
-
-      if (!is_numeric($i)) {
-        throw new \InvalidArgumentException('Expect integer');
-      }
+    public static function match($regex, int $i, array $strings) {
 
       $items = new StringCollection();
 
