@@ -2,10 +2,8 @@
 
   namespace Test\Xparse\ElementFinder;
 
-  /**
-   *
-   * @package Test\Xparse\ElementFinder
-   */
+  use Xparse\ElementFinder\ElementFinder\Element;
+
   class ElementCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testAttributes() {
@@ -17,6 +15,7 @@
       self::assertCount(count($spanElements), $spanItems);
     }
 
+
     public function testItem() {
       $html = $this->getHtmlTestObject();
 
@@ -24,7 +23,7 @@
       self::assertCount(4, $spanElements);
       self::assertNull($spanElements->item(20));
 
-      self::assertInstanceOf('\Xparse\ElementFinder\ElementFinder\Element', $spanElements->item(0));
+      self::assertInstanceOf(Element::class, $spanElements->item(0));
 
     }
   }

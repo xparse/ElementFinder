@@ -5,10 +5,6 @@
   use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
   use Xparse\ElementFinder\ElementFinder;
 
-  /**
-   *
-   * @package Test\Xparse\ElementFinder
-   */
   class ElementFinderTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testLoad() {
@@ -47,7 +43,7 @@
       $html = $this->getHtmlTestObject();
       $spanNodes = $html->node('//span');
 
-      self::assertInstanceOf('\DOMNodeList', $spanNodes);
+      self::assertInstanceOf(\DOMNodeList::class, $spanNodes);
 
       self::assertEquals(4, $spanNodes->length);
     }
@@ -151,7 +147,7 @@
 
       self::assertCount(1, $phones);
 
-      $phones->replace('![\+\s]!');
+      $phones->replace('![+\s]!');
 
       self::assertContains('451216', $phones->getFirst());
 
@@ -182,7 +178,7 @@
       $html = $this->getHtmlDataObject();
       $regex = '!([\d-]+)[<|\n]!';
 
-      $phones = $html->match($regex, function ($items) {
+      $phones = $html->match($regex, function (array $items) {
         foreach ($items[1] as $index => $tel) {
           $items[1][$index] = str_replace('-', '', $tel);
         }
@@ -582,13 +578,13 @@
     public function testShareExpressionTranslator() {
       $page = new ElementFinder('
           <div class="node"> 
-            <a href="#text0" class="link">test0</a>
+            <a href="#" class="link">test0</a>
           </div>
           <div class="node"> 
-            <a href="#text1" class="link">test1</a>
+            <a href="#" class="link">test1</a>
           </div>
           <div class="node"> 
-            <a href="#text2" class="link">test2</a>
+            <a href="#" class="link">test2</a>
           </div>
 ');
 

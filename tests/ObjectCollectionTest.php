@@ -2,10 +2,6 @@
 
   namespace Xparse\Dom\ElementFinder;
 
-  /**
-   *
-   * @package Xparse\Dom\ElementFinder
-   */
   class ObjectCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testObjectWithOuterHtml() {

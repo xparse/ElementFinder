@@ -2,10 +2,6 @@
 
   namespace Xparse\Dom\ElementFinder;
 
-  /**
-   *
-   * @package Xparse\Dom\ElementFinder
-   */
   class StringCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testInvalidObjectIndex() {
@@ -26,14 +22,14 @@
       $spanItems = $html->content('//span[@class]');
       self::assertCount(3, $spanItems);
 
-      $spanItems->replace('!<[\/]*[a-z]+>!');
+      $spanItems->replace('!<[/]*[a-z]+>!');
 
       foreach ($spanItems as $index => $item) {
         $expectClass = ($index + 1) . ' r';
         self::assertEquals($expectClass, $item);
       }
 
-      $spanItems->replace('![a-z<\/>]!U', '0');
+      $spanItems->replace('![a-z</>]!U', '0');
 
       foreach ($spanItems as $index => $item) {
         $expectClass = ($index + 1) . ' 0';
