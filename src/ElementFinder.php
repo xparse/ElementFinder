@@ -342,9 +342,9 @@
       $documentHtml = $this->content('.')->getFirst();
 
       if (is_int($i)) {
-        $collection = RegexHelper::match($regex, $i, [$documentHtml]);
+        $collection = RegexHelper::match($regex, $i, [(string) $documentHtml]);
       } elseif (is_callable($i)) {
-        $collection = RegexHelper::matchCallback($regex, $i, [$documentHtml]);
+        $collection = RegexHelper::matchCallback($regex, $i, [(string) $documentHtml]);
       } else {
         throw new \InvalidArgumentException('Invalid argument. Expect integer or callable');
       }
