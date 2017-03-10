@@ -1,6 +1,6 @@
 <?php
 
-  namespace Xparse\Dom\ElementFinder;
+  namespace Test\Xparse\ElementFinder\Collection;
 
   class StringCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
@@ -77,6 +77,16 @@
         self::assertTrue(!empty($result));
       }
 
+    }
+
+
+    public function testWalk() {
+      $collection = new \Xparse\ElementFinder\Collection\StringCollection(['1', '2', '3']);
+      $data = '';
+      $collection->walk(function (string $item) use (&$data) {
+        $data = $data . $item;
+      });
+      self::assertSame('123', $data);
     }
 
   }

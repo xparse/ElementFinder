@@ -2,7 +2,7 @@
 
   declare(strict_types=1);
 
-  namespace Xparse\ElementFinder\ElementFinder;
+  namespace Xparse\ElementFinder\Collection;
 
   use Xparse\ElementFinder\Helper\RegexHelper;
 
@@ -331,29 +331,38 @@
      * Iterate over objects in collection
      *
      * <code>
-     * $collection->map(function($item, $index, $collection){
-     *    if ( $index > 0 ) {
-     *      $item->remove();
-     *    }
+     * $collection->walk(function(string $item, int $index, StringCollection $collection){
+     *    echo $item;
      * })
      * </code>
      * @param callable $callback
      * @return self
      */
-    public function map(callable $callback) : self {
-
+    public function walk(callable $callback) : self {
       foreach ($this->getItems() as $index => $item) {
-        call_user_func_array($callback, [$item, $index, $this]);
+        $callback($item, $index, $this);
       }
-
       $this->rewind();
-
       return $this;
     }
 
 
     /**
      * @deprecated
+     * @see walk
+     *
+     * @param callable $callback
+     * @return self
+     */
+    public function map(callable $callback) : self {
+      $this->walk($callback);
+      return $this;
+    }
+
+
+    /**
+     * @deprecated
+     *
      * @param int $index
      * @throws \InvalidArgumentException
      */

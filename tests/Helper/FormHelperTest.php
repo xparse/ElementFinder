@@ -1,15 +1,12 @@
 <?php
 
-  namespace Test\Xparse\ElementFinder;
+  declare(strict_types=1);
+
+  namespace Tests\Xparse\ElementFinder\Helper;
 
   use Xparse\ElementFinder\Helper\FormHelper;
-  use Xparse\ElementFinder\Helper\StringHelper;
 
-  /**
-   * @author Ivan Shcherbak <dev@funivan.com> 12/30/14
-   */
-  class HelperTest extends \Test\Xparse\ElementFinder\Main {
-
+  class FormHelperTest extends \PHPUnit_Framework_TestCase {
 
     public function testFormData() {
       $html = '
@@ -41,6 +38,7 @@
 
     }
 
+
     /**
      * @expectedException \Exception
      */
@@ -48,26 +46,4 @@
       $page = new \Xparse\ElementFinder\ElementFinder('<div></div>');
       FormHelper::getDefaultFormData($page, '//form');
     }
-
-    public function testEncode() {
-
-      $data = array(
-        '<' => '&#60;',
-        '> &#s' => '&#62; &#s',
-        '&  ' => '&#38;  ',
-        '¢' => '&#162;',
-        '£' => '&#163;',
-        '¥' => '&#165;',
-        '€' => '&#8364;',
-        '©' => '&#169;',
-        'Data ®' => 'Data &#174;',
-      );
-
-      foreach ($data as $expect => $string) {
-        $output = StringHelper::safeEncodeStr($string);
-        self::assertEquals($expect, $output);
-      }
-
-    }
-
   }

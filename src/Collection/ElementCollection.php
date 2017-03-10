@@ -2,14 +2,14 @@
 
   declare(strict_types=1);
 
-  namespace Xparse\ElementFinder\ElementFinder;
+  namespace Xparse\ElementFinder\Collection;
 
-  use Xparse\ElementFinder\ElementFinder;
+  use Xparse\ElementFinder\ElementFinder\Element;
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
    */
-  class ObjectCollection implements \Iterator, \ArrayAccess, \Countable {
+  class ElementCollection implements \Iterator, \ArrayAccess, \Countable {
 
     /**
      * @var int
@@ -19,28 +19,20 @@
     /**
      * Array of objects
      *
-     * @var array
+     * @var Element[]
      */
     protected $items = [];
 
 
     /**
-     * @param array $items
+     * @param Element[] $items
      */
     public function __construct(array $items = []) {
-      $this->setItems($items);
-    }
 
-
-    /**
-     * Clone each item
-     */
-    public function __clone() {
-      $items = [];
-      foreach ($this->items as $item) {
-        $items[] = clone $item;
+      if (count($items) > 0) {
+        $this->setItems($items);
       }
-      $this->setItems($items);
+
     }
 
 
@@ -58,10 +50,10 @@
      * Add one item to begin of collection
      * This item is accessible via `$collection->getFirst();`
      *
-     * @param ElementFinder $item
-     * @return self
+     * @param Element $item
+     * @return ElementCollection
      */
-    public function prepend(ElementFinder $item) : self {
+    public function prepend(Element $item) : self {
       array_unshift($this->items, $item);
       return $this;
     }
@@ -71,10 +63,10 @@
      * Add one item to the end of collection
      * This item is accessible via `$collection->getLast();`
      *
-     * @param ElementFinder $item
-     * @return self
+     * @param Element $item
+     * @return ElementCollection
      */
-    public function append(ElementFinder $item) : self {
+    public function append(Element $item) : self {
       $this->items[] = $item;
       return $this;
     }
@@ -82,7 +74,7 @@
 
     /**
      * @param int $index
-     * @param ElementFinder[] $items
+     * @param Element[] $items
      * @return self
      * @throws \Exception
      */
@@ -103,14 +95,16 @@
     /**
      * Truncate current list of items and add new
      *
-     * @param ElementFinder[] $items
+     * @param Element[] $items
      * @return self
      * @throws \Exception
      */
     public function setItems(array $items) : self {
-      foreach ($items as $key => $item) {
+
+      foreach ($items as $item) {
         $this->validateType($item);
       }
+
       $this->items = $items;
       $this->rewind();
       return $this;
@@ -123,7 +117,7 @@
      *
      * @param int $offset
      * @param int|null $length
-     * @return self
+     * @return ElementCollection
      */
     public function slice(int $offset, int $length = null) : self {
       $this->items = array_slice($this->items, $offset, $length);
@@ -138,7 +132,7 @@
      *
      * @param int $offset
      * @param int|null $length
-     * @return self
+     * @return ElementCollection
      */
     public function extractItems(int $offset, int $length = null) : self {
       $items = array_slice($this->items, $offset, $length);
@@ -159,7 +153,7 @@
     /**
      * Return last item from collection
      *
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function getLast() {
       if ($this->count() === 0) {
@@ -171,8 +165,7 @@
 
     /**
      * Return first item from collection
-     *
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function getFirst() {
       if ($this->count() === 0) {
@@ -187,7 +180,7 @@
      * Also can return item with position from current + $step
      *
      * @param int $step
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function getNext(int $step = 1) {
       $position = ($this->position + $step);
@@ -200,7 +193,7 @@
      * Also can return previous from current position + $step
      *
      * @param int $step
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function getPrevious(int $step = 1) {
       $position = ($this->position - $step);
@@ -211,12 +204,13 @@
     /**
      * Return current item in collection
      *
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function current() {
       if (!isset($this->items[$this->position])) {
         return null;
       }
+
       return $this->items[$this->position];
     }
 
@@ -254,8 +248,8 @@
      *
      * @deprecated
      * @param int|null $offset
-     * @param ElementFinder $item
-     * @return $this
+     * @param Element $item
+     * @return self
      * @throws \Exception
      */
     public function offsetSet($offset, $item) {
@@ -277,7 +271,7 @@
      * Check if item with given offset exists
      *
      * @deprecated
-     * @param mixed $offset
+     * @param int $offset
      * @return bool
      */
     public function offsetExists($offset) : bool {
@@ -303,7 +297,7 @@
      *
      * @deprecated
      * @param int $offset
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function offsetGet($offset) {
       trigger_error('Deprecated', E_USER_DEPRECATED);
@@ -322,7 +316,7 @@
      * }
      * </code>
      *
-     * @return ElementFinder[]
+     * @return Element[]
      */
     public function getItems() : array {
       return $this->items;
@@ -333,23 +327,31 @@
      * Iterate over objects in collection
      *
      * <code>
-     * $collection->map(function($item, $index, $collection){
-     *    if ( $index > 0 ) {
-     *      $item->remove();
-     *    }
+     * $collection->walk(function(Element $item, int $index, ElementCollection $collection){
+     *    echo $item->nodeValue;
      * })
      * </code>
      * @param callable $callback
      * @return self
      */
-    public function map(callable $callback) : self {
-
+    public function walk(callable $callback) : self {
       foreach ($this->getItems() as $index => $item) {
-        call_user_func_array($callback, [$item, $index, $this]);
+        $callback($item, $index, $this);
       }
-
       $this->rewind();
+      return $this;
+    }
 
+
+    /**
+     * @deprecated
+     * @see walk
+     *
+     * @param callable $callback
+     * @return self
+     */
+    public function map(callable $callback) : self {
+      $this->walk($callback);
       return $this;
     }
 
@@ -367,8 +369,21 @@
 
 
     /**
+     * @param $item
+     * @throws \Exception
+     */
+    private function validateType($item) {
+      $itemClassName = Element::class;
+      if (($item instanceof $itemClassName) === false) {
+        $className = ($item === null) ? null : get_class($item);
+        throw new \Exception('Invalid object type. Expect ' . Element::class . ' given ' . $className);
+      }
+    }
+
+
+    /**
      * @param int $index
-     * @return null|ElementFinder
+     * @return null|Element
      */
     public function item(int $index) {
       if (isset($this->items[$index])) {
@@ -379,29 +394,17 @@
 
 
     /**
-     * @param string $regexp
-     * @param string $to
-     * @return self
-     * @throws \Exception
+     * Array of all elements attributes
+     *
+     * @return array
      */
-    public function replace(string $regexp, string $to = '') : self {
-      foreach ($this as $item) {
-        $item->replace($regexp, $to);
+    public function getAttributes() : array {
+      $allAttributes = [];
+      foreach ($this->items as $key => $element) {
+        $allAttributes[$key] = $element->getAttributes();
       }
-      return $this;
+
+      return $allAttributes;
     }
 
-
-    /**
-     * @deprecated
-     * @param $item
-     * @throws \Exception
-     */
-    private function validateType($item) {
-      $itemClassName = ElementFinder::class;
-      if (($item instanceof $itemClassName) === false) {
-        $className = ($item === null) ? null : get_class($item);
-        throw new \Exception('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
-      }
-    }
   }

@@ -1,6 +1,8 @@
 <?php
 
-  namespace Xparse\Dom\ElementFinder;
+  namespace Test\Xparse\ElementFinder\Collection;
+
+  use Xparse\ElementFinder\ElementFinder;
 
   class ObjectCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
@@ -17,6 +19,7 @@
 
     }
 
+
     public function testInvalidObjectIndex() {
       $html = $this->getHtmlTestObject();
       $spanItems = $html->object('//span');
@@ -28,6 +31,7 @@
       $span = $spanItems->item(0);
       self::assertNotNull($span);
     }
+
 
     public function testReplace() {
       $html = $this->getHtmlTestObject();
@@ -49,6 +53,22 @@
         self::assertCount(0, $classAttributes);
       }
 
+    }
+
+
+    public function testWalk() {
+      $collection = new \Xparse\ElementFinder\Collection\ObjectCollection(
+        [
+          new ElementFinder('<a>1</a>'),
+          new ElementFinder('<a>2</a>'),
+        ]
+      );
+
+      $linksTest = [];
+      $collection->walk(function (ElementFinder $elementFinder) use (&$linksTest) {
+        $linksTest[] = $elementFinder->content('//a')->getFirst();
+      });
+      self::assertSame(['1', '2'], $linksTest);
     }
 
   }

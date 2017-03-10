@@ -3,7 +3,6 @@
   namespace Xparse\ElementFinder\Helper;
 
   /**
-   *
    * @author Ivan Shcherbak <dev@funivan.com>
    */
   class NodeHelper {

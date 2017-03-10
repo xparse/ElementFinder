@@ -1,6 +1,6 @@
 <?php
 
-  namespace Test\Xparse\ElementFinder;
+  namespace Test\Xparse\ElementFinder\Helper;
 
   /**
    * @author Ivan Shcherbak <dev@funivan.com> 1/11/15

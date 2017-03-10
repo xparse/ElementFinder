@@ -9,7 +9,26 @@
    */
   class StringHelperTest extends \PHPUnit_Framework_TestCase {
 
-    public function testEncodeString() {
-      self::assertEquals('AA&lt;<', StringHelper::safeEncodeStr('AA&lt;&#60;'));
+
+    public function testEncode() {
+
+      $data = [
+        'AA&lt;<' => 'AA&lt;&#60;',
+        '<' => '&#60;',
+        '> &#s' => '&#62; &#s',
+        '&  ' => '&#38;  ',
+        '¢' => '&#162;',
+        '£' => '&#163;',
+        '¥' => '&#165;',
+        '€' => '&#8364;',
+        '©' => '&#169;',
+        'Data ®' => 'Data &#174;',
+      ];
+
+      foreach ($data as $expect => $string) {
+        $output = StringHelper::safeEncodeStr($string);
+        self::assertEquals($expect, $output);
+      }
+
     }
   }

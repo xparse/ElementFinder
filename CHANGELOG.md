@@ -1,9 +1,7 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## Unreleased
-
-## 0.1.0-alpha.5 [2017-03-03]
+## 0.1.0-alpha.5 [Unreleased]
 
 ### Added
 - strict types declaration
@@ -12,7 +10,8 @@ All Notable changes to `ElementFinder` will be documented in this file
 - all external collections where moved to appropriate ElementFinder collections
 
 ### Deprecated
-- ArrayAccessible methods in Collections (offsetSet, offsetExists, offsetUnset, offsetGet) 
+- ArrayAccessible methods in Collections (offsetSet, offsetExists, offsetUnset, offsetGet)
+- #49 deprecate `StringCollection::map`, `ObjectCollection::map`, `ElementCollection::map` use `walk` instead
 
 ### Removed
 - fiv/collection package

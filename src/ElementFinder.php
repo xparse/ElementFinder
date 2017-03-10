@@ -2,10 +2,9 @@
 
   namespace Xparse\ElementFinder;
 
+  use Xparse\ElementFinder\Collection\ElementCollection;
+  use Xparse\ElementFinder\Collection\StringCollection;
   use Xparse\ElementFinder\ElementFinder\Element;
-  use Xparse\ElementFinder\ElementFinder\ElementCollection;
-  use Xparse\ElementFinder\ElementFinder\ObjectCollection;
-  use Xparse\ElementFinder\ElementFinder\StringCollection;
   use Xparse\ElementFinder\Helper\NodeHelper;
   use Xparse\ElementFinder\Helper\RegexHelper;
   use Xparse\ElementFinder\Helper\StringHelper;
@@ -251,7 +250,7 @@
      * @param string $expression
      * @param bool $outerHtml
      * @throws \Exception
-     * @return ObjectCollection
+     * @return \Xparse\ElementFinder\Collection\ObjectCollection
      * @throws \InvalidArgumentException
      */
     public function object($expression, $outerHtml = false) {
@@ -260,7 +259,7 @@
 
       $items = $this->executeQuery($expression);
 
-      $collection = new ObjectCollection();
+      $collection = new Collection\ObjectCollection();
 
       foreach ($items as $node) {
         /** @var \DOMElement $node */
