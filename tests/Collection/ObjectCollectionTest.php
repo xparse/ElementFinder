@@ -71,4 +71,24 @@
       self::assertSame(['1', '2'], $linksTest);
     }
 
+
+    public function testIterate() {
+      $collection = new \Xparse\ElementFinder\Collection\ObjectCollection(
+        [
+          new ElementFinder('<a>0</a>'),
+          new ElementFinder('<a>1</a>'),
+        ]
+      );
+
+      $collectedItems = 0;
+      foreach ($collection as $index => $item) {
+        $collectedItems++;
+        $data = $item->match('!<a>(.*)</a>!')->getFirst();
+        self::assertSame((string) $index, $data);
+      }
+
+      self::assertSame(2, $collectedItems);
+    }
+
+
   }

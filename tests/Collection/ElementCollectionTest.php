@@ -44,4 +44,22 @@
       self::assertSame(['a.link', 'b.bold'], $items);
     }
 
+
+    public function testIterate() {
+      $collection = new ElementCollection(
+        [
+          new Element('a', 'class0'),
+          new Element('b', 'class1'),
+        ]
+      );
+
+      $collectedItems = 0;
+      foreach ($collection as $index => $item) {
+        $collectedItems++;
+        self::assertSame('class' . $index, $item->nodeValue);
+      }
+
+      self::assertSame(2, $collectedItems);
+    }
+
   }

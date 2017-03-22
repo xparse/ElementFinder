@@ -9,7 +9,7 @@
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
    */
-  class ElementCollection implements \Iterator, \Countable {
+  class ElementCollection implements \IteratorAggregate, \Countable {
 
     /**
      * @var int
@@ -106,7 +106,6 @@
       }
 
       $this->items = $items;
-      $this->rewind();
       return $this;
     }
 
@@ -138,15 +137,6 @@
       $items = array_slice($this->items, $offset, $length);
       $this->setItems($items);
       return $this;
-    }
-
-
-    /**
-     * Rewind current collection
-     */
-    public function rewind() {
-      $this->position = 0;
-      $this->items = array_values($this->items);
     }
 
 
@@ -202,48 +192,6 @@
 
 
     /**
-     * Return current item in collection
-     *
-     * @return null|Element
-     */
-    public function current() {
-      if (!isset($this->items[$this->position])) {
-        return null;
-      }
-
-      return $this->items[$this->position];
-    }
-
-
-    /**
-     * Return current position
-     *
-     * @return int
-     */
-    public function key() : int {
-      return $this->position;
-    }
-
-
-    /**
-     * Switch to next position
-     */
-    public function next() {
-      ++$this->position;
-    }
-
-
-    /**
-     * Check if item exist in current position
-     *
-     * @return bool
-     */
-    public function valid() : bool {
-      return isset($this->items[$this->position]);
-    }
-
-
-    /**
      * Return array of items connected to this collection
      *
      * Rewrite this method in you class
@@ -276,7 +224,6 @@
       foreach ($this->getItems() as $index => $item) {
         $callback($item, $index, $this);
       }
-      $this->rewind();
       return $this;
     }
 
@@ -331,6 +278,16 @@
       }
 
       return $allAttributes;
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Element[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
+     */
+    public function getIterator() {
+      return new \ArrayIterator($this->items);
     }
 
   }

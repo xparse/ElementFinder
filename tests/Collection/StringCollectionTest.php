@@ -4,6 +4,7 @@
 
   use Xparse\ElementFinder\Collection\StringCollection;
 
+
   class StringCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testInvalidObjectIndex() {
@@ -50,16 +51,14 @@
 
       self::assertCount(6, $tags);
       foreach ($tags as $index => $item) {
-        $result = preg_match('!^<[b|i]!', $item);
-        self::assertTrue(!empty($result));
+        self::assertSame(preg_match('!^<[b|i]!', $item), 1);
       }
 
       $tags = $spanItems->match('!<([a-z]+)>.!');
 
       self::assertCount(6, $tags);
       foreach ($tags as $index => $item) {
-        $result = preg_match('!^[b|i]$!', $item);
-        self::assertTrue(!empty($result));
+        self::assertSame(preg_match('!^[b|i]$!', $item), 1);
       }
 
     }
@@ -75,8 +74,7 @@
       self::assertCount(2, $tels);
 
       foreach ($tels as $index => $item) {
-        $result = preg_match('!^([\d-]+)$!', $item);
-        self::assertTrue(!empty($result));
+        self::assertSame(preg_match('!^([\d-]+)$!', $item), 1);
       }
 
     }
@@ -98,6 +96,25 @@
 
       $collection = $collection->unique();
       self::assertCount(2, $collection);
+    }
+
+
+    public function testIterate() {
+      $collection = new StringCollection(
+        [
+          'element-0',
+          'element-1',
+          'element-2',
+        ]
+      );
+
+      $collectedItems = 0;
+      foreach ($collection as $index => $item) {
+        $collectedItems++;
+        self::assertSame('element-' . $index, $item);
+      }
+
+      self::assertSame(3, $collectedItems);
     }
 
   }

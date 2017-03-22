@@ -9,7 +9,7 @@
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
    */
-  class StringCollection implements \Iterator, \Countable {
+  class StringCollection implements \IteratorAggregate, \Countable {
 
     /**
      * @var int
@@ -112,7 +112,6 @@
         $this->validateType($item);
       }
       $this->items = $items;
-      $this->rewind();
       return $this;
     }
 
@@ -143,15 +142,6 @@
       $items = array_slice($this->items, $offset, $length);
       $this->setItems($items);
       return $this;
-    }
-
-
-    /**
-     * Rewind current collection
-     */
-    public function rewind() {
-      $this->position = 0;
-      $this->items = array_values($this->items);
     }
 
 
@@ -208,47 +198,6 @@
 
 
     /**
-     * Return current item in collection
-     *
-     * @return null|string
-     */
-    public function current() {
-      if (!isset($this->items[$this->position])) {
-        return null;
-      }
-      return $this->items[$this->position];
-    }
-
-
-    /**
-     * Return current position
-     *
-     * @return int
-     */
-    public function key() : int {
-      return $this->position;
-    }
-
-
-    /**
-     * Switch to next position
-     */
-    public function next() {
-      ++$this->position;
-    }
-
-
-    /**
-     * Check if item exist in current position
-     *
-     * @return bool
-     */
-    public function valid() : bool {
-      return isset($this->items[$this->position]);
-    }
-
-
-    /**
      * Return array of items connected to this collection
      *
      * Rewrite this method in you class
@@ -280,7 +229,6 @@
       foreach ($this->getItems() as $index => $item) {
         $callback($item, $index, $this);
       }
-      $this->rewind();
       return $this;
     }
 
@@ -376,6 +324,17 @@
      */
     public function unique() : StringCollection {
       return new StringCollection(array_unique($this->items));
+    }
+
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return string[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
+     */
+    public function getIterator() {
+      return new \ArrayIterator($this->items);
     }
 
   }
