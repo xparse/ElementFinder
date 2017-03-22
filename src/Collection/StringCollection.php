@@ -445,4 +445,9 @@
       return $items;
     }
 
+
+    public function unique() : StringCollection {
+      return new StringCollection(array_unique($this->items));
+    }
+
   }

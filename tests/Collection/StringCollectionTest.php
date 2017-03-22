@@ -2,6 +2,8 @@
 
   namespace Test\Xparse\ElementFinder\Collection;
 
+  use Xparse\ElementFinder\Collection\StringCollection;
+
   class StringCollectionTest extends \Test\Xparse\ElementFinder\Main {
 
     public function testInvalidObjectIndex() {
@@ -87,6 +89,15 @@
         $data = $data . $item;
       });
       self::assertSame('123', $data);
+    }
+
+
+    public function testUnique() {
+      $collection = new StringCollection(['1', '2', '2']);
+      self::assertCount(3, $collection);
+
+      $collection = $collection->unique();
+      self::assertCount(2, $collection);
     }
 
   }
