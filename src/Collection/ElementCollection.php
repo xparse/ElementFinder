@@ -9,7 +9,7 @@
   /**
    * @author Ivan Shcherbak <dev@funivan.com>
    */
-  class ElementCollection implements \Iterator, \ArrayAccess, \Countable {
+  class ElementCollection implements \Iterator, \Countable {
 
     /**
      * @var int
@@ -244,68 +244,6 @@
 
 
     /**
-     * Add item to the end or modify item with given key
-     *
-     * @deprecated
-     * @param int|null $offset
-     * @param Element $item
-     * @return self
-     * @throws \Exception
-     */
-    public function offsetSet($offset, $item) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      $this->validateType($item);
-
-      if (null === $offset) {
-        $this->append($item);
-      } else {
-        $this->validateIndex($offset);
-        $this->items[$offset] = $item;
-      }
-
-      return $this;
-    }
-
-
-    /**
-     * Check if item with given offset exists
-     *
-     * @deprecated
-     * @param int $offset
-     * @return bool
-     */
-    public function offsetExists($offset) : bool {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return isset($this->items[$offset]);
-    }
-
-
-    /**
-     * Remove item from collection
-     *
-     * @deprecated
-     * @param int $offset
-     */
-    public function offsetUnset($offset) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      unset($this->items[$offset]);
-    }
-
-
-    /**
-     * Get item from collection
-     *
-     * @deprecated
-     * @param int $offset
-     * @return null|Element
-     */
-    public function offsetGet($offset) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return $this->items[$offset] ?? null;
-    }
-
-
-    /**
      * Return array of items connected to this collection
      *
      * Rewrite this method in you class
@@ -353,18 +291,6 @@
     public function map(callable $callback) : self {
       $this->walk($callback);
       return $this;
-    }
-
-
-    /**
-     * @deprecated
-     * @param int $index
-     * @throws \InvalidArgumentException
-     */
-    private function validateIndex($index) {
-      if (!is_int($index)) {
-        throw new \InvalidArgumentException('Invalid type of index. Must be integer');
-      }
     }
 
 

@@ -6,6 +6,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 ### Deprecated
 
 ### Removed
+ - #53 Remove `ArrayAccess` interface from the `StringCollection`, `ObjectCollection` and `ElementCollection`
 
 ### Added
  - #50 Add `StringCollection::unique` function
