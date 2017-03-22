@@ -3,10 +3,14 @@ language: php
 php:
   - 7.0
   - 7.1
-      
+
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-    vendor/bin/phpunit
+    vendor/bin/phpunit --coverage-clover=build/coverage.clove
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar -O build/ocular.phar
+  - php build/ocular.phar code-coverage:upload --format=php-clover build/coverage.clover
