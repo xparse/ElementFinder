@@ -117,4 +117,23 @@
       self::assertSame(3, $collectedItems);
     }
 
+
+    public function testMergeWithItems() {
+      $collection = (new StringCollection(['a', 'b']))->merge(new StringCollection(['a', 'c']));
+      self::assertSame(['a', 'b', 'a', 'c'], $collection->getItems());
+    }
+
+
+    public function testMergeWithoutItems() {
+      $collection = (new StringCollection())->merge(new StringCollection());
+      self::assertSame([], $collection->getItems());
+    }
+
+
+    public function testMergeWithPartialItems() {
+      $collection = (new StringCollection([1 => 'a']))->merge(new StringCollection([1 => 'b', 'c']));
+      self::assertSame(['a', 'b', 'c'], $collection->getItems());
+    }
+
+
   }

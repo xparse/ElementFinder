@@ -11,6 +11,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ### Added
  - #50 Add `StringCollection::unique` function
+ - #56 Add `StringCollection::merge`, `ObjectCollection::merge` and `ElementCollection::merge` functions
   
 ## 0.1.0-alpha.5 [2017-03-10]
 

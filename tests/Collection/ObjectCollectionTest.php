@@ -2,6 +2,7 @@
 
   namespace Test\Xparse\ElementFinder\Collection;
 
+  use Xparse\ElementFinder\Collection\ObjectCollection;
   use Xparse\ElementFinder\ElementFinder;
 
   class ObjectCollectionTest extends \Test\Xparse\ElementFinder\Main {
@@ -57,7 +58,7 @@
 
 
     public function testWalk() {
-      $collection = new \Xparse\ElementFinder\Collection\ObjectCollection(
+      $collection = new ObjectCollection(
         [
           new ElementFinder('<a>1</a>'),
           new ElementFinder('<a>2</a>'),
@@ -73,7 +74,7 @@
 
 
     public function testIterate() {
-      $collection = new \Xparse\ElementFinder\Collection\ObjectCollection(
+      $collection = new ObjectCollection(
         [
           new ElementFinder('<a>0</a>'),
           new ElementFinder('<a>1</a>'),
@@ -90,5 +91,18 @@
       self::assertSame(2, $collectedItems);
     }
 
+
+    public function testMerge() {
+      $sourceCollection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
+      $newCollection = new ObjectCollection([new ElementFinder('<a>0</a>')]);
+
+      $mergedCollection = $sourceCollection->merge($newCollection);
+
+      $aTexts = [];
+      $mergedCollection->walk(function (ElementFinder $element) use (&$aTexts) {
+        $aTexts[] = (string) $element->value('//a')->getFirst();
+      });
+      self::assertSame(['0', '1', '0'], $aTexts);
+    }
 
   }

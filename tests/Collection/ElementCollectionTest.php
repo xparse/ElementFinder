@@ -62,4 +62,13 @@
       self::assertSame(2, $collectedItems);
     }
 
+
+    public function testMerge() {
+      $collection = (new ElementCollection([new Element('a', 'link')]))->merge(new ElementCollection([new Element('b', 'bold')]));
+      self::assertSame(['a.link', 'b.bold'], [
+        $collection->getFirst()->tagName . '.' . $collection->getFirst()->nodeValue,
+        $collection->getLast()->tagName . '.' . $collection->getLast()->nodeValue,
+      ]);
+    }
+
   }

@@ -327,6 +327,11 @@
     }
 
 
+    public final function merge(StringCollection $collection) : StringCollection {
+      return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
+    }
+
+
     /**
      * Retrieve an external iterator
      *

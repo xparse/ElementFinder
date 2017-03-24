@@ -289,6 +289,11 @@
     }
 
 
+    public function merge(ObjectCollection $collection) : ObjectCollection {
+      return new ObjectCollection(array_merge($this->getItems(), $collection->getItems()));
+    }
+
+
     /**
      * Retrieve an external iterator
      *

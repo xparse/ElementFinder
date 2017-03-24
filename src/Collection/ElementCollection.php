@@ -280,6 +280,12 @@
       return $allAttributes;
     }
 
+
+    public function merge(ElementCollection $collection) : ElementCollection {
+      return new ElementCollection(array_merge($this->getItems(), $collection->getItems()));
+    }
+
+
     /**
      * Retrieve an external iterator
      *
