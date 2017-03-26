@@ -1,82 +1,39 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Test\Xparse\ElementFinder\Collection;
 
   use Xparse\ElementFinder\Collection\StringCollection;
 
 
-  class StringCollectionTest extends \Test\Xparse\ElementFinder\Main {
+  class StringCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testInvalidObjectIndex() {
-      $html = $this->getHtmlTestObject();
-      $spanItems = $html->content('//span');
-      self::assertCount(4, $spanItems);
-
-      $span = $spanItems->item(5);
-      self::assertEquals('', $span);
-
-      $span = $spanItems->item(0);
-      self::assertNotEmpty($span);
+      $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
+      self::assertEquals('a-1', $collection->item(0));
+      self::assertEquals(null, $collection->item(3));
     }
 
 
     public function testReplace() {
-      $html = $this->getHtmlTestObject();
-      $spanItems = $html->content('//span[@class]');
-      self::assertCount(3, $spanItems);
-
-      $spanItems->replace('!<[/]*[a-z]+>!');
-
-      foreach ($spanItems as $index => $item) {
-        $expectClass = ($index + 1) . ' r';
-        self::assertEquals($expectClass, $item);
-      }
-
-      $spanItems->replace('![a-z</>]!U', '0');
-
-      foreach ($spanItems as $index => $item) {
-        $expectClass = ($index + 1) . ' 0';
-        self::assertEquals($expectClass, $item);
-      }
-
+      $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
+      $collection = $collection->replace('![-,.]!', '::');
+      self::assertSame(['a::1', 'b::2', 'c::3'], $collection->getItems());
     }
 
 
     public function testMatch() {
-      $html = $this->getHtmlTestObject();
-      $spanItems = $html->content('//span[@class]');
-      self::assertCount(3, $spanItems);
-
-      $tags = $spanItems->match('!(<[a-z]+>.)!');
-
-      self::assertCount(6, $tags);
-      foreach ($tags as $index => $item) {
-        self::assertSame(preg_match('!^<[b|i]!', $item), 1);
-      }
-
-      $tags = $spanItems->match('!<([a-z]+)>.!');
-
-      self::assertCount(6, $tags);
-      foreach ($tags as $index => $item) {
-        self::assertSame(preg_match('!^[b|i]$!', $item), 1);
-      }
-
+      $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
+      $collection = $collection->match('/[a-z][-,](\d)/');
+      self::assertSame(['1', '3'], $collection->getItems());
     }
 
 
     public function testSplit() {
-      $html = $this->getHtmlDataObject();
-      $telsDiv = $html->content('//*[@id="tels"]');
-      self::assertCount(1, $telsDiv);
-
-      $tels = $telsDiv->replace('!\s*!')->split('!<br[/]>!');
-
-      self::assertCount(2, $tels);
-
-      foreach ($tels as $index => $item) {
-        self::assertSame(preg_match('!^([\d-]+)$!', $item), 1);
-      }
-
+      $collection = new StringCollection(['a-1', 'b.2']);
+      $collection = $collection->split('/[.-]/');
+      self::assertSame(['a', '1', 'b', '2'], $collection->getItems());
     }
 
 
