@@ -94,6 +94,20 @@
     }
 
 
+    public function testObjectWithOuterHtml() {
+      $html = $this->getHtmlTestObject();
+
+      $spanItems = $html->object('//span', true);
+
+      self::assertCount(4, $spanItems);
+
+      $firstItem = $spanItems->item(0);
+
+      self::assertContains('<span class="span-1">', (string) $firstItem);
+
+    }
+    
+
     public function testDeleteNode() {
       $html = $this->getHtmlTestObject();
 
