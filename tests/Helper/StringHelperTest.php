@@ -5,7 +5,7 @@
   use Xparse\ElementFinder\Helper\StringHelper;
 
   /**
-   *
+   * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class StringHelperTest extends \PHPUnit_Framework_TestCase {
 

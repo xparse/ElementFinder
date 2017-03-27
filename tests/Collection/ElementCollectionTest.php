@@ -5,27 +5,49 @@
   use Xparse\ElementFinder\Collection\ElementCollection;
   use Xparse\ElementFinder\ElementFinder\Element;
 
-  class ElementCollectionTest extends \Test\Xparse\ElementFinder\Main {
+  /**
+   * @author Ivan Shcherbak <alotofall@gmail.com>
+   */
+  class ElementCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testAttributes() {
-      $html = $this->getHtmlTestObject();
+      # To change element attributes we should create our element from the document
+      $dom = new \DomDocument();
+      $dom->registerNodeClass(\DOMElement::class, Element::class);
 
-      $spanElements = $html->element('//span');
-      $spanItems = $spanElements->getAttributes();
+      $aElement = $dom->createElement('a', 'link');
+      $aElement->setAttribute('a', 'test-a');
 
-      self::assertCount(count($spanElements), $spanItems);
+      $bElement = $dom->createElement('a', 'link');
+      $bElement->setAttribute('b1', 'b1-1-attribute');
+      $bElement->setAttribute('b2', 'b1-2-attribute');
+
+      $collection = new ElementCollection([$aElement, $bElement]);
+
+
+      $elementAttributes = $collection->getAttributes();
+
+      self::assertSame([
+        [
+          'a' => 'test-a',
+        ],
+        [
+          'b1' => 'b1-1-attribute',
+          'b2' => 'b1-2-attribute',
+        ],
+      ],
+        $elementAttributes
+      );
     }
 
 
     public function testItem() {
-      $html = $this->getHtmlTestObject();
 
-      $spanElements = $html->element('//span');
-      self::assertCount(4, $spanElements);
-      self::assertNull($spanElements->item(20));
+      $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'link')]);
 
-      self::assertInstanceOf(Element::class, $spanElements->item(0));
-
+      self::assertNotNull($collection->item(0));
+      self::assertNotNull($collection->item(1));
+      self::assertNull($collection->item(2));
     }
 
 

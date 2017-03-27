@@ -5,7 +5,7 @@
   namespace Xparse\ElementFinder\ElementFinder;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com>
+   * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class Element extends \DOMElement {
 

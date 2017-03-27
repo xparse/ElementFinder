@@ -5,6 +5,9 @@
   use Xparse\ElementFinder\Collection\ObjectCollection;
   use Xparse\ElementFinder\ElementFinder;
 
+  /**
+   * @author Ivan Shcherbak <alotofall@gmail.com>
+   */
   class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
 
 

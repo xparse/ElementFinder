@@ -4,8 +4,12 @@
 
   namespace Tests\Xparse\ElementFinder\Helper;
 
+  use Xparse\ElementFinder\ElementFinder;
   use Xparse\ElementFinder\Helper\FormHelper;
 
+  /**
+   * @author Ivan Shcherbak <alotofall@gmail.com>
+   */
   class FormHelperTest extends \PHPUnit_Framework_TestCase {
 
     public function testFormData() {
@@ -27,14 +31,15 @@
         </div>
       
       ';
-      $page = new \Xparse\ElementFinder\ElementFinder($html);
+      $page = new ElementFinder($html);
       $formData = FormHelper::getDefaultFormData($page, '//form');
+
       self::assertCount(5, $formData);
-      self::assertEquals(123, $formData['test']);
-      self::assertEquals(2, $formData['sf']);
-      self::assertEquals(1, $formData['captcha']);
-      self::assertEquals('custom text', $formData['text']);
-      self::assertEquals(16, $formData['sc']);
+      self::assertSame('123', $formData['test']);
+      self::assertSame('2', $formData['sf']);
+      self::assertSame('1', $formData['captcha']);
+      self::assertSame('custom text', $formData['text']);
+      self::assertSame('16', $formData['sc']);
 
     }
 
@@ -43,7 +48,7 @@
      * @expectedException \Exception
      */
     public function testInvalidFormPath() {
-      $page = new \Xparse\ElementFinder\ElementFinder('<div></div>');
+      $page = new ElementFinder('<div></div>');
       FormHelper::getDefaultFormData($page, '//form');
     }
   }

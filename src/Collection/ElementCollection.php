@@ -7,7 +7,7 @@
   use Xparse\ElementFinder\ElementFinder\Element;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com>
+   * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class ElementCollection implements \IteratorAggregate, \Countable {
 

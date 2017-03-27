@@ -5,7 +5,10 @@
   use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
   use Xparse\ElementFinder\ElementFinder;
 
-  class ElementFinderTest extends \Test\Xparse\ElementFinder\Main {
+  /**
+   * @author Ivan Shcherbak <alotofall@gmail.com>
+   */
+  class ElementFinderTest extends \PHPUnit_Framework_TestCase {
 
     public function testLoad() {
       $html = $this->getHtmlTestObject();
@@ -17,7 +20,7 @@
      * @expectedException \Exception
      */
     public function testInvalidType() {
-      new ElementFinder("", 'df');
+      new ElementFinder('', 'df');
     }
 
 
@@ -25,7 +28,7 @@
      * @expectedException \InvalidArgumentException
      */
     public function testLoadEmptyDoc() {
-      new ElementFinder("");
+      new ElementFinder('');
     }
 
 
@@ -106,7 +109,7 @@
       self::assertContains('<span class="span-1">', (string) $firstItem);
 
     }
-    
+
 
     public function testDeleteNode() {
       $html = $this->getHtmlTestObject();
@@ -193,7 +196,7 @@
       $regex = '!([\d-]+)[<|\n]!';
 
       $phones = $html->match($regex, function (array $items) {
-        foreach ($items[1] as $index => $tel) {
+        foreach ((array) $items[1] as $index => $tel) {
           $items[1][$index] = str_replace('-', '', $tel);
         }
         return $items[1];
@@ -604,7 +607,9 @@
 
       $page->setExpressionTranslator(new ItemsByClassExpressionTranslator());
 
-      $objects = $page->object('node');
+      $expression = 'node';
+
+      $objects = $page->object($expression);
       self::assertCount(3, $objects);
 
       foreach ($objects as $index => $object) {
@@ -614,6 +619,48 @@
         self::assertEquals('test' . $index, $link->getFirst());
       }
 
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getDemoDataDirectoryPath() {
+      return __DIR__ . '/demo-data/';
+    }
+
+
+    /**
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    public function getHtmlTestObject() {
+      return $this->initFromFile('test.html');
+    }
+
+
+    /**
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    public function getHtmlDataObject() {
+      return $this->initFromFile('data.html');
+    }
+
+
+    /**
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    public function getNodeItemsHtmlObject() {
+      return $this->initFromFile('node-items.html');
+    }
+
+
+    /**
+     * @param string $file
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    protected function initFromFile($file) {
+      $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
+      return new \Xparse\ElementFinder\ElementFinder($fileData);
     }
 
   }

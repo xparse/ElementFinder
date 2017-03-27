@@ -7,7 +7,7 @@
   use Xparse\ElementFinder\Helper\RegexHelper;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com>
+   * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class StringCollection implements \IteratorAggregate, \Countable {
 

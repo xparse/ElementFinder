@@ -6,7 +6,9 @@
 
   use Xparse\ElementFinder\Collection\StringCollection;
 
-
+  /**
+   * @author Ivan Shcherbak <alotofall@gmail.com>
+   */
   class StringCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testInvalidObjectIndex() {

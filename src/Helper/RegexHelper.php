@@ -5,7 +5,7 @@
   use Xparse\ElementFinder\Collection\StringCollection;
 
   /**
-   * @author Ivan Shcherbak <dev@funivan.com>
+   * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class RegexHelper {
 

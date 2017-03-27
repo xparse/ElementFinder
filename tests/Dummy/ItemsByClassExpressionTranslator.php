@@ -5,7 +5,7 @@
   use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
 
   /**
-   *
+   * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface {
 
@@ -17,7 +17,7 @@
      * @return string
      */
     public function convertToXpath($expression) {
-      return '//*[@class="'.$expression.'"]';
+      return '//*[@class="' . $expression . '"]';
     }
 
   }
