@@ -76,14 +76,6 @@
 
       self::assertCount(4, $spanItems);
 
-      /** @var ElementFinder $span */
-      foreach ($spanItems->extractItems(0, 3) as $index => $span) {
-        $itemHtml = $span->content('//i')->item(0);
-
-        self::assertEquals('r', trim($itemHtml));
-
-      }
-
       $html->remove('//span[2]');
 
       $spanItems = $html->content('//span');
