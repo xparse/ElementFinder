@@ -8,6 +8,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 ### Removed
  - #53 Remove `ArrayAccess` interface from the `StringCollection`, `ObjectCollection` and `ElementCollection`
  - #52 Replace `Iterator`  with `IteratorAggregate` interface inside `StringCollection`, `ObjectCollection` and `ElementCollection`
+ - #55 Remove (`StringCollection::prepend`,`StringCollection::addAfter`,`StringCollection::slice`,`StringCollection::extractItems`,`StringCollection::getNext`,`StringCollection::getPrevious`)  
 
 ### Added
  - #50 Add `StringCollection::unique` function
