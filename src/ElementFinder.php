@@ -315,12 +315,12 @@
     public function element($expression) {
       $nodeList = $this->executeQuery($expression);
 
-      $collection = new ElementCollection();
+      $items = [];
       foreach ($nodeList as $item) {
-        $collection->append($item);
+        $items[] = $item;
       }
 
-      return $collection;
+      return new ElementCollection($items);
     }
 
 
