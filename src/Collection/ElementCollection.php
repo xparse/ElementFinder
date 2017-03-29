@@ -29,10 +29,14 @@
      */
     public function __construct(array $items = []) {
 
-      if (count($items) > 0) {
-        $this->setItems($items);
+      foreach ($items as $item) {
+        if (!$item instanceof Element) {
+          $className = ($item === null) ? null : get_class($item);
+          throw new \InvalidArgumentException('Invalid object type. Expect ' . Element::class . ' given ' . $className);
+        }
       }
 
+      $this->items = $items;
     }
 
 
@@ -43,24 +47,6 @@
      */
     public function count() : int {
       return count($this->items);
-    }
-
-
-    /**
-     * Truncate current list of items and add new
-     *
-     * @param Element[] $items
-     * @return self
-     * @throws \Exception
-     */
-    public function setItems(array $items) : self {
-
-      foreach ($items as $item) {
-        $this->validateType($item);
-      }
-
-      $this->items = $items;
-      return $this;
     }
 
 
@@ -136,19 +122,6 @@
     public function map(callable $callback) : self {
       $this->walk($callback);
       return $this;
-    }
-
-
-    /**
-     * @param $item
-     * @throws \Exception
-     */
-    private function validateType($item) {
-      $itemClassName = Element::class;
-      if (($item instanceof $itemClassName) === false) {
-        $className = ($item === null) ? null : get_class($item);
-        throw new \Exception('Invalid object type. Expect ' . Element::class . ' given ' . $className);
-      }
     }
 
 
