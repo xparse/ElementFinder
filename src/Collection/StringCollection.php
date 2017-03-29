@@ -29,16 +29,13 @@
      * @throws \Exception
      */
     public function __construct(array $items = []) {
-      $this->setItems($items);
-    }
-
-
-    public function __clone() {
-      $items = [];
-      foreach ($this->items as $item) {
-        $items[] = $item;
+      foreach ($items as $key => $item) {
+        if (!is_string($item) and !is_float($item) and !is_int($item)) {
+          throw new \InvalidArgumentException('Expect string');
+        }
       }
-      $this->setItems($items);
+      $this->items = $items;
+
     }
 
 
@@ -49,36 +46,6 @@
      */
     public function count() : int {
       return count($this->items);
-    }
-
-
-    /**
-     * Add one item to the end of collection
-     * This item is accessible via `$collection->getLast();`
-     *
-     * @param mixed $item
-     * @return self
-     * @throws \Exception
-     */
-    public function append($item) : self {
-      $this->validateType($item);
-      $this->items[] = $item;
-      return $this;
-    }
-
-
-    /**
-     * Truncate current list of items and add new
-     * @param string[] $items
-     * @return self
-     * @throws \Exception
-     */
-    public function setItems(array $items) : self {
-      foreach ($items as $key => $item) {
-        $this->validateType($item);
-      }
-      $this->items = $items;
-      return $this;
     }
 
 
@@ -158,21 +125,6 @@
 
 
     /**
-     * You can add or append only one type of items to this collection
-     *
-     * @param string|float|int $item
-     * @return bool
-     * @throws \Exception
-     */
-    private function validateType($item) : bool {
-      if (is_string($item) or is_float($item) or is_int($item)) {
-        return true;
-      }
-      throw new \InvalidArgumentException('Expect string');
-    }
-
-
-    /**
      * @param int $index
      * @return string
      */
@@ -212,21 +164,22 @@
 
     /**
      * Split strings by regexp
+     *
      * @param string $regexp
      * @return StringCollection
      * @throws \Exception
      */
     public function split(string $regexp) : StringCollection {
-      $items = new StringCollection();
 
+      $items = [];
       foreach ($this->items as $item) {
         $data = preg_split($regexp, $item);
         foreach ($data as $string) {
-          $items->append($string);
+          $items[] = $string;
         }
       }
 
-      return $items;
+      return new StringCollection($items);
     }
 
 

@@ -102,7 +102,11 @@
      * @return string
      */
     public function __toString() {
-      $result = $this->content('.')->item(0);
+      try {
+        $result = $this->content('.')->item(0);
+      } catch (\Exception $e) {
+        $result = '';
+      }
       return (string) $result;
     }
 
@@ -150,25 +154,22 @@
      * @param string $expression
      * @param bool $outerContent
      * @return StringCollection
+     * @throws \Exception
      */
     public function content($expression, $outerContent = false) {
 
       $items = $this->executeQuery($expression);
 
-      $collection = new StringCollection();
-
+      $result = [];
       foreach ($items as $node) {
         if ($outerContent) {
-          $content = NodeHelper::getOuterContent($node);
+          $result[] = NodeHelper::getOuterContent($node);
         } else {
-          $content = NodeHelper::getInnerContent($node);
+          $result[] = NodeHelper::getInnerContent($node);
         }
-
-        $collection->append($content);
-
       }
 
-      return $collection;
+      return new StringCollection($result);
     }
 
 
@@ -210,14 +211,16 @@
      *
      * @param string $expression
      * @return StringCollection
+     * @throws \Exception
      */
     public function value($expression) {
       $items = $this->executeQuery($expression);
-      $collection = new StringCollection();
+      $result = [];
       foreach ($items as $node) {
-        $collection->append($node->nodeValue);
+        $result[] = $node->nodeValue;
       }
-      return $collection;
+
+      return new StringCollection($result);
     }
 
 

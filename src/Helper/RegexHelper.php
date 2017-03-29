@@ -15,10 +15,10 @@
      * @param string[] $strings
      * @return \Xparse\ElementFinder\Collection\StringCollection
      */
-    public static function match($regex, int $i, array $strings) {
+    public static function match($regex, int $i, array $strings) : StringCollection {
 
-      $items = new StringCollection();
 
+      $result = [];
       foreach ($strings as $string) {
 
         preg_match_all($regex, $string, $matchedData);
@@ -28,12 +28,11 @@
         }
 
         foreach ((array) $matchedData[$i] as $resultString) {
-          $items->append($resultString);
+          $result[] = $resultString;
         }
       }
 
-      return $items;
-
+      return new StringCollection($result);
     }
 
 
@@ -46,8 +45,7 @@
      */
     public static function matchCallback($regex, callable $i, array $strings) {
 
-      $items = new StringCollection();
-
+      $result = [];
       foreach ($strings as $string) {
 
         if (preg_match_all($regex, $string, $matchedData)) {
@@ -59,12 +57,12 @@
           }
 
           foreach ($rawStringResult as $resultString) {
-            $items->append($resultString);
+            $result[] = $resultString;
           }
         }
       }
 
-      return $items;
+      return new StringCollection($result);
 
     }
   }
