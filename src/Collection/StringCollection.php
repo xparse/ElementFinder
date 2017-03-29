@@ -112,19 +112,6 @@
 
 
     /**
-     * @deprecated
-     * @see walk
-     *
-     * @param callable $callback
-     * @return self
-     */
-    public function map(callable $callback) : self {
-      $this->walk($callback);
-      return $this;
-    }
-
-
-    /**
      * @param int $index
      * @return string
      */
