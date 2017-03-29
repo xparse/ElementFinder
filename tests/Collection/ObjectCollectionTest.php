@@ -80,4 +80,12 @@
       self::assertSame(['0', '1', '0'], $aTexts);
     }
 
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidDataType() {
+      new ObjectCollection([null]);
+    }
+
   }

@@ -111,9 +111,6 @@
     }
 
 
-    /**
-     *
-     */
     public function __destruct() {
       unset($this->dom, $this->xpath);
     }
@@ -262,8 +259,7 @@
 
       $items = $this->executeQuery($expression);
 
-      $collection = new Collection\ObjectCollection();
-
+      $result = [];
       foreach ($items as $node) {
         /** @var \DOMElement $node */
         if ($outerHtml) {
@@ -282,10 +278,10 @@
         if ($this->expressionTranslator !== null) {
           $elementFinder->setExpressionTranslator($this->expressionTranslator);
         }
-        $collection->append($elementFinder);
+        $result[] = $elementFinder;
       }
 
-      return $collection;
+      return new Collection\ObjectCollection($result);
     }
 
 

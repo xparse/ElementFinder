@@ -31,7 +31,7 @@
 
       foreach ($items as $item) {
         if (!$item instanceof Element) {
-          $className = ($item === null) ? null : get_class($item);
+          $className = ($item === null) ? gettype($item) : get_class($item);
           throw new \InvalidArgumentException('Invalid object type. Expect ' . Element::class . ' given ' . $className);
         }
       }
@@ -110,7 +110,6 @@
       }
       return $this;
     }
-
 
 
     /**

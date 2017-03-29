@@ -29,19 +29,13 @@
      * @throws \Exception
      */
     public function __construct(array $items = []) {
-      $this->setItems($items);
-    }
-
-
-    /**
-     * Clone each item
-     */
-    public function __clone() {
-      $items = [];
-      foreach ($this->items as $item) {
-        $items[] = clone $item;
+      foreach ($items as $key => $item) {
+        if (!$item instanceof ElementFinder) {
+          $className = ($item === null) ? gettype($item) : get_class($item);
+          throw new \InvalidArgumentException('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
+        }
       }
-      $this->setItems($items);
+      $this->items = $items;
     }
 
 
@@ -64,22 +58,6 @@
      */
     public function append(ElementFinder $item) : self {
       $this->items[] = $item;
-      return $this;
-    }
-
-
-    /**
-     * Truncate current list of items and add new
-     *
-     * @param ElementFinder[] $items
-     * @return self
-     * @throws \Exception
-     */
-    public function setItems(array $items) : self {
-      foreach ($items as $key => $item) {
-        $this->validateType($item);
-      }
-      $this->items = $items;
       return $this;
     }
 
@@ -147,7 +125,6 @@
     }
 
 
-
     /**
      * @param int $index
      * @return null|ElementFinder
@@ -171,20 +148,6 @@
         $item->replace($regexp, $to);
       }
       return $this;
-    }
-
-
-    /**
-     * @deprecated
-     * @param $item
-     * @throws \Exception
-     */
-    private function validateType($item) {
-      $itemClassName = ElementFinder::class;
-      if (($item instanceof $itemClassName) === false) {
-        $className = ($item === null) ? null : get_class($item);
-        throw new \Exception('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
-      }
     }
 
 
