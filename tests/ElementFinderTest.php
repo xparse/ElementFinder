@@ -156,7 +156,7 @@
 
       self::assertCount(1, $phones);
 
-      $phones->replace('![+\s]!');
+      $phones = $phones->replace('![+\s]!');
 
       self::assertContains('451216', $phones->getFirst());
 
