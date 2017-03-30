@@ -128,12 +128,13 @@
      * @param string $to
      * @return self
      */
-    public function replace(string $regexp, string $to = '') : self {
+    public function replace(string $regexp, string $to = '') : StringCollection {
+      $result = [];
       foreach ($this->items as $index => $item) {
-        $this->items[$index] = preg_replace($regexp, $to, $item);
+        $result[] = preg_replace($regexp, $to, $item);
       }
 
-      return $this;
+      return new StringCollection($result);
     }
 
 

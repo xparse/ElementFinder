@@ -144,10 +144,11 @@
      * @throws \Exception
      */
     public function replace(string $regexp, string $to = '') : self {
-      foreach ($this as $item) {
-        $item->replace($regexp, $to);
+      $result = [];
+      foreach ($this->items as $item) {
+        $result[] = $item->replace($regexp, $to);
       }
-      return $this;
+      return new ObjectCollection($result);
     }
 
 

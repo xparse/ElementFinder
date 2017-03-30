@@ -19,9 +19,10 @@
 
 
     public function testReplace() {
-      $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
-      $collection = $collection->replace('![-,.]!', '::');
+      $mainCollection = new StringCollection(['a-1', 'b.2', 'c,3']);
+      $collection = $mainCollection->replace('![-,.]!', '::');
       self::assertSame(['a::1', 'b::2', 'c::3'], $collection->getItems());
+      self::assertSame(['a-1', 'b.2', 'c,3'], $mainCollection->getItems());
     }
 
 
