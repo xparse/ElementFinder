@@ -4,6 +4,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 ## 0.1.0-alpha.6 [Unreleased]
 
 ### Deprecated
+ - #58 Fire error if we try to store non string values inside `StringCollection`  
 
 ### Removed
  - #53 Remove `ArrayAccess` interface from the `StringCollection`, `ObjectCollection` and `ElementCollection`
