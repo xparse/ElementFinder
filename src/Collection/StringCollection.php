@@ -37,8 +37,7 @@
           throw new \InvalidArgumentException('Expect string');
         }
       }
-      $this->items = $items;
-
+      $this->items = array_values($items);
     }
 
 
@@ -184,6 +183,25 @@
 
     public final function merge(StringCollection $collection) : StringCollection {
       return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
+    }
+
+
+    public function add(string $item) : StringCollection {
+      $items = $this->getItems();
+      $items[] = $item;
+      return new StringCollection($items);
+    }
+
+
+    /**
+     * @param int $index
+     * @return null|string
+     */
+    public function get(int $index) {
+      if (array_key_exists($index, $this->items)) {
+        return $this->items[$index];
+      }
+      return null;
     }
 
 

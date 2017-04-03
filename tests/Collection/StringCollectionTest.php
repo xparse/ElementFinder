@@ -96,4 +96,17 @@
     }
 
 
+    public function testAdd() {
+      $sourceCollection = new StringCollection([1 => 'a']);
+      $newCollection = $sourceCollection->add('b');
+      self::assertSame(['a'], $sourceCollection->getItems());
+      self::assertSame(['a', 'b'], $newCollection->getItems());
+    }
+
+
+    public function testGet() {
+      $collection = new StringCollection([1 => 'a']);
+      self::assertSame('a', $collection->get(0));
+      self::assertSame(null, $collection->get(1));
+    }
   }
