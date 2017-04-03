@@ -14,6 +14,7 @@
      * @param integer $i
      * @param string[] $strings
      * @return \Xparse\ElementFinder\Collection\StringCollection
+     * @throws \Exception
      */
     public static function match($regex, int $i, array $strings) : StringCollection {
 

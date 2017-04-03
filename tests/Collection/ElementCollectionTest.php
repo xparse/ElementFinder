@@ -41,7 +41,6 @@
     }
 
 
-
     public function testWalk() {
       $collection = new ElementCollection(
         [
@@ -84,4 +83,27 @@
       ]);
     }
 
+
+    public function testGetLast() {
+      $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'bold')]);
+      self::assertSame('b', $collection->getLast()->tagName);
+    }
+
+
+    public function testGetLastOnEmptyCollection() {
+      $collection = new ElementCollection();
+      self::assertNull($collection->getLast());
+    }
+
+
+    public function testGetFirst() {
+      $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'bold')]);
+      self::assertSame('a', $collection->getLast()->tagName);
+    }
+
+
+    public function testGetFirstOnEmptyCollection() {
+      $collection = new ElementCollection();
+      self::assertNull($collection->getFirst());
+    }
   }

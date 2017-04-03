@@ -140,11 +140,21 @@
     }
 
 
+    /**
+     * @param ObjectCollection $collection
+     * @return ObjectCollection
+     * @throws \Exception
+     */
     public function merge(ObjectCollection $collection) : ObjectCollection {
       return new ObjectCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
 
+    /**
+     * @param ElementFinder $element
+     * @return ObjectCollection
+     * @throws \Exception
+     */
     public function add(ElementFinder $element) : ObjectCollection {
       $items = $this->getItems();
       $items[] = $element;

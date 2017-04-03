@@ -310,6 +310,7 @@
     /**
      * @param string $expression
      * @return ElementCollection
+     * @throws \InvalidArgumentException
      */
     public function element($expression) {
       $nodeList = $this->executeQuery($expression);

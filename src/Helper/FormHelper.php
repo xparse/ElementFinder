@@ -49,7 +49,7 @@
       # select
       $selectItems = $form->object('//select', true);
       foreach ($selectItems as $select) {
-        $name = $select->value('//select/@name')->item(0);
+        $name = $select->value('//select/@name')->get(0);
         $option = $select->value('//option[@selected]');
 
         if ($option->getFirst() === null) {

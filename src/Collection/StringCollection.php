@@ -117,6 +117,7 @@
      * @param string $regexp
      * @param string $to
      * @return self
+     * @throws \Exception
      */
     public function replace(string $regexp, string $to = '') : StringCollection {
       $result = [];
@@ -163,17 +164,28 @@
 
     /**
      * @return StringCollection
+     * @throws \Exception
      */
     public function unique() : StringCollection {
       return new StringCollection(array_unique($this->items));
     }
 
 
+    /**
+     * @param StringCollection $collection
+     * @return StringCollection
+     * @throws \Exception
+     */
     public final function merge(StringCollection $collection) : StringCollection {
       return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
 
+    /**
+     * @param string $item
+     * @return StringCollection
+     * @throws \Exception
+     */
     public function add(string $item) : StringCollection {
       $items = $this->getItems();
       $items[] = $item;

@@ -26,9 +26,11 @@
 
     /**
      * @param Element[] $items
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $items = []) {
 
+      /** @noinspection ForeachSourceInspection */
       foreach ($items as $item) {
         if (!$item instanceof Element) {
           $className = ($item === null) ? gettype($item) : get_class($item);
@@ -127,6 +129,11 @@
     }
 
 
+    /**
+     * @param ElementCollection $collection
+     * @return ElementCollection
+     * @throws \InvalidArgumentException
+     */
     public function merge(ElementCollection $collection) : ElementCollection {
       return new ElementCollection(array_merge($this->getItems(), $collection->getItems()));
     }
