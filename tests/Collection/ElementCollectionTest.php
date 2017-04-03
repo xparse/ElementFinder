@@ -41,15 +41,6 @@
     }
 
 
-    public function testItem() {
-
-      $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'link')]);
-
-      self::assertNotNull($collection->item(0));
-      self::assertNotNull($collection->item(1));
-      self::assertNull($collection->item(2));
-    }
-
 
     public function testWalk() {
       $collection = new ElementCollection(

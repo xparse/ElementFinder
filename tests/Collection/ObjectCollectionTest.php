@@ -86,7 +86,7 @@
       $newCollection = $sourceCollection->add(new ElementFinder('<a>2</a>'));
       self::assertCount(2, $sourceCollection);
       self::assertCount(3, $newCollection);
-      self::assertCount('2', $newCollection->getLast()->content('//a')->getFirst());
+      self::assertSame('2', $newCollection->getLast()->content('//a')->getFirst());
     }
 
 

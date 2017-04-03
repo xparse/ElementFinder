@@ -113,18 +113,6 @@
 
 
     /**
-     * @param int $index
-     * @return null|Element
-     */
-    public function item(int $index) {
-      if (isset($this->items[$index])) {
-        return $this->items[$index];
-      }
-      return null;
-    }
-
-
-    /**
      * Array of all elements attributes
      *
      * @return array
