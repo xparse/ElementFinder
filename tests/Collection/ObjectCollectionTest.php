@@ -81,6 +81,23 @@
     }
 
 
+    public function testAdd() {
+      $sourceCollection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
+      $newCollection = $sourceCollection->add(new ElementFinder('<a>2</a>'));
+      self::assertCount(2, $sourceCollection);
+      self::assertCount(3, $newCollection);
+      self::assertCount('2', $newCollection->getLast()->content('//a')->getFirst());
+    }
+
+
+    public function testGet() {
+      $collection = new ObjectCollection([new ElementFinder('<b>0</b>'), new ElementFinder('<a>data1</a>')]);
+      self::assertNotNull('data1', $collection->get(0)->content('//b')->getFirst());
+      self::assertNotNull('data1', $collection->get(1)->content('//a')->getFirst());
+      self::assertNull($collection->get(2));
+    }
+
+
     /**
      * @expectedException \InvalidArgumentException
      */

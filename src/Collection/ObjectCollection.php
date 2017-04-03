@@ -157,6 +157,25 @@
     }
 
 
+    public function add(ElementFinder $element) : ObjectCollection {
+      $items = $this->getItems();
+      $items[] = $element;
+      return new ObjectCollection($items);
+    }
+
+
+    /**
+     * @param int $index
+     * @return null|ElementFinder
+     */
+    public function get(int $index) {
+      if (array_key_exists($index, $this->items)) {
+        return $this->items[$index];
+      }
+      return null;
+    }
+
+
     /**
      * Retrieve an external iterator
      *
