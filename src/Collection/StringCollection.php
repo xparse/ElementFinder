@@ -114,18 +114,6 @@
 
 
     /**
-     * @param int $index
-     * @return string
-     */
-    public function item(int $index) : string {
-      if (isset($this->items[$index])) {
-        return $this->items[$index];
-      }
-      return '';
-    }
-
-
-    /**
      * @param string $regexp
      * @param string $to
      * @return self

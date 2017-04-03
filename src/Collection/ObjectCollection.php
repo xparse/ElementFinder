@@ -126,18 +126,6 @@
 
 
     /**
-     * @param int $index
-     * @return null|ElementFinder
-     */
-    public function item(int $index) {
-      if (isset($this->items[$index])) {
-        return $this->items[$index];
-      }
-      return null;
-    }
-
-
-    /**
      * @param string $regexp
      * @param string $to
      * @return self

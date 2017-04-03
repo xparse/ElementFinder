@@ -13,8 +13,8 @@
 
     public function testInvalidObjectIndex() {
       $collection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
-      self::assertNotNull($collection->item(0));
-      self::assertEquals(null, $collection->item(2));
+      self::assertNotNull($collection->get(0));
+      self::assertEquals(null, $collection->get(2));
     }
 
 

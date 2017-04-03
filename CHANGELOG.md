@@ -13,7 +13,8 @@ All Notable changes to `ElementFinder` will be documented in this file
  - #55 Remove (`ObjectCollection::prepend`,`ObjectCollection::addAfter`,`ObjectCollection::slice`,`ObjectCollection::extractItems`,`ObjectCollection::getNext`,`ObjectCollection::getPrevious`,`ObjectCollection::append`,`ObjectCollection::setItems`)  
  - #55 Remove (`ElementCollection::prepend`,`ElementCollection::addAfter`,`ElementCollection::slice`,`ElementCollection::extractItems`,`ElementCollection::getNext`,`ElementCollection::getPrevious`, `ElementCollection::append`, `ElementCollection::setItems`)  
  - #51 Remove (`ElementCollection::map`,`ObjectCollection::map`,`StringCollection::map`)  
- - Remove `ElementCollection::item` use `ElementCollection::get` instead  
+ - Remove `StringCollection::item` use `StringCollection::get` instead  
+ - Remove `ObjectCollection::item` use `ObjectCollection::get` instead  
 
 ### Changed
  - #54 Return new collection instead of modification (`StringCollection::replace`,`ObjectCollection::replace`)

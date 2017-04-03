@@ -13,8 +13,8 @@
 
     public function testInvalidObjectIndex() {
       $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
-      self::assertEquals('a-1', $collection->item(0));
-      self::assertEquals(null, $collection->item(3));
+      self::assertEquals('a-1', $collection->get(0));
+      self::assertEquals(null, $collection->get(3));
     }
 
 

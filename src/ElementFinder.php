@@ -103,7 +103,7 @@
      */
     public function __toString() {
       try {
-        $result = $this->content('.')->item(0);
+        $result = $this->content('.')->getFirst();
       } catch (\Exception $e) {
         $result = '';
       }
