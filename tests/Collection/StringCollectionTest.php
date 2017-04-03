@@ -109,4 +109,11 @@
       self::assertSame('a', $collection->get(0));
       self::assertSame(null, $collection->get(1));
     }
+
+
+    public function testGetLast() {
+      $collection = new StringCollection([1 => 'word']);
+      self::assertSame('word', $collection->getLast());
+    }
+    
   }
