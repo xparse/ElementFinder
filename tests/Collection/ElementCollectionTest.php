@@ -98,7 +98,7 @@
 
     public function testGetFirst() {
       $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'bold')]);
-      self::assertSame('a', $collection->getLast()->tagName);
+      self::assertSame('a', $collection->getFirst()->tagName);
     }
 
 
