@@ -18,19 +18,6 @@
     }
 
 
-    public function testReplace() {
-      $collection = new ObjectCollection([new ElementFinder('<a>4</a>'), new ElementFinder('<a>10</a>')]);
-      $collection = $collection->replace('!(\d+)!', 'test::$1');
-
-      $items = [];
-      foreach ($collection as $item) {
-        $items[] = $item->content('//a')->getFirst();
-      }
-
-      self::assertSame(['test::4', 'test::10'], $items);
-
-    }
-
 
     public function testWalk() {
       $collection = new ObjectCollection(

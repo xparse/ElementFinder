@@ -15,6 +15,7 @@ All Notable changes to `ElementFinder` will be documented in this file
  - #51 Remove (`ElementCollection::map`,`ObjectCollection::map`,`StringCollection::map`)  
  - Remove `StringCollection::item` use `StringCollection::get` instead  
  - Remove `ObjectCollection::item` use `ObjectCollection::get` instead  
+ - #59 Remove method `ObjectCollection::replace`   
 
 ### Changed
  - #54 Return new collection instead of modification (`StringCollection::replace`,`ObjectCollection::replace`)

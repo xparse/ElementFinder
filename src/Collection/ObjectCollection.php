@@ -126,21 +126,6 @@
 
 
     /**
-     * @param string $regexp
-     * @param string $to
-     * @return self
-     * @throws \Exception
-     */
-    public function replace(string $regexp, string $to = '') : self {
-      $result = [];
-      foreach ($this->items as $item) {
-        $result[] = $item->replace($regexp, $to);
-      }
-      return new ObjectCollection($result);
-    }
-
-
-    /**
      * @param ObjectCollection $collection
      * @return ObjectCollection
      * @throws \Exception
