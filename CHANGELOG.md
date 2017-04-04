@@ -24,6 +24,7 @@ All Notable changes to `ElementFinder` will be documented in this file
  - #56 Add `StringCollection::merge`, `ObjectCollection::merge` and `ElementCollection::merge` functions
  - #60 Add `StringCollection::add`,`StringCollection::get` methods
  - #60 Add `ObjectCollection::add`,`ObjectCollection::get` methods
+ - #60 Add `ElementCollection::add`,`ElementCollection::get` methods
   
 ## 0.1.0-alpha.5 [2017-03-10]
 

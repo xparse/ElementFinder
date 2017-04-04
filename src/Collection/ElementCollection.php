@@ -12,16 +12,11 @@
   class ElementCollection implements \IteratorAggregate, \Countable {
 
     /**
-     * @var int
-     */
-    protected $position = 0;
-
-    /**
      * Array of objects
      *
      * @var Element[]
      */
-    protected $items = [];
+    private $items = [];
 
 
     /**
@@ -74,6 +69,18 @@
         return null;
       }
       return reset($this->items);
+    }
+
+
+    /**
+     * @param int $index
+     * @return null|Element
+     */
+    public function get(int $index) {
+      if (array_key_exists($index, $this->items)) {
+        return $this->items[$index];
+      }
+      return null;
     }
 
 
@@ -136,6 +143,18 @@
      */
     public function merge(ElementCollection $collection) : ElementCollection {
       return new ElementCollection(array_merge($this->getItems(), $collection->getItems()));
+    }
+
+
+    /**
+     * @param Element $element
+     * @return ElementCollection
+     * @throws \InvalidArgumentException
+     */
+    public function add(Element $element) : ElementCollection {
+      $items = $this->getItems();
+      $items[] = $element;
+      return new ElementCollection($items);
     }
 
 

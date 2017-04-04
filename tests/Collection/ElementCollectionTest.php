@@ -106,4 +106,22 @@
       $collection = new ElementCollection();
       self::assertNull($collection->getFirst());
     }
+
+
+    public function testAdd() {
+      $collection = new ElementCollection();
+      $newCollection = $collection->add(new Element('a', 'link'));
+
+      self::assertCount(0, $collection);
+      self::assertCount(1, $newCollection);
+    }
+
+
+    public function testGet() {
+      $collection = new ElementCollection([new Element('span', 'link')]);
+      self::assertSame('span', $collection->get(0)->tagName);
+      self::assertNull($collection->get(1));
+    }
+
+
   }
