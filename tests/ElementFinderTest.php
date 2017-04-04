@@ -41,17 +41,6 @@
     }
 
 
-    public function testNodeList() {
-
-      $html = $this->getHtmlTestObject();
-      $spanNodes = $html->node('//span');
-
-      self::assertInstanceOf(\DOMNodeList::class, $spanNodes);
-
-      self::assertEquals(4, $spanNodes->length);
-    }
-
-
     public function testAttributes() {
       $html = $this->getHtmlTestObject();
 

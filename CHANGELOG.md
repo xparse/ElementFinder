@@ -5,6 +5,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ### Deprecated
  - #58 Fire error if we try to store non string values inside `StringCollection`  
+ - #57 Deprecate method `ElementFinder::node` use `ElementFinder::element` instead 
 
 ### Removed
  - #53 Remove `ArrayAccess` interface from the `StringCollection`, `ObjectCollection` and `ElementCollection`
