@@ -10,6 +10,7 @@
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class FormHelper {
+
     /**
      * @var ElementFinder
      */
@@ -25,16 +26,16 @@
     /**
      * Get data from <form> element
      *
-     * Form is get by $expression
+     * Form is get by $formExpression
      * Return key->value array where key is name of field
      *
-     * @param string $expression css or xpath expression to form element
+     * @param string $formExpression css or xpath expression to form element
      * @return array
      * @throws \Exception
      */
-    public function getFormData(string $expression) : array {
+    public function getFormData(string $formExpression) : array {
 
-      $form = $this->page->object($expression, true)->getFirst();
+      $form = $this->page->object($formExpression, true)->getFirst();
       if ($form === null) {
         throw new \Exception('Cant find form. Possible invalid xpath ');
       }
@@ -56,18 +57,22 @@
         $formData[$element->getAttribute('name')] = $element->getAttribute('value');
       }
 
-      # select
-      $selectItems = $form->object('//select', true);
-      foreach ($selectItems as $select) {
+      # selects
+      foreach ($form->object('//select[not(@multiple)]', true) as $select) {
         $name = $select->value('//select/@name')->getFirst();
-        $options = [];
+        if ($name === null) {
+          continue;
+        }
+        $formData[$name] = $select->value('//option[@selected]/@value')->getFirst();
+      }
 
-        foreach ($select->value('//option[@selected]/@value') as $option) {
-          $options[] = $option;
+      # multiple selects
+      foreach ($form->object('//select[@multiple]', true) as $multipleSelect) {
+        $name = $multipleSelect->value('//select/@name')->replace('!\[\]$!')->getFirst();
+        if ($name === null) {
+          continue;
         }
-        if (count($options) !== 0) {
-          $formData[$name] = implode(',', $options);
-        }
+        $formData[$name] = $multipleSelect->value('//option[@selected]/@value')->getItems();
       }
 
       return $formData;

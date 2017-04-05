@@ -52,11 +52,20 @@
             <br><br>
             <label>
               Select car
-              <select name="carlist" multiple>
+              <select name="carlist[]" multiple>
                 <option value="volvo">Volvo</option>
                 <option selected value="saab">Saab</option>
                 <option value="opel">Opel</option>
                 <option selected value="audi">Audi</option>
+              </select>
+            </label>
+            <label>
+              Select age
+              <select name="age">
+                <option value="20">20-30</option>
+                <option selected value="30">31-40</option>
+                <option value="40">41-50</option>
+                <option value="50">51-100</option>
               </select>
             </label>
       
@@ -70,15 +79,19 @@
 
       $formData = (new FormHelper(new ElementFinder($html)))->getFormData('//form');
 
-      self::assertCount(8, $formData);
-      self::assertSame('Enter you comment here', $formData['comment']);
-      self::assertSame('male', $formData['gender']);
-      self::assertSame('1', $formData['captcha']);
-      self::assertSame('John', $formData['name']);
-      self::assertSame('john.doe@gmail.com', $formData['email']);
-      self::assertSame('johndoe.com', $formData['website']);
-      self::assertSame('saab,audi', $formData['carlist']);
-      self::assertSame('Submit', $formData['submit']);
+      self::assertSame([
+        'comment' => 'Enter you comment here',
+        'gender' => 'male',
+        'captcha' => '1',
+        'name' => 'John',
+        'email' => 'john.doe@gmail.com',
+        'website' => 'johndoe.com',
+        'submit' => 'Submit',
+        'age' => '30',
+        'carlist' => [
+          0 => 'saab',
+          1 => 'audi',
+        ]], $formData);
 
     }
 
