@@ -10,21 +10,31 @@
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
   class FormHelper {
+    /**
+     * @var ElementFinder
+     */
+    private $page;
+
+    /**
+     * * @param ElementFinder $page
+     */
+    public function __construct(ElementFinder $page) {
+      $this->page = $page;
+    }
 
     /**
      * Get data from <form> element
      *
-     * Form is get by $xpath
+     * Form is get by $expression
      * Return key->value array where key is name of field
      *
-     * @param ElementFinder $page
-     * @param string $xpath xpath to form
+     * @param string $expression css or xpath expression to form element
      * @return array
      * @throws \Exception
      */
-    public static function getDefaultFormData(ElementFinder $page, string $xpath) : array {
+    public function getFormData(string $expression) : array {
 
-      $form = $page->object($xpath, true)->getFirst();
+      $form = $this->page->object($expression, true)->getFirst();
       if ($form === null) {
         throw new \Exception('Cant find form. Possible invalid xpath ');
       }
@@ -49,13 +59,15 @@
       # select
       $selectItems = $form->object('//select', true);
       foreach ($selectItems as $select) {
-        $name = $select->value('//select/@name')->get(0);
-        $option = $select->value('//option[@selected]');
+        $name = $select->value('//select/@name')->getFirst();
+        $options = [];
 
-        if ($option->getFirst() === null) {
-          $option = $select->value('//option[1]');
+        foreach ($select->value('//option[@selected]/@value') as $option) {
+          $options[] = $option;
         }
-        $formData[$name] = $option->getFirst();
+        if (count($options) !== 0) {
+          $formData[$name] = implode(',', $options);
+        }
       }
 
       return $formData;

@@ -14,32 +14,71 @@
 
     public function testFormData() {
       $html = '
-        <div>
-        <form >
-          <input type="text" name="test" value="123"/>
-          <select name="sf">
-            <option value="1">1</option>
-            <option value="2" selected="selected">2</option>
-          </select>
-          <input type="checkbox" name="captcha" checked="checked" value="1"/>
-          <textarea name="text">custom text</textarea>
-          <select name="sc">
-            <option value="16">16</option>
-            <option value="15">15</option>
-          </select>
-        </form>
-        </div>
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>Form Example</title>
+        </head>
+        <body>
+          <h2>Form Example</h2>
+          <form method="post">
+            <label>
+              Name:
+              <input type="text" name="name" value="John">
+            </label>
+            <br><br>
+            <label>
+              E-mail:
+              <input type="text" name="email" value="john.doe@gmail.com">
+            </label>
+            <br><br>
+            <label>
+              Website:
+              <input type="text" name="website" value="johndoe.com">
+            </label>
+            <br><br>
+            <label>
+              Comment:
+              <textarea name="comment" rows="5" cols="40">Enter you comment here</textarea>
+            </label>
+            <br><br>
       
+            <label>
+              Gender:
+              <input type="radio" name="gender" value="female">
+              <input type="radio" name="gender" checked value="male">Male
+            </label>
+            <br><br>
+            <label>
+              Select car
+              <select name="carlist" multiple>
+                <option value="volvo">Volvo</option>
+                <option selected value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option selected value="audi">Audi</option>
+              </select>
+            </label>
+      
+            <input type="checkbox" name="captcha" checked="checked" value="1"/>
+      
+            <input type="submit" name="submit" value="Submit">
+          </form>
+        </body>
+      </html>
       ';
-      $page = new ElementFinder($html);
-      $formData = FormHelper::getDefaultFormData($page, '//form');
 
-      self::assertCount(5, $formData);
-      self::assertSame('123', $formData['test']);
-      self::assertSame('2', $formData['sf']);
+      $formData = (new FormHelper(new ElementFinder($html)))->getFormData('//form');
+
+      self::assertCount(8, $formData);
+      self::assertSame('Enter you comment here', $formData['comment']);
+      self::assertSame('male', $formData['gender']);
       self::assertSame('1', $formData['captcha']);
-      self::assertSame('custom text', $formData['text']);
-      self::assertSame('16', $formData['sc']);
+      self::assertSame('John', $formData['name']);
+      self::assertSame('john.doe@gmail.com', $formData['email']);
+      self::assertSame('johndoe.com', $formData['website']);
+      self::assertSame('saab,audi', $formData['carlist']);
+      self::assertSame('Submit', $formData['submit']);
 
     }
 
@@ -49,6 +88,6 @@
      */
     public function testInvalidFormPath() {
       $page = new ElementFinder('<div></div>');
-      FormHelper::getDefaultFormData($page, '//form');
+      (new FormHelper($page))->getFormData('//form');
     }
   }
