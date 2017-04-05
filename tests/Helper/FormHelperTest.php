@@ -60,6 +60,15 @@
               </select>
             </label>
             <label>
+              Select motorbike
+              <select name="motolist" multiple>
+                <option value="yamaha">Yamaha</option>
+                <option value="kawasaki">Kawasaki</option>
+                <option selected value="honda">Honda</option>
+                <option selected value="bmw">BMW</option>
+              </select>
+            </label>
+            <label>
               Select age
               <select name="age">
                 <option value="20">20-30</option>
@@ -79,6 +88,7 @@
 
       $formData = (new FormHelper(new ElementFinder($html)))->getFormData('//form');
 
+
       self::assertSame([
         'comment' => 'Enter you comment here',
         'gender' => 'male',
@@ -91,7 +101,9 @@
         'carlist' => [
           0 => 'saab',
           1 => 'audi',
-        ]], $formData);
+        ],
+        'motolist' => 'bmw',
+      ], $formData);
 
     }
 

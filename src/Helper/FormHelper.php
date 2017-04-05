@@ -68,11 +68,20 @@
 
       # multiple selects
       foreach ($form->object('//select[@multiple]', true) as $multipleSelect) {
-        $name = $multipleSelect->value('//select/@name')->replace('!\[\]$!')->getFirst();
+        $name = $multipleSelect->value('//select/@name')->getFirst();
         if ($name === null) {
           continue;
         }
-        $formData[$name] = $multipleSelect->value('//option[@selected]/@value')->getItems();
+
+        $options = $multipleSelect->value('//option[@selected]/@value');
+
+        if (preg_match('!\[\]$!', $name)) {
+          $name = rtrim($name, '[]');
+          $formData[$name] = $options->getItems();
+        } else {
+          $formData[$name] = $options->getLast();
+        }
+
       }
 
       return $formData;
