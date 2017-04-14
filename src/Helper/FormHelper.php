@@ -12,19 +12,30 @@
   class FormHelper {
 
     /**
+     * @var ElementFinder
+     */
+    private $page;
+
+    /**
+     * * @param ElementFinder $page
+     */
+    public function __construct(ElementFinder $page) {
+      $this->page = $page;
+    }
+
+    /**
      * Get data from <form> element
      *
-     * Form is get by $xpath
+     * Form is get by $formExpression
      * Return key->value array where key is name of field
      *
-     * @param ElementFinder $page
-     * @param string $xpath xpath to form
+     * @param string $formExpression css or xpath expression to form element
      * @return array
      * @throws \Exception
      */
-    public static function getDefaultFormData(ElementFinder $page, string $xpath) : array {
+    public function getFormData(string $formExpression) : array {
 
-      $form = $page->object($xpath, true)->getFirst();
+      $form = $this->page->object($formExpression, true)->getFirst();
       if ($form === null) {
         throw new \Exception('Cant find form. Possible invalid xpath ');
       }
@@ -46,16 +57,31 @@
         $formData[$element->getAttribute('name')] = $element->getAttribute('value');
       }
 
-      # select
-      $selectItems = $form->object('//select', true);
-      foreach ($selectItems as $select) {
-        $name = $select->value('//select/@name')->get(0);
-        $option = $select->value('//option[@selected]');
-
-        if ($option->getFirst() === null) {
-          $option = $select->value('//option[1]');
+      # selects
+      foreach ($form->object('//select[not(@multiple)]', true) as $select) {
+        $name = $select->value('//select/@name')->getFirst();
+        if ($name === null) {
+          continue;
         }
-        $formData[$name] = $option->getFirst();
+        $formData[$name] = $select->value('//option[@selected]/@value')->getFirst();
+      }
+
+      # multiple selects
+      foreach ($form->object('//select[@multiple]', true) as $multipleSelect) {
+        $name = $multipleSelect->value('//select/@name')->getFirst();
+        if ($name === null) {
+          continue;
+        }
+
+        $options = $multipleSelect->value('//option[@selected]/@value');
+
+        if (preg_match('!\[\]$!', $name)) {
+          $name = rtrim($name, '[]');
+          $formData[$name] = $options->getItems();
+        } else {
+          $formData[$name] = $options->getLast();
+        }
+
       }
 
       return $formData;

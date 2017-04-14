@@ -3,6 +3,9 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.6 [Unreleased]
 
+### Fixed
+ - #62 `FormHelper` return value attribute in select elements.
+
 ### Deprecated
  - #58 Fire error if we try to store non string values inside `StringCollection`  
  - #57 Deprecate method `ElementFinder::node` use `ElementFinder::element` instead 
@@ -16,6 +19,7 @@ All Notable changes to `ElementFinder` will be documented in this file
  - #51 Remove (`ElementCollection::map`,`ObjectCollection::map`,`StringCollection::map`)  
  - Remove `StringCollection::item` use `StringCollection::get` instead  
  - Remove `ObjectCollection::item` use `ObjectCollection::get` instead  
+ - Remove method `FormHelper::getDefaultFormData` use `FormHelper::getFormData` instead  
  - #59 Remove method `ObjectCollection::replace`   
 
 ### Changed
