@@ -21,7 +21,7 @@
      *
      * @var ElementFinder[]
      */
-    protected $items = [];
+    protected $items;
 
 
     /**

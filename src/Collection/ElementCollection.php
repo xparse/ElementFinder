@@ -16,7 +16,7 @@
      *
      * @var Element[]
      */
-    private $items = [];
+    private $items;
 
 
     /**
@@ -24,15 +24,12 @@
      * @throws \InvalidArgumentException
      */
     public function __construct(array $items = []) {
-
-      /** @noinspection ForeachSourceInspection */
       foreach ($items as $item) {
         if (!$item instanceof Element) {
           $className = ($item === null) ? gettype($item) : get_class($item);
           throw new \InvalidArgumentException('Invalid object type. Expect ' . Element::class . ' given ' . $className);
         }
       }
-
       $this->items = $items;
     }
 

@@ -183,22 +183,14 @@
      * @return $this
      */
     public function remove($expression) {
-
       $items = $this->executeQuery($expression);
-
-      if ($items === false) {
-        return $this;
-      }
-
       foreach ($items as $key => $node) {
         if ($node instanceof \DOMAttr) {
           $node->ownerElement->removeAttribute($node->name);
         } else {
           $node->parentNode->removeChild($node);
         }
-
       }
-
       return $this;
     }
 
@@ -210,13 +202,12 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function value($expression) {
+    public function value($expression): Collection\StringCollection {
       $items = $this->executeQuery($expression);
       $result = [];
       foreach ($items as $node) {
         $result[] = $node->nodeValue;
       }
-
       return new StringCollection($result);
     }
 
@@ -253,7 +244,7 @@
      * @return \Xparse\ElementFinder\Collection\ObjectCollection
      * @throws \InvalidArgumentException
      */
-    public function object($expression, $outerHtml = false) {
+    public function object($expression, $outerHtml = false): Collection\ObjectCollection {
       $options = $this->getOptions();
       $type = $this->getType();
 
@@ -293,7 +284,7 @@
      * @param string $expression
      * @return \DOMNodeList
      */
-    public function node($expression) {
+    public function node($expression): \DOMNodeList {
       trigger_error('Deprecated. Use element() method', E_USER_DEPRECATED);
       return $this->query($expression);
     }
@@ -305,7 +296,7 @@
      * @param string $expression
      * @return \DOMNodeList
      */
-    public function query($expression) {
+    public function query($expression): \DOMNodeList {
       return $this->executeQuery($expression);
     }
 
@@ -315,7 +306,7 @@
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function element($expression) {
+    public function element($expression): Collection\ElementCollection {
       $nodeList = $this->executeQuery($expression);
 
       $items = [];
@@ -339,7 +330,7 @@
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function match($regex, $i = 1) {
+    public function match($regex, $i = 1): Collection\StringCollection {
 
       $documentHtml = $this->content('.')->getFirst();
 
@@ -383,7 +374,7 @@
     /**
      * @return string
      */
-    protected function getEmptyDocumentHtml() {
+    protected function getEmptyDocumentHtml(): string {
       return '<html data-document-is-empty></html>';
     }
 
@@ -393,7 +384,7 @@
      *
      * @return int
      */
-    public function getType() {
+    public function getType(): int {
       return $this->type;
     }
 
@@ -437,7 +428,7 @@
      *
      * @return int
      */
-    public function getOptions() {
+    public function getOptions(): int {
       return $this->options;
     }
 
@@ -446,7 +437,7 @@
      * @param string $expression
      * @return \DOMNodeList
      */
-    private function executeQuery($expression) {
+    private function executeQuery($expression): \DOMNodeList {
 
       if ($this->expressionTranslator !== null) {
         $expression = $this->expressionTranslator->convertToXpath($expression);
