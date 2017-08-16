@@ -277,20 +277,6 @@
 
 
     /**
-     * @deprecated
-     * @see element
-     * Alias of ElementFinder::query
-     *
-     * @param string $expression
-     * @return \DOMNodeList
-     */
-    public function node($expression): \DOMNodeList {
-      trigger_error('Deprecated. Use element() method', E_USER_DEPRECATED);
-      return $this->query($expression);
-    }
-
-
-    /**
      * Fetch nodes from document
      *
      * @param string $expression
