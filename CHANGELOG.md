@@ -1,7 +1,17 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## 0.1.0-alpha.6 [Unreleased]
+## 0.1.0-alpha.7 [Unreleased]
+### Fixed
+
+### Deprecated
+
+### Removed
+
+### Added
+
+
+## 0.1.0-alpha.6 [2017-08-16]
 
 ### Fixed
  - #62 `FormHelper` return value attribute in select elements.
