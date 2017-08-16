@@ -34,7 +34,7 @@
      *
      * @var int
      */
-    protected $options;
+    private $options;
 
     /**
      * Current document type
@@ -245,7 +245,7 @@
      * @throws \InvalidArgumentException
      */
     public function object($expression, $outerHtml = false): Collection\ObjectCollection {
-      $options = $this->getOptions();
+      $options = $this->options;
       $type = $this->getType();
 
       $items = $this->executeQuery($expression);
@@ -410,11 +410,13 @@
 
 
     /**
+     * @deprecated
      * Get current options
      *
      * @return int
      */
     public function getOptions(): int {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->options;
     }
 
