@@ -26,17 +26,17 @@
           <form method="post">
             <label>
               Name:
-              <input name="name" value="John">
+              <input type="text" name="name" value="John">
             </label>
             <br><br>
             <label>
               E-mail:
-              <input name="email" value="john.doe@gmail.com">
+              <input type="text" name="email" value="john.doe@gmail.com">
             </label>
             <br><br>
             <label>
               Website:
-              <input name="website" value="johndoe.com">
+              <input type="text" name="website" value="johndoe.com">
             </label>
             <br><br>
             <label>
@@ -79,7 +79,7 @@
               </select>
             </label>
       
-            <input type="checkbox" name="captcha"  value="1"/>
+            <input type="checkbox" name="captcha" checked="checked" value="1"/>
       
             <input type="submit" name="submit" value="Submit">
           </form>
