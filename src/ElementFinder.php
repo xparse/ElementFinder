@@ -246,7 +246,7 @@
      */
     public function object($expression, $outerHtml = false): Collection\ObjectCollection {
       $options = $this->options;
-      $type = $this->getType();
+      $type = $this->type;
 
       $items = $this->query($expression);
 
@@ -262,7 +262,7 @@
         if (trim($html) === '') {
           $html = $this->getEmptyDocumentHtml();
         }
-        if ($this->getType() === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
+        if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
           $html = '<root>' . $html . '</root>';
         }
         $elementFinder = new ElementFinder($html, $type, $options);
@@ -369,11 +369,14 @@
 
 
     /**
+     * @deprecated Not used
+     *
      * Return type of document
      *
      * @return int
      */
     public function getType(): int {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->type;
     }
 
