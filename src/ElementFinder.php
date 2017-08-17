@@ -73,11 +73,10 @@
      *
      * @param string $data
      * @param null|integer $documentType
-     * @param int $options
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function __construct($data, $documentType = null, $options = null) {
+    public function __construct($data, $documentType = null) {
 
       if (!is_string($data) or empty($data)) {
         throw new \InvalidArgumentException('Expect not empty string');
@@ -87,13 +86,9 @@
       $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
       $documentType = $documentType ?? static::DOCUMENT_HTML;
+      $this->options = (LIBXML_NOCDATA & LIBXML_NOERROR);
       $this->setDocumentType($documentType);
-
-      $options = $options ?? (LIBXML_NOCDATA & LIBXML_NOERROR);
-      $this->setDocumentOption($options);
-
       $this->setData($data);
-
     }
 
 
@@ -245,7 +240,6 @@
      * @throws \InvalidArgumentException
      */
     public function object($expression, $outerHtml = false): Collection\ObjectCollection {
-      $options = $this->options;
       $type = $this->type;
 
       $items = $this->query($expression);
@@ -265,7 +259,7 @@
         if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
           $html = '<root>' . $html . '</root>';
         }
-        $elementFinder = new ElementFinder($html, $type, $options);
+        $elementFinder = new ElementFinder($html, $type);
         $elementFinder->setExpressionTranslator($this->expressionTranslator);
         $result[] = $elementFinder;
       }
@@ -393,23 +387,6 @@
       }
 
       $this->type = $documentType;
-
-      return $this;
-    }
-
-
-    /**
-     * @param $options
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    protected function setDocumentOption($options) {
-
-      if (!is_int($options)) {
-        throw new \InvalidArgumentException('Expect int options');
-      }
-
-      $this->options = $options;
 
       return $this;
     }

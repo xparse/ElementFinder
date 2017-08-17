@@ -3,6 +3,9 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.7 [Unreleased]
 
+### Removed
+ - #75 Remove  `options` parameter from the `ElementFinder::__construct`
+ 
 ### Deprecated
 - #66 Deprecate `ObjectCollection::append()`
 - #70 Deprecate `ElementFinder::replace()`

@@ -322,14 +322,6 @@
 
 
     /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidDocumentOptions() {
-      new ElementFinder('<div></div>', null, 'test');
-    }
-
-
-    /**
      *
      */
     public function testValidDocumentType() {
