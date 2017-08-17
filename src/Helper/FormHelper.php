@@ -16,12 +16,14 @@
      */
     private $page;
 
+
     /**
-     * * @param ElementFinder $page
+     * @param ElementFinder $page
      */
     public function __construct(ElementFinder $page) {
       $this->page = $page;
     }
+
 
     /**
      * Get data from <form> element
@@ -33,11 +35,11 @@
      * @return array
      * @throws \Exception
      */
-    public function getFormData(string $formExpression) : array {
+    public function getFormData(string $formExpression): array {
 
       $form = $this->page->object($formExpression, true)->getFirst();
       if ($form === null) {
-        throw new \Exception('Cant find form. Possible invalid xpath ');
+        throw new \InvalidArgumentException('Cant find form. Possible invalid expression ');
       }
 
       $formData = [];
@@ -72,18 +74,14 @@
         if ($name === null) {
           continue;
         }
-
         $options = $multipleSelect->value('//option[@selected]/@value');
-
         if (preg_match('!\[\]$!', $name)) {
           $name = rtrim($name, '[]');
           $formData[$name] = $options->getItems();
         } else {
           $formData[$name] = $options->getLast();
         }
-
       }
-
       return $formData;
     }
   }

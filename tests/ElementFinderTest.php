@@ -23,7 +23,7 @@
      * @expectedException \Exception
      */
     public function testInvalidType() {
-      new ElementFinder('', 'df');
+      new ElementFinder('', -1);
     }
 
 
@@ -310,14 +310,6 @@
       $linkText = $objects->get(1)->value('//a')->get(0);
       self::assertEquals('df', $linkText);
 
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidDocumentType() {
-      new ElementFinder('<div></div>', false);
     }
 
 

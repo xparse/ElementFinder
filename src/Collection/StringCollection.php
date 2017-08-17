@@ -11,17 +11,13 @@
    */
   class StringCollection implements \IteratorAggregate, \Countable {
 
-    /**
-     * @var int
-     */
-    protected $position = 0;
 
     /**
      * Array of strings
      *
      * @var string[]
      */
-    protected $items = [];
+    private $items = [];
 
 
     /**
@@ -46,7 +42,7 @@
      *
      * @return int
      */
-    public function count() : int {
+    public function count(): int {
       return count($this->items);
     }
 
@@ -89,7 +85,7 @@
      * </code>
      * @return string[]
      */
-    public function getItems() : array {
+    public function getItems(): array {
       return $this->items;
     }
 
@@ -105,7 +101,7 @@
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback) : self {
+    public function walk(callable $callback): self {
       foreach ($this->getItems() as $index => $item) {
         $callback($item, $index, $this);
       }
@@ -119,7 +115,7 @@
      * @return self
      * @throws \Exception
      */
-    public function replace(string $regexp, string $to = '') : StringCollection {
+    public function replace(string $regexp, string $to = ''): StringCollection {
       $result = [];
       foreach ($this->items as $index => $item) {
         $result[] = preg_replace($regexp, $to, $item);
@@ -136,7 +132,7 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function match(string $regexp, int $index = 1) : StringCollection {
+    public function match(string $regexp, int $index = 1): StringCollection {
       return RegexHelper::match($regexp, $index, $this->items);
     }
 
@@ -148,7 +144,7 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function split(string $regexp) : StringCollection {
+    public function split(string $regexp): StringCollection {
 
       $items = [];
       foreach ($this->items as $item) {
@@ -166,7 +162,7 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function unique() : StringCollection {
+    public function unique(): StringCollection {
       return new StringCollection(array_unique($this->items));
     }
 
@@ -176,7 +172,7 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public final function merge(StringCollection $collection) : StringCollection {
+    public final function merge(StringCollection $collection): StringCollection {
       return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
@@ -186,7 +182,7 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function add(string $item) : StringCollection {
+    public function add(string $item): StringCollection {
       $items = $this->getItems();
       $items[] = $item;
       return new StringCollection($items);

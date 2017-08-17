@@ -12,16 +12,11 @@
   class ObjectCollection implements \IteratorAggregate, \Countable {
 
     /**
-     * @var int
-     */
-    protected $position = 0;
-
-    /**
      * Array of objects
      *
      * @var ElementFinder[]
      */
-    protected $items;
+    private $items;
 
 
     /**
@@ -44,7 +39,7 @@
      *
      * @return int
      */
-    public function count() : int {
+    public function count(): int {
       return count($this->items);
     }
 
@@ -59,7 +54,7 @@
      * @param ElementFinder $item
      * @return self
      */
-    public function append(ElementFinder $item) : self {
+    public function append(ElementFinder $item): self {
       trigger_error('Deprecated. See add method', E_USER_DEPRECATED);
       $this->items[] = $item;
       return $this;
@@ -105,7 +100,7 @@
      *
      * @return ElementFinder[]
      */
-    public function getItems() : array {
+    public function getItems(): array {
       return $this->items;
     }
 
@@ -121,7 +116,7 @@
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback) : self {
+    public function walk(callable $callback): self {
       foreach ($this->getItems() as $index => $item) {
         $callback($item, $index, $this);
       }
@@ -134,7 +129,7 @@
      * @return ObjectCollection
      * @throws \Exception
      */
-    public function merge(ObjectCollection $collection) : ObjectCollection {
+    public function merge(ObjectCollection $collection): ObjectCollection {
       return new ObjectCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
@@ -144,7 +139,7 @@
      * @return ObjectCollection
      * @throws \Exception
      */
-    public function add(ElementFinder $element) : ObjectCollection {
+    public function add(ElementFinder $element): ObjectCollection {
       $items = $this->getItems();
       $items[] = $element;
       return new ObjectCollection($items);

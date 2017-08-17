@@ -1,5 +1,7 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Xparse\ElementFinder\Helper;
 
   use Xparse\ElementFinder\Collection\StringCollection;
@@ -16,7 +18,7 @@
      * @return \Xparse\ElementFinder\Collection\StringCollection
      * @throws \Exception
      */
-    public static function match($regex, int $i, array $strings) : StringCollection {
+    public static function match($regex, int $i, array $strings): StringCollection {
 
 
       $result = [];

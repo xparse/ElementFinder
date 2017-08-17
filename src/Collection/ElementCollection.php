@@ -128,7 +128,6 @@
       foreach ($this->items as $key => $element) {
         $allAttributes[$key] = $element->getAttributes();
       }
-
       return $allAttributes;
     }
 

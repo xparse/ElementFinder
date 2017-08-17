@@ -1,5 +1,7 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Xparse\ElementFinder;
 
   use Xparse\ElementFinder\Collection\ElementCollection;
@@ -19,14 +21,14 @@
     /**
      * Html document type
      *
-     * @var integer
+     * @var int
      */
     const DOCUMENT_HTML = 0;
 
     /**
      * Xml document type
      *
-     * @var integer
+     * @var int
      */
     const DOCUMENT_XML = 1;
 
@@ -40,29 +42,29 @@
     /**
      * Current document type
      *
-     * @var integer
+     * @var int
      */
-    protected $type;
+    private $type;
 
     /**
      * @var \DOMDocument
      */
-    protected $dom;
+    private $dom;
 
     /**
      * @var \DomXPath
      */
-    protected $xpath;
+    private $xpath;
 
     /**
      * @var ExpressionTranslatorInterface
      */
-    protected $expressionTranslator;
+    private $expressionTranslator;
 
     /**
      * @var array
      */
-    protected $loadErrors;
+    private $loadErrors;
 
 
     /**
@@ -72,17 +74,17 @@
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
      * @param string $data
-     * @param null|integer $documentType
+     * @param null|int $documentType
+     * @param ExpressionTranslatorInterface|null $translator
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function __construct($data, $documentType = null, ExpressionTranslatorInterface $translator = null) {
-
-      if (!is_string($data) or empty($data)) {
+    public function __construct(string $data, int $documentType = null, ExpressionTranslatorInterface $translator = null) {
+      if ('' === $data) {
         throw new \InvalidArgumentException('Expect not empty string');
       }
       $this->dom = new \DomDocument();
-      $this->expressionTranslator = null !== $translator ? $translator : new XpathExpression();
+      $this->expressionTranslator = $translator ?? new XpathExpression();
       $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
       $documentType = $documentType ?? static::DOCUMENT_HTML;
@@ -119,7 +121,7 @@
     protected function setData($data) {
 
       $internalErrors = libxml_use_internal_errors(true);
-      $disableEntities = libxml_disable_entity_loader(true);
+      $disableEntities = libxml_disable_entity_loader();
 
       if (static::DOCUMENT_HTML === $this->type) {
         $data = StringHelper::safeEncodeStr($data);
@@ -148,7 +150,7 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function content($expression, $outerContent = false) {
+    public function content(string $expression, bool $outerContent = false): StringCollection {
 
       $items = $this->query($expression);
 
@@ -215,12 +217,12 @@
      * @throws \Exception
      * @return array
      */
-    public function keyValue($keyExpression, $valueExpression) {
+    public function keyValue(string $keyExpression, string $valueExpression): array {
 
       $keyNodes = $this->query($keyExpression);
       $valueNodes = $this->query($valueExpression);
       if ($keyNodes->length !== $valueNodes->length) {
-        throw new \Exception('Keys and values must have equal numbers of elements');
+        throw new \RuntimeException('Keys and values must have equal numbers of elements');
       }
 
       $result = [];
@@ -303,7 +305,7 @@
      * ```
      *
      * @param string $regex
-     * @param integer|callable $i
+     * @param int|callable $i
      * @return StringCollection
      * @throws \InvalidArgumentException
      * @throws \Exception
@@ -317,7 +319,7 @@
       } elseif (is_callable($i)) {
         $collection = RegexHelper::matchCallback($regex, $i, [(string) $documentHtml]);
       } else {
-        throw new \InvalidArgumentException('Invalid argument. Expect integer or callable');
+        throw new \InvalidArgumentException('Invalid argument. Expect int or callable');
       }
 
       return $collection;
@@ -374,7 +376,7 @@
 
 
     /**
-     * @param integer $documentType
+     * @param int $documentType
      * @return $this
      * @throws \InvalidArgumentException
      */
@@ -406,7 +408,7 @@
      * @deprecated
      * @return ExpressionTranslatorInterface
      */
-    public function getExpressionTranslator() {
+    public function getExpressionTranslator(): ExpressionTranslatorInterface {
       trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->expressionTranslator;
     }
@@ -427,7 +429,7 @@
     /**
      * @return array
      */
-    public function getLoadErrors() {
+    public function getLoadErrors(): array {
       return $this->loadErrors;
     }
 
