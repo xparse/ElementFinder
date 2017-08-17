@@ -32,5 +32,12 @@
     "psr-4": {
       "Test\\Xparse\\ElementFinder\\": "tests"
     }
+  },
+  "config": {
+    "platform": {
+      "php": "7.0.0"
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
   }
 }
