@@ -2,17 +2,13 @@
 All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.7 [Unreleased]
-### Fixed
 
 ### Deprecated
 - #66 Deprecate `ObjectCollection::append()`
 - #70 Deprecate `ElementFinder::replace()`
 - #77 Deprecate `ElementFinder::getType()`
-- #74 Deprecate ElementFinder::getOptions
+- #74 Deprecate `ElementFinder::getOptions()`
 
-### Removed
-
-### Added
 
 
 ## 0.1.0-alpha.6 [2017-08-16]
