@@ -2,11 +2,15 @@
 All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.7 [Unreleased]
+### Added
+ - #72 Add 3 argument to the `ElementFinder::__construct`. Now you can pass `ExpressionTranslatorInterface`
 
 ### Removed
  - #75 Remove  `options` parameter from the `ElementFinder::__construct`
  
 ### Deprecated
+- #72 Deprecate `ElementFinder::setExpressionTranslator()`
+- #72 Deprecate `ElementFinder::getExpressionTranslator()`
 - #66 Deprecate `ObjectCollection::append()`
 - #70 Deprecate `ElementFinder::replace()`
 - #77 Deprecate `ElementFinder::getType()`

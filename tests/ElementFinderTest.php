@@ -556,9 +556,7 @@
           <div class="node"> 
             <a href="#" class="link">test2</a>
           </div>
-');
-
-      $page->setExpressionTranslator(new ItemsByClassExpressionTranslator());
+', null, new ItemsByClassExpressionTranslator());
 
       $expression = 'node';
 
@@ -566,7 +564,6 @@
       self::assertCount(3, $objects);
 
       foreach ($objects as $index => $object) {
-        self::assertNotNull($object->getExpressionTranslator());
         $link = $object->content('link');
         self::assertCount(1, $link);
         self::assertEquals('test' . $index, $link->getFirst());

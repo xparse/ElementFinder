@@ -76,13 +76,13 @@
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function __construct($data, $documentType = null) {
+    public function __construct($data, $documentType = null, ExpressionTranslatorInterface $translator = null) {
 
       if (!is_string($data) or empty($data)) {
         throw new \InvalidArgumentException('Expect not empty string');
       }
       $this->dom = new \DomDocument();
-      $this->expressionTranslator = new XpathExpression();
+      $this->expressionTranslator = null !== $translator ? $translator : new XpathExpression();
       $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
       $documentType = $documentType ?? static::DOCUMENT_HTML;
@@ -259,9 +259,7 @@
         if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
           $html = '<root>' . $html . '</root>';
         }
-        $elementFinder = new ElementFinder($html, $type);
-        $elementFinder->setExpressionTranslator($this->expressionTranslator);
-        $result[] = $elementFinder;
+        $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
       }
 
       return new Collection\ObjectCollection($result);
@@ -405,18 +403,22 @@
 
 
     /**
+     * @deprecated
      * @return ExpressionTranslatorInterface
      */
     public function getExpressionTranslator() {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->expressionTranslator;
     }
 
 
     /**
+     * @deprecated
      * @param ExpressionTranslatorInterface $expressionTranslator
      * @return $this
      */
     public function setExpressionTranslator(ExpressionTranslatorInterface $expressionTranslator) {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       $this->expressionTranslator = $expressionTranslator;
       return $this;
     }
