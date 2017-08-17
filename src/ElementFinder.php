@@ -333,6 +333,8 @@
 
 
     /**
+     * @deprecated Not used. You can use call replace on the collection
+     *
      * Replace in document and refresh it
      *
      * ```php
@@ -345,6 +347,7 @@
      * @throws \Exception
      */
     public function replace($regex, $to = '') {
+      trigger_error('Deprecated', E_USER_DEPRECATED);
       $newDoc = $this->content('.', true)->getFirst();
       $newDoc = preg_replace($regex, $to, $newDoc);
 
