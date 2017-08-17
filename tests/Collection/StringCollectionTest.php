@@ -4,12 +4,13 @@
 
   namespace Test\Xparse\ElementFinder\Collection;
 
+  use PHPUnit\Framework\TestCase;
   use Xparse\ElementFinder\Collection\StringCollection;
 
   /**
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
-  class StringCollectionTest extends \PHPUnit_Framework_TestCase {
+  class StringCollectionTest extends TestCase {
 
     public function testInvalidObjectIndex() {
       $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
@@ -115,5 +116,5 @@
       $collection = new StringCollection([1 => 'word']);
       self::assertSame('word', $collection->getLast());
     }
-    
+
   }

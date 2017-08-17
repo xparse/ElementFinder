@@ -1,14 +1,17 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Test\Xparse\ElementFinder;
 
+  use PHPUnit\Framework\TestCase;
   use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
   use Xparse\ElementFinder\ElementFinder;
 
   /**
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
-  class ElementFinderTest extends \PHPUnit_Framework_TestCase {
+  class ElementFinderTest extends TestCase {
 
     public function testLoad() {
       $html = $this->getHtmlTestObject();
@@ -253,6 +256,10 @@
     public function testReplaceAllData() {
       $html = $this->getHtmlTestObject();
       $html->replace('!.*!');
+      self::assertSame(
+        '',
+        $html->content('.')->getFirst()
+      );
     }
 
 

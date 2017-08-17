@@ -1,13 +1,16 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Tests\Xparse\ElementFinder\Helper;
 
+  use PHPUnit\Framework\TestCase;
   use Xparse\ElementFinder\Helper\StringHelper;
 
   /**
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
-  class StringHelperTest extends \PHPUnit_Framework_TestCase {
+  class StringHelperTest extends TestCase {
 
 
     public function testEncode() {

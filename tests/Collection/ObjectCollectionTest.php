@@ -1,14 +1,17 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Test\Xparse\ElementFinder\Collection;
 
+  use PHPUnit\Framework\TestCase;
   use Xparse\ElementFinder\Collection\ObjectCollection;
   use Xparse\ElementFinder\ElementFinder;
 
   /**
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
-  class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
+  class ObjectCollectionTest extends TestCase {
 
 
     public function testInvalidObjectIndex() {
@@ -16,7 +19,6 @@
       self::assertNotNull($collection->get(0));
       self::assertEquals(null, $collection->get(2));
     }
-
 
 
     public function testWalk() {

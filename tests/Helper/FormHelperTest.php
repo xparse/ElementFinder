@@ -4,13 +4,14 @@
 
   namespace Tests\Xparse\ElementFinder\Helper;
 
+  use PHPUnit\Framework\TestCase;
   use Xparse\ElementFinder\ElementFinder;
   use Xparse\ElementFinder\Helper\FormHelper;
 
   /**
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
-  class FormHelperTest extends \PHPUnit_Framework_TestCase {
+  class FormHelperTest extends TestCase {
 
     public function testFormData() {
       $html = '
@@ -25,17 +26,17 @@
           <form method="post">
             <label>
               Name:
-              <input type="text" name="name" value="John">
+              <input name="name" value="John">
             </label>
             <br><br>
             <label>
               E-mail:
-              <input type="text" name="email" value="john.doe@gmail.com">
+              <input name="email" value="john.doe@gmail.com">
             </label>
             <br><br>
             <label>
               Website:
-              <input type="text" name="website" value="johndoe.com">
+              <input name="website" value="johndoe.com">
             </label>
             <br><br>
             <label>
@@ -78,7 +79,7 @@
               </select>
             </label>
       
-            <input type="checkbox" name="captcha" checked="checked" value="1"/>
+            <input type="checkbox" name="captcha"  value="1"/>
       
             <input type="submit" name="submit" value="Submit">
           </form>

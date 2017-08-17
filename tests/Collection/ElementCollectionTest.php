@@ -1,14 +1,17 @@
 <?php
 
+  declare(strict_types=1);
+
   namespace Test\Xparse\ElementFinder\Collection;
 
+  use PHPUnit\Framework\TestCase;
   use Xparse\ElementFinder\Collection\ElementCollection;
   use Xparse\ElementFinder\ElementFinder\Element;
 
   /**
    * @author Ivan Shcherbak <alotofall@gmail.com>
    */
-  class ElementCollectionTest extends \PHPUnit_Framework_TestCase {
+  class ElementCollectionTest extends TestCase {
 
     public function testAttributes() {
       # To change element attributes we should create our element from the document

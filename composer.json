@@ -21,7 +21,7 @@
     "xparse/expression-translator": "0.0.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7"
+    "phpunit/phpunit": "^6.3"
   },
   "autoload": {
     "psr-4": {
