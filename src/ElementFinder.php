@@ -9,6 +9,7 @@
   use Xparse\ElementFinder\Helper\RegexHelper;
   use Xparse\ElementFinder\Helper\StringHelper;
   use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
+  use Xparse\ExpressionTranslator\XpathExpression;
 
   /**
    * @author Ivan Scherbak <dev@funivan.com>
@@ -81,9 +82,8 @@
       if (!is_string($data) or empty($data)) {
         throw new \InvalidArgumentException('Expect not empty string');
       }
-
       $this->dom = new \DomDocument();
-
+      $this->expressionTranslator = new XpathExpression();
       $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
       $documentType = $documentType ?? static::DOCUMENT_HTML;
@@ -266,9 +266,7 @@
           $html = '<root>' . $html . '</root>';
         }
         $elementFinder = new ElementFinder($html, $type, $options);
-        if ($this->expressionTranslator !== null) {
-          $elementFinder->setExpressionTranslator($this->expressionTranslator);
-        }
+        $elementFinder->setExpressionTranslator($this->expressionTranslator);
         $result[] = $elementFinder;
       }
 
@@ -283,10 +281,9 @@
      * @return \DOMNodeList
      */
     public function query($expression): \DOMNodeList {
-      if ($this->expressionTranslator !== null) {
-        $expression = $this->expressionTranslator->convertToXpath($expression);
-      }
-      return $this->xpath->query($expression);
+      return $this->xpath->query(
+        $this->expressionTranslator->convertToXpath($expression)
+      );
     }
 
 
