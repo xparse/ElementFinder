@@ -13,36 +13,6 @@
    */
   class ElementCollectionTest extends TestCase {
 
-    public function testAttributes() {
-      # To change element attributes we should create our element from the document
-      $dom = new \DomDocument();
-      $dom->registerNodeClass(\DOMElement::class, Element::class);
-
-      $aElement = $dom->createElement('a', 'link');
-      $aElement->setAttribute('a', 'test-a');
-
-      $bElement = $dom->createElement('a', 'link');
-      $bElement->setAttribute('b1', 'b1-1-attribute');
-      $bElement->setAttribute('b2', 'b1-2-attribute');
-
-      $collection = new ElementCollection([$aElement, $bElement]);
-
-
-      $elementAttributes = $collection->getAttributes();
-
-      self::assertSame([
-        [
-          'a' => 'test-a',
-        ],
-        [
-          'b1' => 'b1-1-attribute',
-          'b2' => 'b1-2-attribute',
-        ],
-      ],
-        $elementAttributes
-      );
-    }
-
 
     public function testWalk() {
       $collection = new ElementCollection(

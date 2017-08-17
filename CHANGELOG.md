@@ -9,6 +9,7 @@ All Notable changes to `ElementFinder` will be documented in this file
  - #75 Remove  `options` parameter from the `ElementFinder::__construct`
  
 ### Deprecated
+- #80 Deprecate `ElementCollection::getAttributes` 
 - #72 Deprecate `ElementFinder::setExpressionTranslator()`
 - #72 Deprecate `ElementFinder::getExpressionTranslator()`
 - #66 Deprecate `ObjectCollection::append()`

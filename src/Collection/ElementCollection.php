@@ -39,7 +39,7 @@
      *
      * @return int
      */
-    public function count() : int {
+    public function count(): int {
       return count($this->items);
     }
 
@@ -94,7 +94,7 @@
      *
      * @return Element[]
      */
-    public function getItems() : array {
+    public function getItems(): array {
       return $this->items;
     }
 
@@ -110,7 +110,7 @@
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback) : self {
+    public function walk(callable $callback): self {
       foreach ($this->getItems() as $index => $item) {
         $callback($item, $index, $this);
       }
@@ -119,11 +119,14 @@
 
 
     /**
+     * @deprecated not used
+     *
      * Array of all elements attributes
      *
      * @return array
      */
-    public function getAttributes() : array {
+    public function getAttributes(): array {
+      trigger_error('Deprecared', E_USER_DEPRECATED);
       $allAttributes = [];
       foreach ($this->items as $key => $element) {
         $allAttributes[$key] = $element->getAttributes();
@@ -137,7 +140,7 @@
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function merge(ElementCollection $collection) : ElementCollection {
+    public function merge(ElementCollection $collection): ElementCollection {
       return new ElementCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
@@ -147,7 +150,7 @@
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function add(Element $element) : ElementCollection {
+    public function add(Element $element): ElementCollection {
       $items = $this->getItems();
       $items[] = $element;
       return new ElementCollection($items);
