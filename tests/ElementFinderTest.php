@@ -138,23 +138,6 @@
     }
 
 
-    public function testRegexpReplace() {
-      $html = $this->getHtmlDataObject();
-      $html->replace('!-!', '+');
-
-      self::assertContains('45+12+16', (string) $html);
-
-      $phones = $html->content('//*[@id="tels"]');
-
-      self::assertCount(1, $phones);
-
-      $phones = $phones->replace('![+\s]!');
-
-      self::assertContains('451216', $phones->getFirst());
-
-    }
-
-
     public function testMatch() {
 
       $html = $this->getHtmlDataObject();
@@ -250,16 +233,6 @@
 
       self::assertNotContains('<span class="span-1">', (string) $firstItem);
       self::assertContains('<b>1 </b>', (string) $firstItem);
-    }
-
-
-    public function testReplaceAllData() {
-      $html = $this->getHtmlTestObject();
-      $html->replace('!.*!');
-      self::assertSame(
-        '',
-        $html->content('.')->getFirst()
-      );
     }
 
 

@@ -50,6 +50,9 @@
 
 
     /**
+     * @deprecated
+     * @see add
+     *
      * Add one item to the end of collection
      * This item is accessible via `$collection->getLast();`
      *
@@ -57,6 +60,7 @@
      * @return self
      */
     public function append(ElementFinder $item) : self {
+      trigger_error('Deprecated. See add method', E_USER_DEPRECATED);
       $this->items[] = $item;
       return $this;
     }
