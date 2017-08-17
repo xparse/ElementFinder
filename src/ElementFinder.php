@@ -155,7 +155,7 @@
      */
     public function content($expression, $outerContent = false) {
 
-      $items = $this->executeQuery($expression);
+      $items = $this->query($expression);
 
       $result = [];
       foreach ($items as $node) {
@@ -183,7 +183,7 @@
      * @return $this
      */
     public function remove($expression) {
-      $items = $this->executeQuery($expression);
+      $items = $this->query($expression);
       foreach ($items as $key => $node) {
         if ($node instanceof \DOMAttr) {
           $node->ownerElement->removeAttribute($node->name);
@@ -203,7 +203,7 @@
      * @throws \Exception
      */
     public function value($expression): Collection\StringCollection {
-      $items = $this->executeQuery($expression);
+      $items = $this->query($expression);
       $result = [];
       foreach ($items as $node) {
         $result[] = $node->nodeValue;
@@ -222,8 +222,8 @@
      */
     public function keyValue($keyExpression, $valueExpression) {
 
-      $keyNodes = $this->executeQuery($keyExpression);
-      $valueNodes = $this->executeQuery($valueExpression);
+      $keyNodes = $this->query($keyExpression);
+      $valueNodes = $this->query($valueExpression);
       if ($keyNodes->length !== $valueNodes->length) {
         throw new \Exception('Keys and values must have equal numbers of elements');
       }
@@ -248,7 +248,7 @@
       $options = $this->options;
       $type = $this->getType();
 
-      $items = $this->executeQuery($expression);
+      $items = $this->query($expression);
 
       $result = [];
       foreach ($items as $node) {
@@ -283,7 +283,10 @@
      * @return \DOMNodeList
      */
     public function query($expression): \DOMNodeList {
-      return $this->executeQuery($expression);
+      if ($this->expressionTranslator !== null) {
+        $expression = $this->expressionTranslator->convertToXpath($expression);
+      }
+      return $this->xpath->query($expression);
     }
 
 
@@ -293,7 +296,7 @@
      * @throws \InvalidArgumentException
      */
     public function element($expression): Collection\ElementCollection {
-      $nodeList = $this->executeQuery($expression);
+      $nodeList = $this->query($expression);
 
       $items = [];
       foreach ($nodeList as $item) {
@@ -418,20 +421,6 @@
     public function getOptions(): int {
       trigger_error('Deprecated', E_USER_DEPRECATED);
       return $this->options;
-    }
-
-
-    /**
-     * @param string $expression
-     * @return \DOMNodeList
-     */
-    private function executeQuery($expression): \DOMNodeList {
-
-      if ($this->expressionTranslator !== null) {
-        $expression = $this->expressionTranslator->convertToXpath($expression);
-      }
-
-      return $this->xpath->query($expression);
     }
 
 
