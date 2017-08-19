@@ -6,6 +6,7 @@
 
   use PHPUnit\Framework\TestCase;
   use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
+  use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
   use Xparse\ElementFinder\Collection\StringCollection;
 
   /**
@@ -109,7 +110,7 @@
     public function testGet() {
       $collection = new StringCollection([1 => 'a']);
       self::assertSame('a', $collection->get(0));
-      self::assertSame(null, $collection->get(1));
+      self::assertNull($collection->get(1));
     }
 
 
@@ -122,9 +123,11 @@
     public function testFilter() {
       $collection = new StringCollection(['foo', 'bar', 'baz']);
       $collection = $collection->filter(new class implements StringFilterInterface {
+
         public function valid(string $input): bool {
           return strpos($input, 'a') !== false;
         }
+
       });
 
       self::assertSame(
@@ -133,6 +136,27 @@
         ],
         $collection->getItems()
       );
+    }
+
+
+    public function testMap() {
+      $collection = new StringCollection(['123', 'abc', 'test']);
+      $collection = $collection->map(new class implements StringModifyInterface {
+
+        public function modify(string $input): string {
+          return $input . '..' . $input;
+        }
+
+      });
+      self::assertSame(
+        [
+          '123..123',
+          'abc..abc',
+          'test..test',
+        ],
+        $collection->getItems()
+      );
+
     }
 
   }

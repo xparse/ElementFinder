@@ -3,6 +3,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.7 [Unreleased]
 ### Added
+ - #81 Introduce new map method `StringCollection::map()`.
  - #48 Introduce new filter method `StringCollection::filter`.
  - #72 Add 3 argument to the `ElementFinder::__construct`. Now you can pass `ExpressionTranslatorInterface`
 
@@ -32,7 +33,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 ### Removed
  - #75 Method `ElementFinder::node`
  - #53 Remove `ArrayAccess` interface from the `StringCollection`, `ObjectCollection` and `ElementCollection`
- - #52 Replace `Iterator`  with `IteratorAggregate` interface inside `StringCollection`, `ObjectCollection` and `ElementCollection`
+ - #52 RegexReplace `Iterator`  with `IteratorAggregate` interface inside `StringCollection`, `ObjectCollection` and `ElementCollection`
  - #55 Remove (`StringCollection::prepend`,`StringCollection::addAfter`,`StringCollection::slice`,`StringCollection::extractItems`,`StringCollection::getNext`,`StringCollection::getPrevious`, `StringCollection::append`, `StringCollection::setItems`)  
  - #55 Remove (`ObjectCollection::prepend`,`ObjectCollection::addAfter`,`ObjectCollection::slice`,`ObjectCollection::extractItems`,`ObjectCollection::getNext`,`ObjectCollection::getPrevious`,`ObjectCollection::append`,`ObjectCollection::setItems`)  
  - #55 Remove (`ElementCollection::prepend`,`ElementCollection::addAfter`,`ElementCollection::slice`,`ElementCollection::extractItems`,`ElementCollection::getNext`,`ElementCollection::getPrevious`, `ElementCollection::append`, `ElementCollection::setItems`)  

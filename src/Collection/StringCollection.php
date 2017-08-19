@@ -5,6 +5,7 @@
   namespace Xparse\ElementFinder\Collection;
 
   use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
+  use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
   use Xparse\ElementFinder\Helper\RegexHelper;
 
   /**
@@ -107,6 +108,19 @@
         $callback($item, $index, $this);
       }
       return $this;
+    }
+
+
+    /**
+     * @param StringModifyInterface $modifier
+     * @return StringCollection
+     */
+    public function map(StringModifyInterface $modifier): StringCollection {
+      $items = [];
+      foreach ($this->items as $item) {
+        $items[] = $modifier->modify($item);
+      }
+      return new StringCollection($items);
     }
 
 
