@@ -3,6 +3,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.1.0-alpha.7 [Unreleased]
 ### Added
+ - #48 Introduce new filter method `StringCollection::filter`.
  - #72 Add 3 argument to the `ElementFinder::__construct`. Now you can pass `ExpressionTranslatorInterface`
 
 ### Removed

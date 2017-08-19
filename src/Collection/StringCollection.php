@@ -4,6 +4,7 @@
 
   namespace Xparse\ElementFinder\Collection;
 
+  use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
   use Xparse\ElementFinder\Helper\RegexHelper;
 
   /**
@@ -110,6 +111,23 @@
 
 
     /**
+     * Return new filtered collection
+     *
+     * @param StringFilterInterface $filter
+     * @return StringCollection
+     */
+    public function filter(StringFilterInterface $filter): StringCollection {
+      $items = [];
+      foreach ($this->items as $item) {
+        if ($filter->valid($item)) {
+          $items[] = $item;
+        }
+      }
+      return new StringCollection($items);
+    }
+
+
+    /**
      * @param string $regexp
      * @param string $to
      * @return self
@@ -145,7 +163,6 @@
      * @throws \Exception
      */
     public function split(string $regexp): StringCollection {
-
       $items = [];
       foreach ($this->items as $item) {
         $data = preg_split($regexp, $item);
@@ -153,7 +170,6 @@
           $items[] = $string;
         }
       }
-
       return new StringCollection($items);
     }
 

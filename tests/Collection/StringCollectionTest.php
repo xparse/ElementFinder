@@ -5,6 +5,7 @@
   namespace Test\Xparse\ElementFinder\Collection;
 
   use PHPUnit\Framework\TestCase;
+  use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
   use Xparse\ElementFinder\Collection\StringCollection;
 
   /**
@@ -115,6 +116,23 @@
     public function testGetLast() {
       $collection = new StringCollection([1 => 'word']);
       self::assertSame('word', $collection->getLast());
+    }
+
+
+    public function testFilter() {
+      $collection = new StringCollection(['foo', 'bar', 'baz']);
+      $collection = $collection->filter(new class implements StringFilterInterface {
+        public function valid(string $input): bool {
+          return strpos($input, 'a') !== false;
+        }
+      });
+
+      self::assertSame(
+        [
+          'bar', 'baz',
+        ],
+        $collection->getItems()
+      );
     }
 
   }
