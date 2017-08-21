@@ -327,51 +327,10 @@
 
 
     /**
-     * @deprecated Not used. You can use call replace on the collection
-     *
-     * Replace in document and refresh it
-     *
-     * ```php
-     *  $html->replace('!00!', '11');
-     * ```
-     *
-     * @param string $regex
-     * @param string $to
-     * @return $this
-     * @throws \Exception
-     */
-    public function replace($regex, $to = '') {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      $newDoc = $this->content('.', true)->getFirst();
-      $newDoc = preg_replace($regex, $to, $newDoc);
-
-      if (trim($newDoc) === '') {
-        $newDoc = $this->getEmptyDocumentHtml();
-      }
-
-      $this->setData($newDoc);
-      return $this;
-    }
-
-
-    /**
      * @return string
      */
     protected function getEmptyDocumentHtml(): string {
       return '<html data-document-is-empty></html>';
-    }
-
-
-    /**
-     * @deprecated Not used
-     *
-     * Return type of document
-     *
-     * @return int
-     */
-    public function getType(): int {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return $this->type;
     }
 
 
@@ -388,40 +347,6 @@
 
       $this->type = $documentType;
 
-      return $this;
-    }
-
-
-    /**
-     * @deprecated
-     * Get current options
-     *
-     * @return int
-     */
-    public function getOptions(): int {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return $this->options;
-    }
-
-
-    /**
-     * @deprecated
-     * @return ExpressionTranslatorInterface
-     */
-    public function getExpressionTranslator(): ExpressionTranslatorInterface {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      return $this->expressionTranslator;
-    }
-
-
-    /**
-     * @deprecated
-     * @param ExpressionTranslatorInterface $expressionTranslator
-     * @return $this
-     */
-    public function setExpressionTranslator(ExpressionTranslatorInterface $expressionTranslator) {
-      trigger_error('Deprecated', E_USER_DEPRECATED);
-      $this->expressionTranslator = $expressionTranslator;
       return $this;
     }
 

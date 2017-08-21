@@ -1,6 +1,16 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 ## 0.2.0 [Unreleased]
+ 
+### Removed
+- #82 Remove method `ElementCollection::getAttributes`, ,  
+- #82 Remove method `ElementFinder::setExpressionTranslator()`
+- #82 Remove method `ElementFinder::getExpressionTranslator()`
+- #82 Remove method `ObjectCollection::append()`
+- #82 Remove method `ElementFinder::replace()`
+- #82 Remove method `ElementFinder::getType()`
+- #82 Remove method `ElementFinder::getOptions()`
+
 
 ## 0.1.0-alpha.7 [2017-08-21]
 ### Added

@@ -28,10 +28,7 @@
      */
     public function __construct(array $items = []) {
       foreach ($items as $key => $item) {
-        if (is_float($item) or is_int($item)) {
-          $item = (string) $item;
-          trigger_error('Invalid type. Expect string given ' . gettype($item), E_USER_DEPRECATED);
-        } elseif (!is_string($item)) {
+        if (!is_string($item)) {
           throw new \InvalidArgumentException('Expect string');
         }
       }

@@ -119,23 +119,6 @@
 
 
     /**
-     * @deprecated not used
-     *
-     * Array of all elements attributes
-     *
-     * @return array
-     */
-    public function getAttributes(): array {
-      trigger_error('Deprecared', E_USER_DEPRECATED);
-      $allAttributes = [];
-      foreach ($this->items as $key => $element) {
-        $allAttributes[$key] = $element->getAttributes();
-      }
-      return $allAttributes;
-    }
-
-
-    /**
      * @param ElementCollection $collection
      * @return ElementCollection
      * @throws \InvalidArgumentException
