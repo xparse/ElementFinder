@@ -1,7 +1,8 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
+## 0.2.0 [Unreleased]
 
-## 0.1.0-alpha.7 [Unreleased]
+## 0.1.0-alpha.7 [2017-08-21]
 ### Added
  - #81 Introduce new map method `StringCollection::map()`.
  - #48 Introduce new filter method `StringCollection::filter`.
