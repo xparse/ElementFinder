@@ -151,76 +151,23 @@ class ElementFinderTest extends TestCase
         $html = $this->getHtmlDataObject();
         $regex = '!([\d-]+)[<|\n]!';
 
-        $phones = $html->match($regex);
+        $phones = $html->content('.')->match($regex);
         self::assertCount(2, $phones);
 
-        $phones = $html->match($regex, 0);
+        $phones = $html->content('.')->match($regex, 0);
         self::assertCount(2, $phones);
         self::assertContains('<', $phones->get(0));
         self::assertContains("\n", $phones->get(1));
 
-        $phones = $html->match($regex, 4);
+        $phones = $html->content('.')->match($regex, 4);
         self::assertCount(0, $phones);
-    }
-
-
-    public function testMatchWithCallback()
-    {
-        $html = $this->getHtmlDataObject();
-        $regex = '!([\d-]+)[<|\n]!';
-
-        $phones = $html->match($regex, function (array $items) {
-            foreach ((array)$items[1] as $index => $tel) {
-                $items[1][$index] = str_replace('-', '', $tel);
-            }
-            return $items[1];
-        });
-
-        self::assertCount(2, $phones);
-
-        self::assertEquals('451216', $phones->get(0));
-        self::assertEquals('841890', $phones->get(1));
-    }
-
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testMatchWithInvalidArgument()
-    {
-        $html = $this->getHtmlDataObject();
-        $html->match('!([\d-]+)[<|\n]!', new \stdClass());
-    }
-
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testMatchWithInvalidCallback()
-    {
-        $html = $this->getHtmlDataObject();
-        $html->match('!([\d-]+)[<|\n]!', function () {
-            return 123;
-        });
-    }
-
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testMatchWithInvalidCallbackData()
-    {
-        $html = $this->getHtmlDataObject();
-        $html->match('!([\d-]+)[<|\n]!', function () {
-            return [new \stdClass()];
-        });
     }
 
 
     public function testMatchWithEmptyElements()
     {
         $html = $this->getHtmlDataObject();
-        $items = $html->match('!(1233)!');
+        $items = $html->content('.')->match('!(1233)!');
         self::assertEmpty($items);
     }
 
@@ -428,7 +375,7 @@ class ElementFinderTest extends TestCase
 
         self::assertEquals(900, $xml->content('//food[2]/calories')->getFirst());
 
-        self::assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
+        self::assertEquals('5.95 USD', $xml->content('.')->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
     }
 
 

@@ -3,6 +3,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 ## 0.2.0 [Unreleased]
 
 ### Deprecated  
+- #85 Deprecate `ElementFinder::match`
 - #88 Deprecate `ElementFinder::__toString`
 
 ### Removed

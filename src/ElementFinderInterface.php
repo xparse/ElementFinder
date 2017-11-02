@@ -77,10 +77,7 @@ interface ElementFinderInterface
 
 
     /**
-     * Match regex in document
-     * ```php
-     *  $tels = $html->match('!([0-9]{4,6})!');
-     * ```
+     * @deprecated
      *
      * @param string $regex
      * @param int|callable $i

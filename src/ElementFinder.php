@@ -267,10 +267,8 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * Match regex in document
-     * ```php
-     *  $tels = $html->match('!([0-9]{4,6})!');
-     * ```
+     * @deprecated
+     * @see content
      *
      * @param string $regex
      * @param int|callable $i
@@ -280,6 +278,7 @@ class ElementFinder implements ElementFinderInterface
      */
     public function match($regex, $i = 1): Collection\StringCollection
     {
+        trigger_error('Deprecated. Use content()->match()', E_USER_DEPRECATED);
         $documentHtml = $this->content('.')->getFirst();
 
         if (is_int($i)) {

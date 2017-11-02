@@ -50,7 +50,7 @@ class ObjectCollectionTest extends TestCase
         $collectedItems = 0;
         foreach ($collection as $index => $item) {
             $collectedItems++;
-            $data = $item->match('!<a>(.*)</a>!')->getFirst();
+            $data = $item->content('.')->match('!<a>(.*)</a>!')->getFirst();
             self::assertSame((string)$index, $data);
         }
 
