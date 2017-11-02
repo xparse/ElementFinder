@@ -5,6 +5,7 @@
   namespace Xparse\ElementFinder;
 
   use Xparse\ElementFinder\Collection\ElementCollection;
+  use Xparse\ElementFinder\Collection\ObjectCollection;
   use Xparse\ElementFinder\Collection\StringCollection;
   use Xparse\ElementFinder\ElementFinder\Element;
   use Xparse\ElementFinder\Helper\NodeHelper;
@@ -16,7 +17,7 @@
   /**
    * @author Ivan Scherbak <dev@funivan.com>
    */
-  class ElementFinder {
+  class ElementFinder implements ElementFinderInterface {
 
     /**
      * Html document type
@@ -238,10 +239,10 @@
      * @param string $expression
      * @param bool $outerHtml
      * @throws \Exception
-     * @return \Xparse\ElementFinder\Collection\ObjectCollection
+     * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
-    public function object($expression, $outerHtml = false): Collection\ObjectCollection {
+    public function object($expression, $outerHtml = false): ObjectCollection {
       $type = $this->type;
 
       $items = $this->query($expression);
@@ -264,7 +265,7 @@
         $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
       }
 
-      return new Collection\ObjectCollection($result);
+      return new ObjectCollection($result);
     }
 
 
