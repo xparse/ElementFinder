@@ -15,7 +15,7 @@
 
     public function testLoad() {
       $html = $this->getHtmlTestObject();
-      self::assertContains('<title>test doc</title>', (string) $html);
+      self::assertContains('<title>test doc</title>', $html->content('.')->getFirst());
     }
 
 
@@ -39,8 +39,10 @@
      *
      */
     public function testLoadDocumentWithZero() {
-      $elementFinder = new ElementFinder('   0 ');
-      self::assertContains('0', (string) $elementFinder);
+      self::assertSame(
+        '<body><p>0 </p></body>',
+        (new ElementFinder('   0 '))->content('.')->getFirst()
+      );
     }
 
 
@@ -55,9 +57,9 @@
         self::assertTrue(is_string($htmlString));
       }
 
-      $firstLink = $html->content('//a', true)->get(0);
-
-      self::assertContains('<a href="http://funivan.com/" title="my blog">link</a>', (string) $firstLink);
+      self::assertContains('<a href="http://funivan.com/" title="my blog">link</a>',
+        $html->content('//a', true)->getFirst()
+      );
     }
 
 
@@ -85,12 +87,11 @@
       $html = $this->getHtmlTestObject();
 
       $spanItems = $html->object('//span', true);
-
       self::assertCount(4, $spanItems);
-
-      $firstItem = $spanItems->get(0);
-
-      self::assertContains('<span class="span-1">', (string) $firstItem);
+      self::assertContains(
+        '<span class="span-1">',
+        $spanItems->get(0)->content('.')->getFirst()
+      );
 
     }
 
@@ -130,11 +131,10 @@
       self::assertCount(1, $stringCollection);
       self::assertEquals('', $stringCollection->get(10));
 
-      $title = $stringCollection->get(0);
-      self::assertEquals('custom <a href="http://funivan.com/" title="my blog">link</a>', (string) $title);
-
-      $title = $html->content('//td/@df')->get(0);
-      self::assertEmpty((string) $title);
+      self::assertEquals('custom <a href="http://funivan.com/" title="my blog">link</a>',
+        $stringCollection->get(0)
+      );
+      self::assertEquals('', $html->content('//td/@df')->get(0));
     }
 
 
@@ -171,8 +171,8 @@
 
       self::assertCount(2, $phones);
 
-      self::assertEquals('451216', (string) $phones->get(0));
-      self::assertEquals('841890', (string) $phones->get(1));
+      self::assertEquals('451216', $phones->get(0));
+      self::assertEquals('841890', $phones->get(1));
 
     }
 
@@ -229,10 +229,8 @@
       $spanItems = $html->object('//span');
       self::assertCount(4, $spanItems);
 
-      $firstItem = $spanItems->get(0);
-
-      self::assertNotContains('<span class="span-1">', (string) $firstItem);
-      self::assertContains('<b>1 </b>', (string) $firstItem);
+      self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->getFirst());
+      self::assertContains('<b>1 </b>', $spanItems->get(0)->content('.')->getFirst());
     }
 
 
@@ -303,10 +301,10 @@
       $page = new ElementFinder('<div></div><div><a>df</a></div>');
       $objects = $page->object('//div');
 
-      self::assertEmpty((string) $objects->get(0));
+      self::assertEmpty($objects->get(0)->content('.')->getFirst());
       self::assertContains('data-document-is-empty', $objects->get(0)->content('/')->get(0));
 
-      self::assertNotEmpty((string) $objects->get(1));
+      self::assertNotEmpty($objects->get(1)->content('.')->getFirst());
       $linkText = $objects->get(1)->value('//a')->get(0);
       self::assertEquals('df', $linkText);
 
@@ -318,7 +316,7 @@
      */
     public function testValidDocumentType() {
       $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
-      self::assertContains('<list>123</list>', (string) $document);
+      self::assertContains('<list>123</list>', $document->content('.')->getFirst());
     }
 
 
@@ -431,7 +429,7 @@
     public function testXmlRootNode() {
       $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
       $food = $xml->object('//food')->get(2);
-      self::assertEquals(900, $food->value('/root/calories')->getFirst());
+      self::assertEquals(900, (int) $food->value('/root/calories')->getFirst());
     }
 
 

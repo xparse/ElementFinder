@@ -96,10 +96,13 @@
 
 
     /**
+     * @deprecated
+     * @see content
      *
      * @return string
      */
     public function __toString() {
+      trigger_error('Deprecated. See content method', E_USER_DEPRECATED);
       try {
         $result = $this->content('.')->getFirst();
       } catch (\Exception $e) {
