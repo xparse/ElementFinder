@@ -9,6 +9,7 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
+    vendor/bin/php-cs-fixer fix --config=.php_cs_config.php -v --dry-run --stop-on-violation --using-cache=no
     vendor/bin/phpunit --coverage-clover=build/coverage.clove
 
 after_script:
