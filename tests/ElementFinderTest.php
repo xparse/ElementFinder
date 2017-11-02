@@ -468,6 +468,80 @@ class ElementFinderTest extends TestCase
     }
 
 
+    public function testShareExpressionTranslator()
+    {
+        $page = new ElementFinder('
+          <div class="node"> 
+            <a href="#" class="link">test0</a>
+          </div>
+          <div class="node"> 
+            <a href="#" class="link">test1</a>
+          </div>
+          <div class="node"> 
+            <a href="#" class="link">test2</a>
+          </div>
+', null, new ItemsByClassExpressionTranslator());
+
+        $expression = 'node';
+
+        $objects = $page->object($expression);
+        self::assertCount(3, $objects);
+
+        foreach ($objects as $index => $object) {
+            $link = $object->content('link');
+            self::assertCount(1, $link);
+            self::assertEquals('test' . $index, $link->getFirst());
+        }
+    }
+
+
+    /**
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    public function getHtmlTestObject()
+    {
+        return $this->initFromFile('test.html');
+    }
+
+
+    /**
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    public function getHtmlDataObject()
+    {
+        return $this->initFromFile('data.html');
+    }
+
+
+    /**
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    public function getNodeItemsHtmlObject()
+    {
+        return $this->initFromFile('node-items.html');
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getDemoDataDirectoryPath()
+    {
+        return __DIR__ . '/demo-data/';
+    }
+
+
+    /**
+     * @param string $file
+     * @return \Xparse\ElementFinder\ElementFinder
+     */
+    protected function initFromFile($file)
+    {
+        $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
+        return new \Xparse\ElementFinder\ElementFinder($fileData);
+    }
+
+
     /**
      * @return string
      */
@@ -545,79 +619,5 @@ class ElementFinderTest extends TestCase
           </food>
       </breakfast_menu>
       ';
-    }
-
-
-    public function testShareExpressionTranslator()
-    {
-        $page = new ElementFinder('
-          <div class="node"> 
-            <a href="#" class="link">test0</a>
-          </div>
-          <div class="node"> 
-            <a href="#" class="link">test1</a>
-          </div>
-          <div class="node"> 
-            <a href="#" class="link">test2</a>
-          </div>
-', null, new ItemsByClassExpressionTranslator());
-
-        $expression = 'node';
-
-        $objects = $page->object($expression);
-        self::assertCount(3, $objects);
-
-        foreach ($objects as $index => $object) {
-            $link = $object->content('link');
-            self::assertCount(1, $link);
-            self::assertEquals('test' . $index, $link->getFirst());
-        }
-    }
-
-
-    /**
-     * @return string
-     */
-    protected function getDemoDataDirectoryPath()
-    {
-        return __DIR__ . '/demo-data/';
-    }
-
-
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    public function getHtmlTestObject()
-    {
-        return $this->initFromFile('test.html');
-    }
-
-
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    public function getHtmlDataObject()
-    {
-        return $this->initFromFile('data.html');
-    }
-
-
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    public function getNodeItemsHtmlObject()
-    {
-        return $this->initFromFile('node-items.html');
-    }
-
-
-    /**
-     * @param string $file
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    protected function initFromFile($file)
-    {
-        $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
-        return new \Xparse\ElementFinder\ElementFinder($fileData);
     }
 }

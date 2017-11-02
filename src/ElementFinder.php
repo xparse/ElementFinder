@@ -97,6 +97,12 @@ class ElementFinder implements ElementFinderInterface
     }
 
 
+    public function __destruct()
+    {
+        unset($this->dom, $this->xpath);
+    }
+
+
     /**
      * @deprecated
      * @see content
@@ -112,43 +118,6 @@ class ElementFinder implements ElementFinderInterface
             $result = '';
         }
         return (string)$result;
-    }
-
-
-    public function __destruct()
-    {
-        unset($this->dom, $this->xpath);
-    }
-
-
-    /**
-     * @param string $data
-     * @return $this
-     * @throws \Exception
-     */
-    protected function setData($data)
-    {
-        $internalErrors = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader();
-
-        if (static::DOCUMENT_HTML === $this->type) {
-            $data = StringHelper::safeEncodeStr($data);
-            $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-            $this->dom->loadHTML($data, $this->options);
-        } else {
-            $this->dom->loadXML($data, $this->options);
-        }
-
-        $this->loadErrors = libxml_get_errors();
-        libxml_clear_errors();
-
-        libxml_use_internal_errors($internalErrors);
-        libxml_disable_entity_loader($disableEntities);
-
-        unset($this->xpath);
-        $this->xpath = new \DomXPath($this->dom);
-
-        return $this;
     }
 
 
@@ -280,21 +249,6 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @see element
-     * Fetch nodes from document
-     *
-     * @param string $expression
-     * @return \DOMNodeList
-     */
-    private function query($expression): \DOMNodeList
-    {
-        return $this->xpath->query(
-            $this->expressionTranslator->convertToXpath($expression)
-        );
-    }
-
-
-    /**
      * @param string $expression
      * @return ElementCollection
      * @throws \InvalidArgumentException
@@ -341,6 +295,46 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
+     * @return array
+     */
+    public function getLoadErrors(): array
+    {
+        return $this->loadErrors;
+    }
+
+
+    /**
+     * @param string $data
+     * @return $this
+     * @throws \Exception
+     */
+    protected function setData($data)
+    {
+        $internalErrors = libxml_use_internal_errors(true);
+        $disableEntities = libxml_disable_entity_loader();
+
+        if (static::DOCUMENT_HTML === $this->type) {
+            $data = StringHelper::safeEncodeStr($data);
+            $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
+            $this->dom->loadHTML($data, $this->options);
+        } else {
+            $this->dom->loadXML($data, $this->options);
+        }
+
+        $this->loadErrors = libxml_get_errors();
+        libxml_clear_errors();
+
+        libxml_use_internal_errors($internalErrors);
+        libxml_disable_entity_loader($disableEntities);
+
+        unset($this->xpath);
+        $this->xpath = new \DomXPath($this->dom);
+
+        return $this;
+    }
+
+
+    /**
      * @return string
      */
     protected function getEmptyDocumentHtml(): string
@@ -367,10 +361,16 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @return array
+     * @see element
+     * Fetch nodes from document
+     *
+     * @param string $expression
+     * @return \DOMNodeList
      */
-    public function getLoadErrors(): array
+    private function query($expression): \DOMNodeList
     {
-        return $this->loadErrors;
+        return $this->xpath->query(
+            $this->expressionTranslator->convertToXpath($expression)
+        );
     }
 }
