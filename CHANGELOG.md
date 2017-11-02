@@ -10,6 +10,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 - #82 Remove method `ElementFinder::replace()`
 - #82 Remove method `ElementFinder::getType()`
 - #82 Remove method `ElementFinder::getOptions()`
+- #83 Remove method `ElementFinder::query`
 
 
 ## 0.1.0-alpha.7 [2017-08-21]

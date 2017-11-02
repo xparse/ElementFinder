@@ -269,12 +269,13 @@
 
 
     /**
+     * @see element
      * Fetch nodes from document
      *
      * @param string $expression
      * @return \DOMNodeList
      */
-    public function query($expression): \DOMNodeList {
+    private function query($expression): \DOMNodeList {
       return $this->xpath->query(
         $this->expressionTranslator->convertToXpath($expression)
       );
