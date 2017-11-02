@@ -21,6 +21,7 @@
     "xparse/expression-translator": "0.0.3"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.7",
     "phpunit/phpunit": "^6.3"
   },
   "autoload": {
