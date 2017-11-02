@@ -1,13 +1,15 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
-## 0.2.0 [Unreleased]
+## 0.2.1 [Unreleased]
+
+## 0.2.0 [2017-11-02]
 
 ### Deprecated  
 - #85 Deprecate `ElementFinder::match`
 - #88 Deprecate `ElementFinder::__toString`
 
 ### Removed
-- #82 Remove method `ElementCollection::getAttributes`, ,  
+- #82 Remove method `ElementCollection::getAttributes`  
 - #82 Remove method `ElementFinder::setExpressionTranslator()`
 - #82 Remove method `ElementFinder::getExpressionTranslator()`
 - #82 Remove method `ObjectCollection::append()`
