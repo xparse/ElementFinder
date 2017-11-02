@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Test\Xparse\ElementFinder\Collection;
 
 use PHPUnit\Framework\TestCase;
-use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
-use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
+use Test\Xparse\ElementFinder\Collection\Dummy\JoinedBy;
+use Test\Xparse\ElementFinder\Collection\Dummy\WithLetterFilter;
 use Xparse\ElementFinder\Collection\StringCollection;
 
 /**
@@ -136,12 +136,7 @@ class StringCollectionTest extends TestCase
     public function testFilter()
     {
         $collection = new StringCollection(['foo', 'bar', 'baz']);
-        $collection = $collection->filter(new class implements StringFilterInterface {
-            public function valid(string $input): bool
-            {
-                return strpos($input, 'a') !== false;
-            }
-        });
+        $collection = $collection->filter(new WithLetterFilter('a'));
 
         self::assertSame(
             [
@@ -155,12 +150,7 @@ class StringCollectionTest extends TestCase
     public function testMap()
     {
         $collection = new StringCollection(['123', 'abc', 'test']);
-        $collection = $collection->map(new class implements StringModifyInterface {
-            public function modify(string $input): string
-            {
-                return $input . '..' . $input;
-            }
-        });
+        $collection = $collection->map(new JoinedBy('..'));
         self::assertSame(
             [
                 '123..123',
