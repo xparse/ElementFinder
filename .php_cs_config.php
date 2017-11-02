@@ -3,8 +3,10 @@ $config = PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
+        'psr4' => true,
+        'phpdoc_indent' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'blank_line_before_statement' => true,
+        'blank_line_before_statement' => false,
         'strict_comparison' => true,
         'strict_param' => true,
         'yoda_style' => false,

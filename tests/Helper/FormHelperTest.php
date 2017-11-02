@@ -1,20 +1,21 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Tests\Xparse\ElementFinder\Helper;
+namespace Tests\Xparse\ElementFinder\Helper;
 
-  use PHPUnit\Framework\TestCase;
-  use Xparse\ElementFinder\ElementFinder;
-  use Xparse\ElementFinder\Helper\FormHelper;
+use PHPUnit\Framework\TestCase;
+use Xparse\ElementFinder\ElementFinder;
+use Xparse\ElementFinder\Helper\FormHelper;
 
-  /**
-   * @author Ivan Shcherbak <alotofall@gmail.com>
-   */
-  class FormHelperTest extends TestCase {
-
-    public function testFormData() {
-      $html = '
+/**
+ * @author Ivan Shcherbak <alotofall@gmail.com>
+ */
+class FormHelperTest extends TestCase
+{
+    public function testFormData()
+    {
+        $html = '
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -87,33 +88,33 @@
       </html>
       ';
 
-      $formData = (new FormHelper(new ElementFinder($html)))->getFormData('//form');
+        $formData = (new FormHelper(new ElementFinder($html)))->getFormData('//form');
 
 
-      self::assertSame([
-        'comment' => 'Enter you comment here',
-        'gender' => 'male',
-        'captcha' => '1',
-        'name' => 'John',
-        'email' => 'john.doe@gmail.com',
-        'website' => 'johndoe.com',
-        'submit' => 'Submit',
-        'age' => '30',
-        'carlist' => [
-          0 => 'saab',
-          1 => 'audi',
-        ],
-        'motolist' => 'bmw',
-      ], $formData);
-
+        self::assertSame([
+            'comment' => 'Enter you comment here',
+            'gender' => 'male',
+            'captcha' => '1',
+            'name' => 'John',
+            'email' => 'john.doe@gmail.com',
+            'website' => 'johndoe.com',
+            'submit' => 'Submit',
+            'age' => '30',
+            'carlist' => [
+                0 => 'saab',
+                1 => 'audi',
+            ],
+            'motolist' => 'bmw',
+        ], $formData);
     }
 
 
     /**
      * @expectedException \Exception
      */
-    public function testInvalidFormPath() {
-      $page = new ElementFinder('<div></div>');
-      (new FormHelper($page))->getFormData('//form');
+    public function testInvalidFormPath()
+    {
+        $page = new ElementFinder('<div></div>');
+        (new FormHelper($page))->getFormData('//form');
     }
-  }
+}

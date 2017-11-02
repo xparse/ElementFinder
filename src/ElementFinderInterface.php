@@ -1,17 +1,17 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Xparse\ElementFinder;
+namespace Xparse\ElementFinder;
 
-  use Xparse\ElementFinder\Collection\ElementCollection;
-  use Xparse\ElementFinder\Collection\StringCollection;
+use Xparse\ElementFinder\Collection\ElementCollection;
+use Xparse\ElementFinder\Collection\StringCollection;
 
-
-  /**
-   * @author Ivan Scherbak <dev@funivan.com>
-   */
-  interface ElementFinderInterface {
+/**
+ * @author Ivan Scherbak <dev@funivan.com>
+ */
+interface ElementFinderInterface
+{
 
     /**
      * @param string $expression
@@ -95,4 +95,4 @@
      * @return array
      */
     public function getLoadErrors(): array;
-  }
+}

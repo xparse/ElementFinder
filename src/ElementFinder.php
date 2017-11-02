@@ -1,23 +1,24 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Xparse\ElementFinder;
+namespace Xparse\ElementFinder;
 
-  use Xparse\ElementFinder\Collection\ElementCollection;
-  use Xparse\ElementFinder\Collection\ObjectCollection;
-  use Xparse\ElementFinder\Collection\StringCollection;
-  use Xparse\ElementFinder\ElementFinder\Element;
-  use Xparse\ElementFinder\Helper\NodeHelper;
-  use Xparse\ElementFinder\Helper\RegexHelper;
-  use Xparse\ElementFinder\Helper\StringHelper;
-  use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
-  use Xparse\ExpressionTranslator\XpathExpression;
+use Xparse\ElementFinder\Collection\ElementCollection;
+use Xparse\ElementFinder\Collection\ObjectCollection;
+use Xparse\ElementFinder\Collection\StringCollection;
+use Xparse\ElementFinder\ElementFinder\Element;
+use Xparse\ElementFinder\Helper\NodeHelper;
+use Xparse\ElementFinder\Helper\RegexHelper;
+use Xparse\ElementFinder\Helper\StringHelper;
+use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
+use Xparse\ExpressionTranslator\XpathExpression;
 
-  /**
-   * @author Ivan Scherbak <dev@funivan.com>
-   */
-  class ElementFinder implements ElementFinderInterface {
+/**
+ * @author Ivan Scherbak <dev@funivan.com>
+ */
+class ElementFinder implements ElementFinderInterface
+{
 
     /**
      * Html document type
@@ -80,18 +81,19 @@
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function __construct(string $data, int $documentType = null, ExpressionTranslatorInterface $translator = null) {
-      if ('' === $data) {
-        throw new \InvalidArgumentException('Expect not empty string');
-      }
-      $this->dom = new \DomDocument();
-      $this->expressionTranslator = $translator ?? new XpathExpression();
-      $this->dom->registerNodeClass(\DOMElement::class, Element::class);
+    public function __construct(string $data, int $documentType = null, ExpressionTranslatorInterface $translator = null)
+    {
+        if ('' === $data) {
+            throw new \InvalidArgumentException('Expect not empty string');
+        }
+        $this->dom = new \DomDocument();
+        $this->expressionTranslator = $translator ?? new XpathExpression();
+        $this->dom->registerNodeClass(\DOMElement::class, Element::class);
 
-      $documentType = $documentType ?? static::DOCUMENT_HTML;
-      $this->options = (LIBXML_NOCDATA & LIBXML_NOERROR);
-      $this->setDocumentType($documentType);
-      $this->setData($data);
+        $documentType = $documentType ?? static::DOCUMENT_HTML;
+        $this->options = (LIBXML_NOCDATA & LIBXML_NOERROR);
+        $this->setDocumentType($documentType);
+        $this->setData($data);
     }
 
 
@@ -101,19 +103,21 @@
      *
      * @return string
      */
-    public function __toString() {
-      trigger_error('Deprecated. See content method', E_USER_DEPRECATED);
-      try {
-        $result = $this->content('.')->getFirst();
-      } catch (\Exception $e) {
-        $result = '';
-      }
-      return (string) $result;
+    public function __toString()
+    {
+        trigger_error('Deprecated. See content method', E_USER_DEPRECATED);
+        try {
+            $result = $this->content('.')->getFirst();
+        } catch (\Exception $e) {
+            $result = '';
+        }
+        return (string)$result;
     }
 
 
-    public function __destruct() {
-      unset($this->dom, $this->xpath);
+    public function __destruct()
+    {
+        unset($this->dom, $this->xpath);
     }
 
 
@@ -122,29 +126,29 @@
      * @return $this
      * @throws \Exception
      */
-    protected function setData($data) {
+    protected function setData($data)
+    {
+        $internalErrors = libxml_use_internal_errors(true);
+        $disableEntities = libxml_disable_entity_loader();
 
-      $internalErrors = libxml_use_internal_errors(true);
-      $disableEntities = libxml_disable_entity_loader();
+        if (static::DOCUMENT_HTML === $this->type) {
+            $data = StringHelper::safeEncodeStr($data);
+            $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
+            $this->dom->loadHTML($data, $this->options);
+        } else {
+            $this->dom->loadXML($data, $this->options);
+        }
 
-      if (static::DOCUMENT_HTML === $this->type) {
-        $data = StringHelper::safeEncodeStr($data);
-        $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-        $this->dom->loadHTML($data, $this->options);
-      } else {
-        $this->dom->loadXML($data, $this->options);
-      }
+        $this->loadErrors = libxml_get_errors();
+        libxml_clear_errors();
 
-      $this->loadErrors = libxml_get_errors();
-      libxml_clear_errors();
+        libxml_use_internal_errors($internalErrors);
+        libxml_disable_entity_loader($disableEntities);
 
-      libxml_use_internal_errors($internalErrors);
-      libxml_disable_entity_loader($disableEntities);
+        unset($this->xpath);
+        $this->xpath = new \DomXPath($this->dom);
 
-      unset($this->xpath);
-      $this->xpath = new \DomXPath($this->dom);
-
-      return $this;
+        return $this;
     }
 
 
@@ -154,20 +158,20 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function content(string $expression, bool $outerContent = false): StringCollection {
+    public function content(string $expression, bool $outerContent = false): StringCollection
+    {
+        $items = $this->query($expression);
 
-      $items = $this->query($expression);
-
-      $result = [];
-      foreach ($items as $node) {
-        if ($outerContent) {
-          $result[] = NodeHelper::getOuterContent($node);
-        } else {
-          $result[] = NodeHelper::getInnerContent($node);
+        $result = [];
+        foreach ($items as $node) {
+            if ($outerContent) {
+                $result[] = NodeHelper::getOuterContent($node);
+            } else {
+                $result[] = NodeHelper::getInnerContent($node);
+            }
         }
-      }
 
-      return new StringCollection($result);
+        return new StringCollection($result);
     }
 
 
@@ -183,16 +187,17 @@
      * @param string $expression
      * @return $this
      */
-    public function remove($expression) {
-      $items = $this->query($expression);
-      foreach ($items as $key => $node) {
-        if ($node instanceof \DOMAttr) {
-          $node->ownerElement->removeAttribute($node->name);
-        } else {
-          $node->parentNode->removeChild($node);
+    public function remove($expression)
+    {
+        $items = $this->query($expression);
+        foreach ($items as $key => $node) {
+            if ($node instanceof \DOMAttr) {
+                $node->ownerElement->removeAttribute($node->name);
+            } else {
+                $node->parentNode->removeChild($node);
+            }
         }
-      }
-      return $this;
+        return $this;
     }
 
 
@@ -203,13 +208,14 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function value($expression): Collection\StringCollection {
-      $items = $this->query($expression);
-      $result = [];
-      foreach ($items as $node) {
-        $result[] = $node->nodeValue;
-      }
-      return new StringCollection($result);
+    public function value($expression): Collection\StringCollection
+    {
+        $items = $this->query($expression);
+        $result = [];
+        foreach ($items as $node) {
+            $result[] = $node->nodeValue;
+        }
+        return new StringCollection($result);
     }
 
 
@@ -221,20 +227,20 @@
      * @throws \Exception
      * @return array
      */
-    public function keyValue(string $keyExpression, string $valueExpression): array {
+    public function keyValue(string $keyExpression, string $valueExpression): array
+    {
+        $keyNodes = $this->query($keyExpression);
+        $valueNodes = $this->query($valueExpression);
+        if ($keyNodes->length !== $valueNodes->length) {
+            throw new \RuntimeException('Keys and values must have equal numbers of elements');
+        }
 
-      $keyNodes = $this->query($keyExpression);
-      $valueNodes = $this->query($valueExpression);
-      if ($keyNodes->length !== $valueNodes->length) {
-        throw new \RuntimeException('Keys and values must have equal numbers of elements');
-      }
+        $result = [];
+        foreach ($keyNodes as $index => $node) {
+            $result[$node->nodeValue] = $valueNodes->item($index)->nodeValue;
+        }
 
-      $result = [];
-      foreach ($keyNodes as $index => $node) {
-        $result[$node->nodeValue] = $valueNodes->item($index)->nodeValue;
-      }
-
-      return $result;
+        return $result;
     }
 
 
@@ -245,30 +251,31 @@
      * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
-    public function object($expression, $outerHtml = false): ObjectCollection {
-      $type = $this->type;
+    public function object($expression, $outerHtml = false): ObjectCollection
+    {
+        $type = $this->type;
 
-      $items = $this->query($expression);
+        $items = $this->query($expression);
 
-      $result = [];
-      foreach ($items as $node) {
-        /** @var \DOMElement $node */
-        if ($outerHtml) {
-          $html = NodeHelper::getOuterContent($node);
-        } else {
-          $html = NodeHelper::getInnerContent($node);
+        $result = [];
+        foreach ($items as $node) {
+            /** @var \DOMElement $node */
+            if ($outerHtml) {
+                $html = NodeHelper::getOuterContent($node);
+            } else {
+                $html = NodeHelper::getInnerContent($node);
+            }
+
+            if (trim($html) === '') {
+                $html = $this->getEmptyDocumentHtml();
+            }
+            if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
+                $html = '<root>' . $html . '</root>';
+            }
+            $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
         }
 
-        if (trim($html) === '') {
-          $html = $this->getEmptyDocumentHtml();
-        }
-        if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
-          $html = '<root>' . $html . '</root>';
-        }
-        $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
-      }
-
-      return new ObjectCollection($result);
+        return new ObjectCollection($result);
     }
 
 
@@ -279,10 +286,11 @@
      * @param string $expression
      * @return \DOMNodeList
      */
-    private function query($expression): \DOMNodeList {
-      return $this->xpath->query(
-        $this->expressionTranslator->convertToXpath($expression)
-      );
+    private function query($expression): \DOMNodeList
+    {
+        return $this->xpath->query(
+            $this->expressionTranslator->convertToXpath($expression)
+        );
     }
 
 
@@ -291,15 +299,16 @@
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function element($expression): Collection\ElementCollection {
-      $nodeList = $this->query($expression);
+    public function element($expression): Collection\ElementCollection
+    {
+        $nodeList = $this->query($expression);
 
-      $items = [];
-      foreach ($nodeList as $item) {
-        $items[] = $item;
-      }
+        $items = [];
+        foreach ($nodeList as $item) {
+            $items[] = $item;
+        }
 
-      return new ElementCollection($items);
+        return new ElementCollection($items);
     }
 
 
@@ -315,27 +324,28 @@
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function match($regex, $i = 1): Collection\StringCollection {
+    public function match($regex, $i = 1): Collection\StringCollection
+    {
+        $documentHtml = $this->content('.')->getFirst();
 
-      $documentHtml = $this->content('.')->getFirst();
+        if (is_int($i)) {
+            $collection = RegexHelper::match($regex, $i, [(string)$documentHtml]);
+        } elseif (is_callable($i)) {
+            $collection = RegexHelper::matchCallback($regex, $i, [(string)$documentHtml]);
+        } else {
+            throw new \InvalidArgumentException('Invalid argument. Expect int or callable');
+        }
 
-      if (is_int($i)) {
-        $collection = RegexHelper::match($regex, $i, [(string) $documentHtml]);
-      } elseif (is_callable($i)) {
-        $collection = RegexHelper::matchCallback($regex, $i, [(string) $documentHtml]);
-      } else {
-        throw new \InvalidArgumentException('Invalid argument. Expect int or callable');
-      }
-
-      return $collection;
+        return $collection;
     }
 
 
     /**
      * @return string
      */
-    protected function getEmptyDocumentHtml(): string {
-      return '<html data-document-is-empty></html>';
+    protected function getEmptyDocumentHtml(): string
+    {
+        return '<html data-document-is-empty></html>';
     }
 
 
@@ -344,23 +354,23 @@
      * @return $this
      * @throws \InvalidArgumentException
      */
-    protected function setDocumentType($documentType) {
+    protected function setDocumentType($documentType)
+    {
+        if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
+            throw new \InvalidArgumentException('Doc type not valid. use xml or html');
+        }
 
-      if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
-        throw new \InvalidArgumentException('Doc type not valid. use xml or html');
-      }
+        $this->type = $documentType;
 
-      $this->type = $documentType;
-
-      return $this;
+        return $this;
     }
 
 
     /**
      * @return array
      */
-    public function getLoadErrors(): array {
-      return $this->loadErrors;
+    public function getLoadErrors(): array
+    {
+        return $this->loadErrors;
     }
-
-  }
+}

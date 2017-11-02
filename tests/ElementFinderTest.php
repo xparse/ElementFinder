@@ -1,236 +1,240 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Test\Xparse\ElementFinder;
+namespace Test\Xparse\ElementFinder;
 
-  use PHPUnit\Framework\TestCase;
-  use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
-  use Xparse\ElementFinder\ElementFinder;
+use PHPUnit\Framework\TestCase;
+use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
+use Xparse\ElementFinder\ElementFinder;
 
-  /**
-   * @author Ivan Shcherbak <alotofall@gmail.com>
-   */
-  class ElementFinderTest extends TestCase {
-
-    public function testLoad() {
-      $html = $this->getHtmlTestObject();
-      self::assertContains('<title>test doc</title>', $html->content('.')->getFirst());
+/**
+ * @author Ivan Shcherbak <alotofall@gmail.com>
+ */
+class ElementFinderTest extends TestCase
+{
+    public function testLoad()
+    {
+        $html = $this->getHtmlTestObject();
+        self::assertContains('<title>test doc</title>', $html->content('.')->getFirst());
     }
 
 
     /**
      * @expectedException \Exception
      */
-    public function testInvalidType() {
-      new ElementFinder('', -1);
+    public function testInvalidType()
+    {
+        new ElementFinder('', -1);
     }
 
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testLoadEmptyDoc() {
-      new ElementFinder('');
+    public function testLoadEmptyDoc()
+    {
+        new ElementFinder('');
     }
 
 
     /**
      *
      */
-    public function testLoadDocumentWithZero() {
-      self::assertSame(
-        '<body><p>0 </p></body>',
-        (new ElementFinder('   0 '))->content('.')->getFirst()
-      );
+    public function testLoadDocumentWithZero()
+    {
+        self::assertSame(
+            '<body><p>0 </p></body>',
+            (new ElementFinder('   0 '))->content('.')->getFirst()
+        );
     }
 
 
-    public function testAttributes() {
-      $html = $this->getHtmlTestObject();
+    public function testAttributes()
+    {
+        $html = $this->getHtmlTestObject();
 
-      $links = $html->value('//a/@href');
+        $links = $html->value('//a/@href');
 
-      self::assertCount(1, $links);
+        self::assertCount(1, $links);
 
-      foreach ($html->content('//a') as $htmlString) {
-        self::assertTrue(is_string($htmlString));
-      }
-
-      self::assertContains('<a href="http://funivan.com/" title="my blog">link</a>',
-        $html->content('//a', true)->getFirst()
-      );
-    }
-
-
-    public function testObjects() {
-      $html = $this->getHtmlTestObject();
-
-      $spanItems = $html->object('//span');
-
-      self::assertCount(4, $spanItems);
-
-      $html->remove('//span[2]');
-
-      $spanItems = $html->content('//span');
-      self::assertCount(3, $spanItems);
-
-      $html->remove('//span[@class]');
-
-      $spanItems = $html->content('//span');
-      self::assertCount(1, $spanItems);
-
-    }
-
-
-    public function testObjectWithOuterHtml() {
-      $html = $this->getHtmlTestObject();
-
-      $spanItems = $html->object('//span', true);
-      self::assertCount(4, $spanItems);
-      self::assertContains(
-        '<span class="span-1">',
-        $spanItems->get(0)->content('.')->getFirst()
-      );
-
-    }
-
-
-    public function testDeleteNode() {
-      $html = $this->getHtmlTestObject();
-
-      $title = $html->value('//title')->get(0);
-      self::assertEquals('test doc', $title);
-
-      $html->remove('//title');
-
-      $title = $html->value('//title')->get(0);
-      self::assertEmpty($title);
-
-    }
-
-
-    public function testDeleteAttribute() {
-      $html = $this->getHtmlTestObject();
-
-      $title = $html->value('//a/@title')->getFirst();
-      self::assertEquals('my blog', $title);
-
-      $html->remove('//a/@title');
-
-      $title = $html->value('//a/@title')->getFirst();
-      self::assertEmpty($title);
-
-    }
-
-
-    public function testHtmlSelector() {
-      $html = $this->getHtmlTestObject();
-      $stringCollection = $html->content('//td');
-
-      self::assertCount(1, $stringCollection);
-      self::assertEquals('', $stringCollection->get(10));
-
-      self::assertEquals('custom <a href="http://funivan.com/" title="my blog">link</a>',
-        $stringCollection->get(0)
-      );
-      self::assertEquals('', $html->content('//td/@df')->get(0));
-    }
-
-
-    public function testMatch() {
-
-      $html = $this->getHtmlDataObject();
-      $regex = '!([\d-]+)[<|\n]!';
-
-      $phones = $html->match($regex);
-      self::assertCount(2, $phones);
-
-      $phones = $html->match($regex, 0);
-      self::assertCount(2, $phones);
-      self::assertContains('<', $phones->get(0));
-      self::assertContains("\n", $phones->get(1));
-
-      $phones = $html->match($regex, 4);
-      self::assertCount(0, $phones);
-
-    }
-
-
-    public function testMatchWithCallback() {
-
-      $html = $this->getHtmlDataObject();
-      $regex = '!([\d-]+)[<|\n]!';
-
-      $phones = $html->match($regex, function (array $items) {
-        foreach ((array) $items[1] as $index => $tel) {
-          $items[1][$index] = str_replace('-', '', $tel);
+        foreach ($html->content('//a') as $htmlString) {
+            self::assertTrue(is_string($htmlString));
         }
-        return $items[1];
-      });
 
-      self::assertCount(2, $phones);
+        self::assertContains(
+            '<a href="http://funivan.com/" title="my blog">link</a>',
+            $html->content('//a', true)->getFirst()
+        );
+    }
 
-      self::assertEquals('451216', $phones->get(0));
-      self::assertEquals('841890', $phones->get(1));
 
+    public function testObjects()
+    {
+        $html = $this->getHtmlTestObject();
+
+        $spanItems = $html->object('//span');
+
+        self::assertCount(4, $spanItems);
+
+        $html->remove('//span[2]');
+
+        $spanItems = $html->content('//span');
+        self::assertCount(3, $spanItems);
+
+        $html->remove('//span[@class]');
+
+        $spanItems = $html->content('//span');
+        self::assertCount(1, $spanItems);
+    }
+
+
+    public function testObjectWithOuterHtml()
+    {
+        $html = $this->getHtmlTestObject();
+
+        $spanItems = $html->object('//span', true);
+        self::assertCount(4, $spanItems);
+        self::assertContains(
+            '<span class="span-1">',
+            $spanItems->get(0)->content('.')->getFirst()
+        );
+    }
+
+
+    public function testDeleteNode()
+    {
+        $html = $this->getHtmlTestObject();
+
+        $title = $html->value('//title')->get(0);
+        self::assertEquals('test doc', $title);
+
+        $html->remove('//title');
+
+        $title = $html->value('//title')->get(0);
+        self::assertEmpty($title);
+    }
+
+
+    public function testDeleteAttribute()
+    {
+        $html = $this->getHtmlTestObject();
+
+        $title = $html->value('//a/@title')->getFirst();
+        self::assertEquals('my blog', $title);
+
+        $html->remove('//a/@title');
+
+        $title = $html->value('//a/@title')->getFirst();
+        self::assertEmpty($title);
+    }
+
+
+    public function testHtmlSelector()
+    {
+        $html = $this->getHtmlTestObject();
+        $stringCollection = $html->content('//td');
+
+        self::assertCount(1, $stringCollection);
+        self::assertEquals('', $stringCollection->get(10));
+
+        self::assertEquals(
+            'custom <a href="http://funivan.com/" title="my blog">link</a>',
+            $stringCollection->get(0)
+        );
+        self::assertEquals('', $html->content('//td/@df')->get(0));
+    }
+
+
+    public function testMatch()
+    {
+        $html = $this->getHtmlDataObject();
+        $regex = '!([\d-]+)[<|\n]!';
+
+        $phones = $html->match($regex);
+        self::assertCount(2, $phones);
+
+        $phones = $html->match($regex, 0);
+        self::assertCount(2, $phones);
+        self::assertContains('<', $phones->get(0));
+        self::assertContains("\n", $phones->get(1));
+
+        $phones = $html->match($regex, 4);
+        self::assertCount(0, $phones);
+    }
+
+
+    public function testMatchWithCallback()
+    {
+        $html = $this->getHtmlDataObject();
+        $regex = '!([\d-]+)[<|\n]!';
+
+        $phones = $html->match($regex, function (array $items) {
+            foreach ((array)$items[1] as $index => $tel) {
+                $items[1][$index] = str_replace('-', '', $tel);
+            }
+            return $items[1];
+        });
+
+        self::assertCount(2, $phones);
+
+        self::assertEquals('451216', $phones->get(0));
+        self::assertEquals('841890', $phones->get(1));
     }
 
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testMatchWithInvalidArgument() {
-
-      $html = $this->getHtmlDataObject();
-      $html->match('!([\d-]+)[<|\n]!', new \stdClass());
+    public function testMatchWithInvalidArgument()
+    {
+        $html = $this->getHtmlDataObject();
+        $html->match('!([\d-]+)[<|\n]!', new \stdClass());
     }
 
 
     /**
      * @expectedException \Exception
      */
-    public function testMatchWithInvalidCallback() {
-
-      $html = $this->getHtmlDataObject();
-      $html->match('!([\d-]+)[<|\n]!', function () {
-        return 123;
-      });
+    public function testMatchWithInvalidCallback()
+    {
+        $html = $this->getHtmlDataObject();
+        $html->match('!([\d-]+)[<|\n]!', function () {
+            return 123;
+        });
     }
 
 
     /**
      * @expectedException \Exception
      */
-    public function testMatchWithInvalidCallbackData() {
-
-      $html = $this->getHtmlDataObject();
-      $html->match('!([\d-]+)[<|\n]!', function () {
-        return [new \stdClass()];
-      });
-
+    public function testMatchWithInvalidCallbackData()
+    {
+        $html = $this->getHtmlDataObject();
+        $html->match('!([\d-]+)[<|\n]!', function () {
+            return [new \stdClass()];
+        });
     }
 
 
-    public function testMatchWithEmptyElements() {
-
-      $html = $this->getHtmlDataObject();
-      $items = $html->match('!(1233)!');
-      self::assertEmpty($items);
-
+    public function testMatchWithEmptyElements()
+    {
+        $html = $this->getHtmlDataObject();
+        $items = $html->match('!(1233)!');
+        self::assertEmpty($items);
     }
 
 
-    public function testObjectWithInnerContent() {
+    public function testObjectWithInnerContent()
+    {
+        $html = $this->getHtmlTestObject();
 
-      $html = $this->getHtmlTestObject();
+        # inner
+        $spanItems = $html->object('//span');
+        self::assertCount(4, $spanItems);
 
-      # inner
-      $spanItems = $html->object('//span');
-      self::assertCount(4, $spanItems);
-
-      self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->getFirst());
-      self::assertContains('<b>1 </b>', $spanItems->get(0)->content('.')->getFirst());
+        self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->getFirst());
+        self::assertContains('<b>1 </b>', $spanItems->get(0)->content('.')->getFirst());
     }
 
 
@@ -244,8 +248,9 @@
      * you can select all the nodes that belong both to the node sets $ns1 and $ns2.
      *
      */
-    public function testGetAllNodesBetweenSiblings() {
-      $html = new ElementFinder('
+    public function testGetAllNodesBetweenSiblings()
+    {
+        $html = new ElementFinder('
         <html>
           <h2>Title1</h2>
             <p>Text 1</p>
@@ -258,19 +263,19 @@
           <h2>Title5</h2>
         </html>
       ');
-      $ns1 = '//*/h2[1]/following-sibling::p';
-      $ns2 = '//*/h2[count(//h2)]/preceding-sibling::p';
-      $result = $html->value($ns1 . '[count(.|' . $ns2 . ') = count(' . $ns2 . ')]')->getItems();
+        $ns1 = '//*/h2[1]/following-sibling::p';
+        $ns2 = '//*/h2[count(//h2)]/preceding-sibling::p';
+        $result = $html->value($ns1 . '[count(.|' . $ns2 . ') = count(' . $ns2 . ')]')->getItems();
 
-      self::assertCount(4, $result);
-      self::assertEquals($result[0], 'Text 1');
-      self::assertEquals($result[3], 'Text 4');
-
+        self::assertCount(4, $result);
+        self::assertEquals($result[0], 'Text 1');
+        self::assertEquals($result[3], 'Text 4');
     }
 
 
-    public function testInitClassWithInvalidContent() {
-      $elementFinder = new ElementFinder('
+    public function testInitClassWithInvalidContent()
+    {
+        $elementFinder = new ElementFinder('
         <!DOCTYPE html>
         <html>
           <head></head>
@@ -280,49 +285,50 @@
         </html>
       ');
 
-      $errors = $elementFinder->getLoadErrors();
+        $errors = $elementFinder->getLoadErrors();
 
-      self::assertCount(1, $errors);
-      self::assertContains("Unexpected end tag : span\n", $errors[0]->message);
-
+        self::assertCount(1, $errors);
+        self::assertContains("Unexpected end tag : span\n", $errors[0]->message);
     }
 
 
-    public function testInitClassWithValidContent() {
-      $dataObject = $this->getHtmlDataObject();
+    public function testInitClassWithValidContent()
+    {
+        $dataObject = $this->getHtmlDataObject();
 
-      $errors = $dataObject->getLoadErrors();
+        $errors = $dataObject->getLoadErrors();
 
-      self::assertCount(0, $errors);
+        self::assertCount(0, $errors);
     }
 
 
-    public function testGetObjectWithEmptyHtml() {
-      $page = new ElementFinder('<div></div><div><a>df</a></div>');
-      $objects = $page->object('//div');
+    public function testGetObjectWithEmptyHtml()
+    {
+        $page = new ElementFinder('<div></div><div><a>df</a></div>');
+        $objects = $page->object('//div');
 
-      self::assertEmpty($objects->get(0)->content('.')->getFirst());
-      self::assertContains('data-document-is-empty', $objects->get(0)->content('/')->get(0));
+        self::assertEmpty($objects->get(0)->content('.')->getFirst());
+        self::assertContains('data-document-is-empty', $objects->get(0)->content('/')->get(0));
 
-      self::assertNotEmpty($objects->get(1)->content('.')->getFirst());
-      $linkText = $objects->get(1)->value('//a')->get(0);
-      self::assertEquals('df', $linkText);
-
+        self::assertNotEmpty($objects->get(1)->content('.')->getFirst());
+        $linkText = $objects->get(1)->value('//a')->get(0);
+        self::assertEquals('df', $linkText);
     }
 
 
     /**
      *
      */
-    public function testValidDocumentType() {
-      $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
-      self::assertContains('<list>123</list>', $document->content('.')->getFirst());
+    public function testValidDocumentType()
+    {
+        $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
+        self::assertContains('<list>123</list>', $document->content('.')->getFirst());
     }
 
 
-    public function testFetchTextNode() {
-
-      $html = new ElementFinder('
+    public function testFetchTextNode()
+    {
+        $html = new ElementFinder('
         <div>
           <ul>
             <li><b>param1:</b>t1<span>or</span>t2</li>
@@ -333,24 +339,24 @@
       ');
 
 
-      $firstTextNodes = $html->value('//b/following-sibling::text()[1]')->getItems();
+        $firstTextNodes = $html->value('//b/following-sibling::text()[1]')->getItems();
 
-      self::assertEquals([
-        't1', 'other',
-      ], $firstTextNodes);
+        self::assertEquals([
+            't1', 'other',
+        ], $firstTextNodes);
 
 
-      $allFollowingSiblingTextNodes = $html->value('//b/following-sibling::text()')->getItems();
+        $allFollowingSiblingTextNodes = $html->value('//b/following-sibling::text()')->getItems();
 
-      self::assertEquals([
-        't1', 't2', 'other',
-      ], $allFollowingSiblingTextNodes);
-
+        self::assertEquals([
+            't1', 't2', 'other',
+        ], $allFollowingSiblingTextNodes);
     }
 
 
-    public function testKeyValue() {
-      $html = new ElementFinder('
+    public function testKeyValue()
+    {
+        $html = new ElementFinder('
         <table>
           <tbody>
           <tr>
@@ -368,21 +374,22 @@
           </tbody>
         </table>
       ');
-      $values = $html->keyValue('//table//td[1]', '//table//td[2]');
+        $values = $html->keyValue('//table//td[1]', '//table//td[2]');
 
-      self::assertEquals([
-        'Year' => '2016',
-        'Make' => 'CAT',
-        'Model' => '560G',
-      ], $values);
+        self::assertEquals([
+            'Year' => '2016',
+            'Make' => 'CAT',
+            'Model' => '560G',
+        ], $values);
     }
 
 
     /**
      * @expectedException \Exception
      */
-    public function testKeyValueFail() {
-      $html = new ElementFinder('
+    public function testKeyValueFail()
+    {
+        $html = new ElementFinder('
         <table>
           <tbody>
           <tr>
@@ -399,70 +406,74 @@
           </tbody>
         </table>
       ');
-      $html->keyValue('//table//td[1]', '//table//td[2]');
-
+        $html->keyValue('//table//td[1]', '//table//td[2]');
     }
 
 
-    public function testXmlData() {
-      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
-      $foods = $xml->object('//food');
+    public function testXmlData()
+    {
+        $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+        $foods = $xml->object('//food');
 
-      self::assertCount(5, $foods);
+        self::assertCount(5, $foods);
 
-      $xml->remove('//food[3]');
+        $xml->remove('//food[3]');
 
-      $foods = $xml->object('//food');
-      self::assertCount(4, $foods);
+        $foods = $xml->object('//food');
+        self::assertCount(4, $foods);
 
-      self::assertEquals('$5.95', $xml->value('//food[1]/price/@value')->getFirst());
+        self::assertEquals('$5.95', $xml->value('//food[1]/price/@value')->getFirst());
 
-      self::assertEquals(950, $xml->value('//food/calories')->getLast());
+        self::assertEquals(950, $xml->value('//food/calories')->getLast());
 
-      self::assertEquals(900, $xml->content('//food[2]/calories')->getFirst());
+        self::assertEquals(900, $xml->content('//food[2]/calories')->getFirst());
 
-      self::assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
-
+        self::assertEquals('5.95 USD', $xml->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
     }
 
 
-    public function testXmlRootNode() {
-      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
-      $food = $xml->object('//food')->get(2);
-      self::assertEquals(900, (int) $food->value('/root/calories')->getFirst());
+    public function testXmlRootNode()
+    {
+        $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+        $food = $xml->object('//food')->get(2);
+        self::assertEquals(900, (int)$food->value('/root/calories')->getFirst());
     }
 
 
-    public function testLoadXmlWithoutErrors() {
-      $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
+    public function testLoadXmlWithoutErrors()
+    {
+        $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
 
-      self::assertCount(0, $xml->getLoadErrors());
+        self::assertCount(0, $xml->getLoadErrors());
     }
 
 
-    public function testLoadXmlWithErrors() {
-      $xml = new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML);
-      $errors = $xml->getLoadErrors();
+    public function testLoadXmlWithErrors()
+    {
+        $xml = new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML);
+        $errors = $xml->getLoadErrors();
 
-      self::assertCount(1, $errors);
-      self::assertContains('Opening and ending tag mismatch: from', $errors[0]->message);
+        self::assertCount(1, $errors);
+        self::assertContains('Opening and ending tag mismatch: from', $errors[0]->message);
     }
 
 
-    public function testXmlRootNodes() {
-      $xml = new ElementFinder($this->getInvalidRootNodesXml(), ElementFinder::DOCUMENT_XML);
-      $errors = $xml->getLoadErrors();
+    public function testXmlRootNodes()
+    {
+        $xml = new ElementFinder($this->getInvalidRootNodesXml(), ElementFinder::DOCUMENT_XML);
+        $errors = $xml->getLoadErrors();
 
-      self::assertCount(1, $errors);
-      self::assertContains('Extra content at the end of the document', $errors[0]->message);
+        self::assertCount(1, $errors);
+        self::assertContains('Extra content at the end of the document', $errors[0]->message);
     }
 
 
     /**
      * @return string
      */
-    private function getInvalidRootNodesXml() {
-      return '<?xml version="1.0" encoding="UTF-8"?>
+    private function getInvalidRootNodesXml()
+    {
+        return '<?xml version="1.0" encoding="UTF-8"?>
       <note>
         <to>Tove</to>
         <from>Jani</from>
@@ -482,8 +493,9 @@
     /**
      * @return string
      */
-    private function getInvalidXml() {
-      return '<?xml version="1.0" encoding="UTF-8"?>
+    private function getInvalidXml()
+    {
+        return '<?xml version="1.0" encoding="UTF-8"?>
       <note>
         <to>Tove</to>
         <from>Jani</Ffrom>
@@ -497,8 +509,9 @@
     /**
      * @return string
      */
-    private function getValidXml() {
-      return '<?xml version="1.0" encoding="UTF-8"?>
+    private function getValidXml()
+    {
+        return '<?xml version="1.0" encoding="UTF-8"?>
       <breakfast_menu>
           <food>
               <name>Belgian Waffles</name>
@@ -535,8 +548,9 @@
     }
 
 
-    public function testShareExpressionTranslator() {
-      $page = new ElementFinder('
+    public function testShareExpressionTranslator()
+    {
+        $page = new ElementFinder('
           <div class="node"> 
             <a href="#" class="link">test0</a>
           </div>
@@ -548,49 +562,52 @@
           </div>
 ', null, new ItemsByClassExpressionTranslator());
 
-      $expression = 'node';
+        $expression = 'node';
 
-      $objects = $page->object($expression);
-      self::assertCount(3, $objects);
+        $objects = $page->object($expression);
+        self::assertCount(3, $objects);
 
-      foreach ($objects as $index => $object) {
-        $link = $object->content('link');
-        self::assertCount(1, $link);
-        self::assertEquals('test' . $index, $link->getFirst());
-      }
-
+        foreach ($objects as $index => $object) {
+            $link = $object->content('link');
+            self::assertCount(1, $link);
+            self::assertEquals('test' . $index, $link->getFirst());
+        }
     }
 
 
     /**
      * @return string
      */
-    protected function getDemoDataDirectoryPath() {
-      return __DIR__ . '/demo-data/';
+    protected function getDemoDataDirectoryPath()
+    {
+        return __DIR__ . '/demo-data/';
     }
 
 
     /**
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    public function getHtmlTestObject() {
-      return $this->initFromFile('test.html');
+    public function getHtmlTestObject()
+    {
+        return $this->initFromFile('test.html');
     }
 
 
     /**
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    public function getHtmlDataObject() {
-      return $this->initFromFile('data.html');
+    public function getHtmlDataObject()
+    {
+        return $this->initFromFile('data.html');
     }
 
 
     /**
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    public function getNodeItemsHtmlObject() {
-      return $this->initFromFile('node-items.html');
+    public function getNodeItemsHtmlObject()
+    {
+        return $this->initFromFile('node-items.html');
     }
 
 
@@ -598,9 +615,9 @@
      * @param string $file
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    protected function initFromFile($file) {
-      $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
-      return new \Xparse\ElementFinder\ElementFinder($fileData);
+    protected function initFromFile($file)
+    {
+        $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
+        return new \Xparse\ElementFinder\ElementFinder($fileData);
     }
-
-  }
+}

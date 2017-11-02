@@ -1,17 +1,18 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Xparse\ElementFinder\Collection;
+namespace Xparse\ElementFinder\Collection;
 
-  use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
-  use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
-  use Xparse\ElementFinder\Helper\RegexHelper;
+use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
+use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
+use Xparse\ElementFinder\Helper\RegexHelper;
 
-  /**
-   * @author Ivan Shcherbak <alotofall@gmail.com>
-   */
-  class StringCollection implements \IteratorAggregate, \Countable {
+/**
+ * @author Ivan Shcherbak <alotofall@gmail.com>
+ */
+class StringCollection implements \IteratorAggregate, \Countable
+{
 
 
     /**
@@ -26,13 +27,14 @@
      * @param string[] $items
      * @throws \Exception
      */
-    public function __construct(array $items = []) {
-      foreach ($items as $key => $item) {
-        if (!is_string($item)) {
-          throw new \InvalidArgumentException('Expect string');
+    public function __construct(array $items = [])
+    {
+        foreach ($items as $key => $item) {
+            if (!is_string($item)) {
+                throw new \InvalidArgumentException('Expect string');
+            }
         }
-      }
-      $this->items = array_values($items);
+        $this->items = array_values($items);
     }
 
 
@@ -41,8 +43,9 @@
      *
      * @return int
      */
-    public function count(): int {
-      return count($this->items);
+    public function count(): int
+    {
+        return count($this->items);
     }
 
 
@@ -51,11 +54,12 @@
      *
      * @return null|string
      */
-    public function getLast() {
-      if ($this->count() === 0) {
-        return null;
-      }
-      return end($this->items);
+    public function getLast()
+    {
+        if ($this->count() === 0) {
+            return null;
+        }
+        return end($this->items);
     }
 
 
@@ -64,11 +68,12 @@
      *
      * @return null|string
      */
-    public function getFirst() {
-      if ($this->count() === 0) {
-        return null;
-      }
-      return reset($this->items);
+    public function getFirst()
+    {
+        if ($this->count() === 0) {
+            return null;
+        }
+        return reset($this->items);
     }
 
 
@@ -84,8 +89,9 @@
      * </code>
      * @return string[]
      */
-    public function getItems(): array {
-      return $this->items;
+    public function getItems(): array
+    {
+        return $this->items;
     }
 
 
@@ -100,11 +106,12 @@
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback): self {
-      foreach ($this->getItems() as $index => $item) {
-        $callback($item, $index, $this);
-      }
-      return $this;
+    public function walk(callable $callback): self
+    {
+        foreach ($this->getItems() as $index => $item) {
+            $callback($item, $index, $this);
+        }
+        return $this;
     }
 
 
@@ -112,12 +119,13 @@
      * @param StringModifyInterface $modifier
      * @return StringCollection
      */
-    public function map(StringModifyInterface $modifier): StringCollection {
-      $items = [];
-      foreach ($this->items as $item) {
-        $items[] = $modifier->modify($item);
-      }
-      return new StringCollection($items);
+    public function map(StringModifyInterface $modifier): StringCollection
+    {
+        $items = [];
+        foreach ($this->items as $item) {
+            $items[] = $modifier->modify($item);
+        }
+        return new StringCollection($items);
     }
 
 
@@ -127,14 +135,15 @@
      * @param StringFilterInterface $filter
      * @return StringCollection
      */
-    public function filter(StringFilterInterface $filter): StringCollection {
-      $items = [];
-      foreach ($this->items as $item) {
-        if ($filter->valid($item)) {
-          $items[] = $item;
+    public function filter(StringFilterInterface $filter): StringCollection
+    {
+        $items = [];
+        foreach ($this->items as $item) {
+            if ($filter->valid($item)) {
+                $items[] = $item;
+            }
         }
-      }
-      return new StringCollection($items);
+        return new StringCollection($items);
     }
 
 
@@ -144,13 +153,14 @@
      * @return self
      * @throws \Exception
      */
-    public function replace(string $regexp, string $to = ''): StringCollection {
-      $result = [];
-      foreach ($this->items as $index => $item) {
-        $result[] = preg_replace($regexp, $to, $item);
-      }
+    public function replace(string $regexp, string $to = ''): StringCollection
+    {
+        $result = [];
+        foreach ($this->items as $index => $item) {
+            $result[] = preg_replace($regexp, $to, $item);
+        }
 
-      return new StringCollection($result);
+        return new StringCollection($result);
     }
 
 
@@ -161,8 +171,9 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function match(string $regexp, int $index = 1): StringCollection {
-      return RegexHelper::match($regexp, $index, $this->items);
+    public function match(string $regexp, int $index = 1): StringCollection
+    {
+        return RegexHelper::match($regexp, $index, $this->items);
     }
 
 
@@ -173,15 +184,16 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function split(string $regexp): StringCollection {
-      $items = [];
-      foreach ($this->items as $item) {
-        $data = preg_split($regexp, $item);
-        foreach ($data as $string) {
-          $items[] = $string;
+    public function split(string $regexp): StringCollection
+    {
+        $items = [];
+        foreach ($this->items as $item) {
+            $data = preg_split($regexp, $item);
+            foreach ($data as $string) {
+                $items[] = $string;
+            }
         }
-      }
-      return new StringCollection($items);
+        return new StringCollection($items);
     }
 
 
@@ -189,8 +201,9 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function unique(): StringCollection {
-      return new StringCollection(array_unique($this->items));
+    public function unique(): StringCollection
+    {
+        return new StringCollection(array_unique($this->items));
     }
 
 
@@ -199,8 +212,9 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public final function merge(StringCollection $collection): StringCollection {
-      return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
+    final public function merge(StringCollection $collection): StringCollection
+    {
+        return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
 
@@ -209,10 +223,11 @@
      * @return StringCollection
      * @throws \Exception
      */
-    public function add(string $item): StringCollection {
-      $items = $this->getItems();
-      $items[] = $item;
-      return new StringCollection($items);
+    public function add(string $item): StringCollection
+    {
+        $items = $this->getItems();
+        $items[] = $item;
+        return new StringCollection($items);
     }
 
 
@@ -220,11 +235,12 @@
      * @param int $index
      * @return null|string
      */
-    public function get(int $index) {
-      if (array_key_exists($index, $this->items)) {
-        return $this->items[$index];
-      }
-      return null;
+    public function get(int $index)
+    {
+        if (array_key_exists($index, $this->items)) {
+            return $this->items[$index];
+        }
+        return null;
     }
 
 
@@ -234,8 +250,8 @@
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return string[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
      */
-    public function getIterator() {
-      return new \ArrayIterator($this->items);
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
     }
-
-  }
+}

@@ -1,21 +1,21 @@
 <?php
 
-  declare(strict_types=1);
-  
-  namespace Test\Xparse\ElementFinder\Helper;
+declare(strict_types=1);
 
-  use PHPUnit\Framework\TestCase;
+namespace Test\Xparse\ElementFinder\Helper;
 
-  /**
-   * @author Ivan Shcherbak <alotofall@gmail.com>
-   */
-  class RegexHelperTest extends TestCase {
+use PHPUnit\Framework\TestCase;
 
-    public function testInvalidRegexForCallback() {
-      $items = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback('![a-z]!', function () {
-        return [];
-      }, ['1']);
-      self::assertCount(0, $items);
+/**
+ * @author Ivan Shcherbak <alotofall@gmail.com>
+ */
+class RegexHelperTest extends TestCase
+{
+    public function testInvalidRegexForCallback()
+    {
+        $items = \Xparse\ElementFinder\Helper\RegexHelper::matchCallback('![a-z]!', function () {
+            return [];
+        }, ['1']);
+        self::assertCount(0, $items);
     }
-
-  }
+}

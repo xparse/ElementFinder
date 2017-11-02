@@ -1,15 +1,16 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Xparse\ElementFinder\Collection;
+namespace Xparse\ElementFinder\Collection;
 
-  use Xparse\ElementFinder\ElementFinder;
+use Xparse\ElementFinder\ElementFinder;
 
-  /**
-   * @author Ivan Shcherbak <alotofall@gmail.com>
-   */
-  class ObjectCollection implements \IteratorAggregate, \Countable {
+/**
+ * @author Ivan Shcherbak <alotofall@gmail.com>
+ */
+class ObjectCollection implements \IteratorAggregate, \Countable
+{
 
     /**
      * Array of objects
@@ -23,14 +24,15 @@
      * @param ElementFinder[] $items
      * @throws \Exception
      */
-    public function __construct(array $items = []) {
-      foreach ($items as $key => $item) {
-        if (!$item instanceof ElementFinder) {
-          $className = ($item === null) ? gettype($item) : get_class($item);
-          throw new \InvalidArgumentException('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
+    public function __construct(array $items = [])
+    {
+        foreach ($items as $key => $item) {
+            if (!$item instanceof ElementFinder) {
+                $className = ($item === null) ? gettype($item) : get_class($item);
+                throw new \InvalidArgumentException('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
+            }
         }
-      }
-      $this->items = $items;
+        $this->items = $items;
     }
 
 
@@ -39,8 +41,9 @@
      *
      * @return int
      */
-    public function count(): int {
-      return count($this->items);
+    public function count(): int
+    {
+        return count($this->items);
     }
 
 
@@ -49,11 +52,12 @@
      *
      * @return null|ElementFinder
      */
-    public function getLast() {
-      if ($this->count() === 0) {
-        return null;
-      }
-      return end($this->items);
+    public function getLast()
+    {
+        if ($this->count() === 0) {
+            return null;
+        }
+        return end($this->items);
     }
 
 
@@ -62,11 +66,12 @@
      *
      * @return null|ElementFinder
      */
-    public function getFirst() {
-      if ($this->count() === 0) {
-        return null;
-      }
-      return reset($this->items);
+    public function getFirst()
+    {
+        if ($this->count() === 0) {
+            return null;
+        }
+        return reset($this->items);
     }
 
 
@@ -83,8 +88,9 @@
      *
      * @return ElementFinder[]
      */
-    public function getItems(): array {
-      return $this->items;
+    public function getItems(): array
+    {
+        return $this->items;
     }
 
 
@@ -99,11 +105,12 @@
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback): self {
-      foreach ($this->getItems() as $index => $item) {
-        $callback($item, $index, $this);
-      }
-      return $this;
+    public function walk(callable $callback): self
+    {
+        foreach ($this->getItems() as $index => $item) {
+            $callback($item, $index, $this);
+        }
+        return $this;
     }
 
 
@@ -112,8 +119,9 @@
      * @return ObjectCollection
      * @throws \Exception
      */
-    public function merge(ObjectCollection $collection): ObjectCollection {
-      return new ObjectCollection(array_merge($this->getItems(), $collection->getItems()));
+    public function merge(ObjectCollection $collection): ObjectCollection
+    {
+        return new ObjectCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
 
@@ -122,10 +130,11 @@
      * @return ObjectCollection
      * @throws \Exception
      */
-    public function add(ElementFinder $element): ObjectCollection {
-      $items = $this->getItems();
-      $items[] = $element;
-      return new ObjectCollection($items);
+    public function add(ElementFinder $element): ObjectCollection
+    {
+        $items = $this->getItems();
+        $items[] = $element;
+        return new ObjectCollection($items);
     }
 
 
@@ -133,11 +142,12 @@
      * @param int $index
      * @return null|ElementFinder
      */
-    public function get(int $index) {
-      if (array_key_exists($index, $this->items)) {
-        return $this->items[$index];
-      }
-      return null;
+    public function get(int $index)
+    {
+        if (array_key_exists($index, $this->items)) {
+            return $this->items[$index];
+        }
+        return null;
     }
 
 
@@ -147,8 +157,8 @@
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return ElementFinder[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
      */
-    public function getIterator() {
-      return new \ArrayIterator($this->items);
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
     }
-
-  }
+}

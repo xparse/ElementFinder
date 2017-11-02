@@ -1,13 +1,14 @@
 <?php
 
-  namespace Test\Xparse\ElementFinder\Dummy;
+namespace Test\Xparse\ElementFinder\Dummy;
 
-  use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
+use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
 
-  /**
-   * @author Ivan Shcherbak <alotofall@gmail.com>
-   */
-  class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface {
+/**
+ * @author Ivan Shcherbak <alotofall@gmail.com>
+ */
+class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface
+{
 
     /**
      * Translate expression to xpath
@@ -16,8 +17,8 @@
      * @param string $expression
      * @return string
      */
-    public function convertToXpath($expression) {
-      return '//*[@class="' . $expression . '"]';
+    public function convertToXpath($expression)
+    {
+        return '//*[@class="' . $expression . '"]';
     }
-
-  }
+}
