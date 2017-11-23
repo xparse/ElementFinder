@@ -5,6 +5,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ### Changed  
 - #92 Require second parameter `StringCollection::replace`
+- #93 All public methods become final.
 
 
 ## 0.2.0 [2017-11-02]

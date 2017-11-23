@@ -41,7 +41,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count(): int
+    final public function count(): int
     {
         return count($this->items);
     }
@@ -52,7 +52,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      *
      * @return null|Element
      */
-    public function getLast()
+    final public function getLast()
     {
         if ($this->count() === 0) {
             return null;
@@ -65,7 +65,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * Return first item from collection
      * @return null|Element
      */
-    public function getFirst()
+    final public function getFirst()
     {
         if ($this->count() === 0) {
             return null;
@@ -78,7 +78,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * @param int $index
      * @return null|Element
      */
-    public function get(int $index)
+    final public function get(int $index)
     {
         if (array_key_exists($index, $this->items)) {
             return $this->items[$index];
@@ -100,7 +100,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      *
      * @return Element[]
      */
-    public function getItems(): array
+    final public function getItems(): array
     {
         return $this->items;
     }
@@ -117,7 +117,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback): self
+    final public function walk(callable $callback): self
     {
         foreach ($this->getItems() as $index => $item) {
             $callback($item, $index, $this);
@@ -131,7 +131,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function merge(ElementCollection $collection): ElementCollection
+    final public function merge(ElementCollection $collection): ElementCollection
     {
         return new ElementCollection(array_merge($this->getItems(), $collection->getItems()));
     }
@@ -142,7 +142,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function add(Element $element): ElementCollection
+    final public function add(Element $element): ElementCollection
     {
         $items = $this->getItems();
         $items[] = $element;
@@ -156,7 +156,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return Element[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
      */
-    public function getIterator()
+    final public function getIterator()
     {
         return new \ArrayIterator($this->items);
     }

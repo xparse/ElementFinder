@@ -15,7 +15,7 @@ class Element extends \DOMElement
      *
      * @return array
      */
-    public function getAttributes(): array
+    final public function getAttributes(): array
     {
         $attributes = [];
         foreach ($this->attributes as $attr) {

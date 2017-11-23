@@ -29,7 +29,7 @@ class RegexStringFilter implements StringFilterInterface
      * @param string $input
      * @return bool
      */
-    public function valid(string $input): bool
+    final public function valid(string $input): bool
     {
         return preg_match($this->regex, $input) === 1;
     }

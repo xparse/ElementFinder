@@ -37,7 +37,7 @@ class FormHelper
      * @return array
      * @throws \Exception
      */
-    public function getFormData(string $formExpression): array
+    final public function getFormData(string $formExpression): array
     {
         $form = $this->page->object($formExpression, true)->getFirst();
         if ($form === null) {

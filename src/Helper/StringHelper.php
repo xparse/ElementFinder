@@ -16,7 +16,7 @@ class StringHelper
      * @param string $str
      * @return string
      */
-    public static function safeEncodeStr(string $str): string
+    final public static function safeEncodeStr(string $str): string
     {
         return preg_replace_callback('/&#([a-z\d]+);/i', function ($m) {
             $value = (string)$m[0];

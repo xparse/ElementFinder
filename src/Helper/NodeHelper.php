@@ -14,7 +14,7 @@ class NodeHelper
      * @param \DOMNode $node
      * @return string
      */
-    public static function getOuterContent(\DOMNode $node)
+    final public static function getOuterContent(\DOMNode $node)
     {
         $domDocument = new \DOMDocument('1.0');
         $b = $domDocument->importNode($node->cloneNode(true), true);
@@ -31,7 +31,7 @@ class NodeHelper
      * @param \DOMNode $itemObj
      * @return string
      */
-    public static function getInnerContent(\DOMNode $itemObj)
+    final public static function getInnerContent(\DOMNode $itemObj)
     {
         $innerContent = '';
         $children = $itemObj->childNodes;

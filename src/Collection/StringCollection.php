@@ -43,7 +43,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      *
      * @return int
      */
-    public function count(): int
+    final public function count(): int
     {
         return count($this->items);
     }
@@ -54,7 +54,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      *
      * @return null|string
      */
-    public function getLast()
+    final public function getLast()
     {
         if ($this->count() === 0) {
             return null;
@@ -68,7 +68,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      *
      * @return null|string
      */
-    public function getFirst()
+    final public function getFirst()
     {
         if ($this->count() === 0) {
             return null;
@@ -89,7 +89,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * </code>
      * @return string[]
      */
-    public function getItems(): array
+    final public function getItems(): array
     {
         return $this->items;
     }
@@ -106,7 +106,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @param callable $callback
      * @return self
      */
-    public function walk(callable $callback): self
+    final public function walk(callable $callback): self
     {
         foreach ($this->getItems() as $index => $item) {
             $callback($item, $index, $this);
@@ -119,7 +119,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @param StringModifyInterface $modifier
      * @return StringCollection
      */
-    public function map(StringModifyInterface $modifier): StringCollection
+    final public function map(StringModifyInterface $modifier): StringCollection
     {
         $items = [];
         foreach ($this->items as $item) {
@@ -135,7 +135,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @param StringFilterInterface $filter
      * @return StringCollection
      */
-    public function filter(StringFilterInterface $filter): StringCollection
+    final public function filter(StringFilterInterface $filter): StringCollection
     {
         $items = [];
         foreach ($this->items as $item) {
@@ -153,7 +153,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @return self
      * @throws \Exception
      */
-    public function replace(string $regexp, string $to = null): StringCollection
+    final public function replace(string $regexp, string $to = null): StringCollection
     {
         if (null === $to) {
             trigger_error('Require second parameter $to', E_USER_DEPRECATED);
@@ -173,7 +173,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @return StringCollection
      * @throws \Exception
      */
-    public function match(string $regexp, int $index = 1): StringCollection
+    final public function match(string $regexp, int $index = 1): StringCollection
     {
         return RegexHelper::match($regexp, $index, $this->items);
     }
@@ -186,7 +186,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @return StringCollection
      * @throws \Exception
      */
-    public function split(string $regexp): StringCollection
+    final public function split(string $regexp): StringCollection
     {
         $items = [];
         foreach ($this->items as $item) {
@@ -203,7 +203,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @return StringCollection
      * @throws \Exception
      */
-    public function unique(): StringCollection
+    final public function unique(): StringCollection
     {
         return new StringCollection(array_unique($this->items));
     }
@@ -225,7 +225,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @return StringCollection
      * @throws \Exception
      */
-    public function add(string $item): StringCollection
+    final public function add(string $item): StringCollection
     {
         $items = $this->getItems();
         $items[] = $item;
@@ -237,7 +237,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @param int $index
      * @return null|string
      */
-    public function get(int $index)
+    final public function get(int $index)
     {
         if (array_key_exists($index, $this->items)) {
             return $this->items[$index];
@@ -252,7 +252,7 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return string[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
      */
-    public function getIterator()
+    final public function getIterator()
     {
         return new \ArrayIterator($this->items);
     }

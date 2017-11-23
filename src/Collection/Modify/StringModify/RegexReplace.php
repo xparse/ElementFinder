@@ -36,7 +36,7 @@ class RegexReplace implements StringModifyInterface
      * @param string $input
      * @return string
      */
-    public function modify(string $input): string
+    final public function modify(string $input): string
     {
         return preg_replace($this->from, $this->to, $input);
     }

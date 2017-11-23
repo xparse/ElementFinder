@@ -127,7 +127,7 @@ class ElementFinder implements ElementFinderInterface
      * @return StringCollection
      * @throws \Exception
      */
-    public function content(string $expression, bool $outerContent = false): StringCollection
+    final public function content(string $expression, bool $outerContent = false): StringCollection
     {
         $items = $this->query($expression);
 
@@ -156,7 +156,7 @@ class ElementFinder implements ElementFinderInterface
      * @param string $expression
      * @return $this
      */
-    public function remove($expression)
+    final public function remove($expression)
     {
         $items = $this->query($expression);
         foreach ($items as $key => $node) {
@@ -177,7 +177,7 @@ class ElementFinder implements ElementFinderInterface
      * @return StringCollection
      * @throws \Exception
      */
-    public function value($expression): Collection\StringCollection
+    final public function value($expression): Collection\StringCollection
     {
         $items = $this->query($expression);
         $result = [];
@@ -196,7 +196,7 @@ class ElementFinder implements ElementFinderInterface
      * @throws \Exception
      * @return array
      */
-    public function keyValue(string $keyExpression, string $valueExpression): array
+    final public function keyValue(string $keyExpression, string $valueExpression): array
     {
         $keyNodes = $this->query($keyExpression);
         $valueNodes = $this->query($valueExpression);
@@ -220,7 +220,7 @@ class ElementFinder implements ElementFinderInterface
      * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
-    public function object($expression, $outerHtml = false): ObjectCollection
+    final public function object($expression, $outerHtml = false): ObjectCollection
     {
         $type = $this->type;
 
@@ -253,7 +253,7 @@ class ElementFinder implements ElementFinderInterface
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function element($expression): Collection\ElementCollection
+    final public function element($expression): Collection\ElementCollection
     {
         $nodeList = $this->query($expression);
 
@@ -276,7 +276,7 @@ class ElementFinder implements ElementFinderInterface
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function match($regex, $i = 1): Collection\StringCollection
+    final public function match($regex, $i = 1): Collection\StringCollection
     {
         trigger_error('Deprecated. Use content()->match()', E_USER_DEPRECATED);
         $documentHtml = $this->content('.')->getFirst();
@@ -296,7 +296,7 @@ class ElementFinder implements ElementFinderInterface
     /**
      * @return array
      */
-    public function getLoadErrors(): array
+    final public function getLoadErrors(): array
     {
         return $this->loadErrors;
     }

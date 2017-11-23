@@ -19,7 +19,7 @@ class RegexHelper
      * @return \Xparse\ElementFinder\Collection\StringCollection
      * @throws \Exception
      */
-    public static function match($regex, int $i, array $strings): StringCollection
+    final public static function match($regex, int $i, array $strings): StringCollection
     {
         $result = [];
         foreach ($strings as $string) {
@@ -45,7 +45,7 @@ class RegexHelper
      * @return \Xparse\ElementFinder\Collection\StringCollection
      * @throws \Exception
      */
-    public static function matchCallback($regex, callable $i, array $strings)
+    final public static function matchCallback($regex, callable $i, array $strings)
     {
         $result = [];
         foreach ($strings as $string) {
