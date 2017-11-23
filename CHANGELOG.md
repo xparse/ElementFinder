@@ -7,6 +7,9 @@ All Notable changes to `ElementFinder` will be documented in this file
 - #98 Deprecate `ElementCollection::walk`
 - #98 Deprecate `StringCollection::walk`
 - #98 Deprecate `ObjectCollection::walk`
+- #100 Deprecate `ElementCollection::getItems` see `ElementCollection::all` 
+- #100 Deprecate `StringCollection::getItems` see `StringCollection::all`
+- #100 Deprecate `ObjectCollection::getItems` see `ObjectCollection::all`
 
 ### Changed  
 - #92 Require second parameter `StringCollection::replace`

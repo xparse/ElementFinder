@@ -26,8 +26,8 @@ class StringCollectionTest extends TestCase
     {
         $mainCollection = new StringCollection(['a-1', 'b.2', 'c,3']);
         $collection = $mainCollection->replace('![-,.]!', '::');
-        self::assertSame(['a::1', 'b::2', 'c::3'], $collection->getItems());
-        self::assertSame(['a-1', 'b.2', 'c,3'], $mainCollection->getItems());
+        self::assertSame(['a::1', 'b::2', 'c::3'], $collection->all());
+        self::assertSame(['a-1', 'b.2', 'c,3'], $mainCollection->all());
     }
 
 
@@ -35,7 +35,7 @@ class StringCollectionTest extends TestCase
     {
         $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
         $collection = $collection->match('/[a-z][-,](\d)/');
-        self::assertSame(['1', '3'], $collection->getItems());
+        self::assertSame(['1', '3'], $collection->all());
     }
 
 
@@ -43,7 +43,7 @@ class StringCollectionTest extends TestCase
     {
         $collection = new StringCollection(['a-1', 'b.2']);
         $collection = $collection->split('/[.-]/');
-        self::assertSame(['a', '1', 'b', '2'], $collection->getItems());
+        self::assertSame(['a', '1', 'b', '2'], $collection->all());
     }
 
 
@@ -80,21 +80,21 @@ class StringCollectionTest extends TestCase
     public function testMergeWithItems()
     {
         $collection = (new StringCollection(['a', 'b']))->merge(new StringCollection(['a', 'c']));
-        self::assertSame(['a', 'b', 'a', 'c'], $collection->getItems());
+        self::assertSame(['a', 'b', 'a', 'c'], $collection->all());
     }
 
 
     public function testMergeWithoutItems()
     {
         $collection = (new StringCollection())->merge(new StringCollection());
-        self::assertSame([], $collection->getItems());
+        self::assertSame([], $collection->all());
     }
 
 
     public function testMergeWithPartialItems()
     {
         $collection = (new StringCollection([1 => 'a']))->merge(new StringCollection([1 => 'b', 'c']));
-        self::assertSame(['a', 'b', 'c'], $collection->getItems());
+        self::assertSame(['a', 'b', 'c'], $collection->all());
     }
 
 
@@ -102,8 +102,8 @@ class StringCollectionTest extends TestCase
     {
         $sourceCollection = new StringCollection([1 => 'a']);
         $newCollection = $sourceCollection->add('b');
-        self::assertSame(['a'], $sourceCollection->getItems());
-        self::assertSame(['a', 'b'], $newCollection->getItems());
+        self::assertSame(['a'], $sourceCollection->all());
+        self::assertSame(['a', 'b'], $newCollection->all());
     }
 
 
@@ -131,7 +131,7 @@ class StringCollectionTest extends TestCase
             [
                 'bar', 'baz',
             ],
-            $collection->getItems()
+            $collection->all()
         );
     }
 
@@ -146,7 +146,7 @@ class StringCollectionTest extends TestCase
                 'abc..abc',
                 'test..test',
             ],
-            $collection->getItems()
+            $collection->all()
         );
     }
 }

@@ -79,7 +79,7 @@ class FormHelper
             $options = $multipleSelect->value('//option[@selected]/@value');
             if (preg_match('!\[\]$!', $name)) {
                 $name = rtrim($name, '[]');
-                $formData[$name] = $options->getItems();
+                $formData[$name] = $options->all();
             } else {
                 $formData[$name] = $options->getLast();
             }

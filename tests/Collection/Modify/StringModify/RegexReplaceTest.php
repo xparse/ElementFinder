@@ -18,7 +18,7 @@ class RegexReplaceTest extends TestCase
                 'test::123',
                 '--3',
             ],
-            $collection->getItems()
+            $collection->all()
         );
     }
 }

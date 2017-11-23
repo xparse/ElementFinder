@@ -212,7 +212,7 @@ class ElementFinderTest extends TestCase
       ');
         $ns1 = '//*/h2[1]/following-sibling::p';
         $ns2 = '//*/h2[count(//h2)]/preceding-sibling::p';
-        $result = $html->value($ns1 . '[count(.|' . $ns2 . ') = count(' . $ns2 . ')]')->getItems();
+        $result = $html->value($ns1 . '[count(.|' . $ns2 . ') = count(' . $ns2 . ')]')->all();
 
         self::assertCount(4, $result);
         self::assertEquals($result[0], 'Text 1');
@@ -286,14 +286,14 @@ class ElementFinderTest extends TestCase
       ');
 
 
-        $firstTextNodes = $html->value('//b/following-sibling::text()[1]')->getItems();
+        $firstTextNodes = $html->value('//b/following-sibling::text()[1]')->all();
 
         self::assertEquals([
             't1', 'other',
         ], $firstTextNodes);
 
 
-        $allFollowingSiblingTextNodes = $html->value('//b/following-sibling::text()')->getItems();
+        $allFollowingSiblingTextNodes = $html->value('//b/following-sibling::text()')->all();
 
         self::assertEquals([
             't1', 't2', 'other',

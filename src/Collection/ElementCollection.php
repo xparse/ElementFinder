@@ -36,7 +36,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
     final public function count(): int
     {
-        return count($this->getItems());
+        return count($this->all());
     }
 
 
@@ -45,7 +45,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function getLast()
     {
-        $items = $this->getItems();
+        $items = $this->all();
         if (count($items) === 0) {
             return null;
         }
@@ -58,7 +58,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function getFirst()
     {
-        $items = $this->getItems();
+        $items = $this->all();
         if (count($items) === 0) {
             return null;
         }
@@ -72,7 +72,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function get(int $index)
     {
-        $items = $this->getItems();
+        $items = $this->all();
         if (array_key_exists($index, $items)) {
             return $items[$index];
         }
@@ -81,20 +81,21 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * Return array of items connected to this collection
-     *
-     * Rewrite this method in you class
-     *
-     * <code>
-     * foreach($collection->getItems() as $item){
-     *  echo get_class($item)."\n;
-     * }
-     * </code>
-     *
+     * @return Element[]
+     */
+    final public function all(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * @deprecated
+     * @see all
      * @return Element[]
      */
     final public function getItems(): array
     {
+        trigger_error('Deprecated. See all', E_USER_DEPRECATED);
         return $this->items;
     }
 
@@ -107,7 +108,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
     final public function walk(callable $callback): self
     {
         trigger_error('Deprecated', E_USER_DEPRECATED);
-        foreach ($this->getItems() as $index => $item) {
+        foreach ($this->all() as $index => $item) {
             $callback($item, $index, $this);
         }
         return $this;
@@ -121,7 +122,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function merge(ElementCollection $collection): ElementCollection
     {
-        return new ElementCollection(array_merge($this->getItems(), $collection->getItems()));
+        return new ElementCollection(array_merge($this->all(), $collection->all()));
     }
 
 
@@ -132,7 +133,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function add(Element $element): ElementCollection
     {
-        $items = $this->getItems();
+        $items = $this->all();
         $items[] = $element;
         return new ElementCollection($items);
     }
@@ -146,6 +147,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function getIterator()
     {
-        return new \ArrayIterator($this->getItems());
+        return new \ArrayIterator($this->all());
     }
 }
