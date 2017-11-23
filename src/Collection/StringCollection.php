@@ -153,13 +153,15 @@ class StringCollection implements \IteratorAggregate, \Countable
      * @return self
      * @throws \Exception
      */
-    public function replace(string $regexp, string $to = ''): StringCollection
+    public function replace(string $regexp, string $to = null): StringCollection
     {
+        if (null === $to) {
+            trigger_error('Require second parameter $to', E_USER_DEPRECATED);
+        }
         $result = [];
         foreach ($this->items as $index => $item) {
             $result[] = preg_replace($regexp, $to, $item);
         }
-
         return new StringCollection($result);
     }
 
