@@ -307,7 +307,7 @@ class ElementFinder implements ElementFinderInterface
      * @return $this
      * @throws \Exception
      */
-    protected function setData($data)
+    private function setData($data)
     {
         $internalErrors = libxml_use_internal_errors(true);
         $disableEntities = libxml_disable_entity_loader();
@@ -336,7 +336,7 @@ class ElementFinder implements ElementFinderInterface
     /**
      * @return string
      */
-    protected function getEmptyDocumentHtml(): string
+    private function getEmptyDocumentHtml(): string
     {
         return '<html data-document-is-empty></html>';
     }
@@ -347,7 +347,7 @@ class ElementFinder implements ElementFinderInterface
      * @return $this
      * @throws \InvalidArgumentException
      */
-    protected function setDocumentType($documentType)
+    private function setDocumentType($documentType)
     {
         if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
             throw new \InvalidArgumentException('Doc type not valid. use xml or html');
