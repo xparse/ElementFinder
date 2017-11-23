@@ -188,5 +188,4 @@ class StringCollection implements \IteratorAggregate, \Countable
     {
         return new \ArrayIterator($this->getItems());
     }
-
 }
