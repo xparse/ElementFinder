@@ -65,13 +65,25 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      *
      * @return null|ElementFinder
      */
-    final public function getFirst()
+    final public function first()
     {
         $items = $this->all();
         if (count($items) === 0) {
             return null;
         }
         return reset($items);
+    }
+
+
+    /**
+     * @deprecated
+     * @see first
+     * @return null|ElementFinder
+     */
+    public function getFirst()
+    {
+        trigger_error('Deprecated. See first');
+        return $this->first();
     }
 
 

@@ -56,13 +56,24 @@ class ElementCollection implements \IteratorAggregate, \Countable
     /**
      * @return Element|null
      */
-    final public function getFirst()
+    final public function first()
     {
         $items = $this->all();
         if (count($items) === 0) {
             return null;
         }
         return reset($items);
+    }
+
+    /**
+     * @deprecated
+     * @see first
+     * @return null|Element
+     */
+    public function getFirst()
+    {
+        trigger_error('Deprecated. See first');
+        return $this->first();
     }
 
 

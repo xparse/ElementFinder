@@ -112,7 +112,7 @@ class ElementFinder implements ElementFinderInterface
     {
         trigger_error('Deprecated. See content method', E_USER_DEPRECATED);
         try {
-            $result = $this->content('.')->getFirst();
+            $result = $this->content('.')->first();
         } catch (\Exception $e) {
             $result = '';
         }
@@ -268,7 +268,7 @@ class ElementFinder implements ElementFinderInterface
     final public function match($regex, $i = 1): Collection\StringCollection
     {
         trigger_error('Deprecated. Use content()->match()', E_USER_DEPRECATED);
-        $documentHtml = $this->content('.')->getFirst();
+        $documentHtml = $this->content('.')->first();
         if (is_int($i)) {
             $collection = RegexHelper::match($regex, $i, [(string)$documentHtml]);
         } elseif (is_callable($i)) {

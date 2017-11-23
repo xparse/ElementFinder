@@ -36,7 +36,7 @@ class ElementCollectionTest extends TestCase
     {
         $collection = (new ElementCollection([new Element('a', 'link')]))->merge(new ElementCollection([new Element('b', 'bold')]));
         self::assertSame(['a.link', 'b.bold'], [
-            $collection->getFirst()->tagName . '.' . $collection->getFirst()->nodeValue,
+            $collection->first()->tagName . '.' . $collection->first()->nodeValue,
             $collection->getLast()->tagName . '.' . $collection->getLast()->nodeValue,
         ]);
     }
@@ -59,14 +59,14 @@ class ElementCollectionTest extends TestCase
     public function testGetFirst()
     {
         $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'bold')]);
-        self::assertSame('a', $collection->getFirst()->tagName);
+        self::assertSame('a', $collection->first()->tagName);
     }
 
 
     public function testGetFirstOnEmptyCollection()
     {
         $collection = new ElementCollection();
-        self::assertNull($collection->getFirst());
+        self::assertNull($collection->first());
     }
 
 

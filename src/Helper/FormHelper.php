@@ -39,7 +39,7 @@ class FormHelper
      */
     final public function getFormData(string $formExpression): array
     {
-        $form = $this->page->object($formExpression, true)->getFirst();
+        $form = $this->page->object($formExpression, true)->first();
         if ($form === null) {
             throw new \InvalidArgumentException('Cant find form. Possible invalid expression ');
         }
@@ -63,16 +63,16 @@ class FormHelper
 
         # selects
         foreach ($form->object('//select[not(@multiple)]', true) as $select) {
-            $name = $select->value('//select/@name')->getFirst();
+            $name = $select->value('//select/@name')->first();
             if ($name === null) {
                 continue;
             }
-            $formData[$name] = $select->value('//option[@selected]/@value')->getFirst();
+            $formData[$name] = $select->value('//option[@selected]/@value')->first();
         }
 
         # multiple selects
         foreach ($form->object('//select[@multiple]', true) as $multipleSelect) {
-            $name = $multipleSelect->value('//select/@name')->getFirst();
+            $name = $multipleSelect->value('//select/@name')->first();
             if ($name === null) {
                 continue;
             }

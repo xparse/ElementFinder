@@ -33,7 +33,7 @@ class ObjectCollectionTest extends TestCase
         $collectedItems = 0;
         foreach ($collection as $index => $item) {
             $collectedItems++;
-            $data = $item->content('.')->match('!<a>(.*)</a>!')->getFirst();
+            $data = $item->content('.')->match('!<a>(.*)</a>!')->first();
             self::assertSame((string)$index, $data);
         }
 
@@ -49,7 +49,7 @@ class ObjectCollectionTest extends TestCase
         $mergedCollection = $sourceCollection->merge($newCollection);
         $result = [];
         foreach ($mergedCollection as $element) {
-            $result[] = $element->value('//a')->getFirst();
+            $result[] = $element->value('//a')->first();
         }
         self::assertSame(['0', '1', '0'], $result);
     }
@@ -61,15 +61,15 @@ class ObjectCollectionTest extends TestCase
         $newCollection = $sourceCollection->add(new ElementFinder('<a>2</a>'));
         self::assertCount(2, $sourceCollection);
         self::assertCount(3, $newCollection);
-        self::assertSame('2', $newCollection->getLast()->content('//a')->getFirst());
+        self::assertSame('2', $newCollection->getLast()->content('//a')->first());
     }
 
 
     public function testGet()
     {
         $collection = new ObjectCollection([new ElementFinder('<b>0</b>'), new ElementFinder('<a>data1</a>')]);
-        self::assertNotNull('data1', $collection->get(0)->content('//b')->getFirst());
-        self::assertNotNull('data1', $collection->get(1)->content('//a')->getFirst());
+        self::assertNotNull('data1', $collection->get(0)->content('//b')->first());
+        self::assertNotNull('data1', $collection->get(1)->content('//a')->first());
         self::assertNull($collection->get(2));
     }
 

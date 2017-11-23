@@ -58,13 +58,24 @@ class StringCollection implements \IteratorAggregate, \Countable
     /**
      * @return null|string
      */
-    final public function getFirst()
+    final public function first()
     {
         $items = $this->all();
         if (count($items) === 0) {
             return null;
         }
         return reset($items);
+    }
+
+    /**
+     * @deprecated
+     * @see first
+     * @return null|string
+     */
+    public function getFirst()
+    {
+        trigger_error('Deprecated. See first');
+        return $this->first();
     }
 
 

@@ -16,7 +16,7 @@ class ElementFinderTest extends TestCase
     public function testLoad()
     {
         $html = $this->getHtmlTestObject();
-        self::assertContains('<title>test doc</title>', $html->content('.')->getFirst());
+        self::assertContains('<title>test doc</title>', $html->content('.')->first());
     }
 
 
@@ -45,7 +45,7 @@ class ElementFinderTest extends TestCase
     {
         self::assertSame(
             '<body><p>0 </p></body>',
-            (new ElementFinder('   0 '))->content('.')->getFirst()
+            (new ElementFinder('   0 '))->content('.')->first()
         );
     }
 
@@ -64,7 +64,7 @@ class ElementFinderTest extends TestCase
 
         self::assertContains(
             '<a href="http://funivan.com/" title="my blog">link</a>',
-            $html->content('//a', true)->getFirst()
+            $html->content('//a', true)->first()
         );
     }
 
@@ -97,7 +97,7 @@ class ElementFinderTest extends TestCase
         self::assertCount(4, $spanItems);
         self::assertContains(
             '<span class="span-1">',
-            $spanItems->get(0)->content('.')->getFirst()
+            $spanItems->get(0)->content('.')->first()
         );
     }
 
@@ -120,12 +120,12 @@ class ElementFinderTest extends TestCase
     {
         $html = $this->getHtmlTestObject();
 
-        $title = $html->value('//a/@title')->getFirst();
+        $title = $html->value('//a/@title')->first();
         self::assertEquals('my blog', $title);
 
         $html->remove('//a/@title');
 
-        $title = $html->value('//a/@title')->getFirst();
+        $title = $html->value('//a/@title')->first();
         self::assertEmpty($title);
     }
 
@@ -180,8 +180,8 @@ class ElementFinderTest extends TestCase
         $spanItems = $html->object('//span');
         self::assertCount(4, $spanItems);
 
-        self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->getFirst());
-        self::assertContains('<b>1 </b>', $spanItems->get(0)->content('.')->getFirst());
+        self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->first());
+        self::assertContains('<b>1 </b>', $spanItems->get(0)->content('.')->first());
     }
 
 
@@ -254,10 +254,10 @@ class ElementFinderTest extends TestCase
         $page = new ElementFinder('<div></div><div><a>df</a></div>');
         $objects = $page->object('//div');
 
-        self::assertEmpty($objects->get(0)->content('.')->getFirst());
+        self::assertEmpty($objects->get(0)->content('.')->first());
         self::assertContains('data-document-is-empty', $objects->get(0)->content('/')->get(0));
 
-        self::assertNotEmpty($objects->get(1)->content('.')->getFirst());
+        self::assertNotEmpty($objects->get(1)->content('.')->first());
         $linkText = $objects->get(1)->value('//a')->get(0);
         self::assertEquals('df', $linkText);
     }
@@ -269,7 +269,7 @@ class ElementFinderTest extends TestCase
     public function testValidDocumentType()
     {
         $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
-        self::assertContains('<list>123</list>', $document->content('.')->getFirst());
+        self::assertContains('<list>123</list>', $document->content('.')->first());
     }
 
 
@@ -369,13 +369,13 @@ class ElementFinderTest extends TestCase
         $foods = $xml->object('//food');
         self::assertCount(4, $foods);
 
-        self::assertEquals('$5.95', $xml->value('//food[1]/price/@value')->getFirst());
+        self::assertEquals('$5.95', $xml->value('//food[1]/price/@value')->first());
 
         self::assertEquals(950, $xml->value('//food/calories')->getLast());
 
-        self::assertEquals(900, $xml->content('//food[2]/calories')->getFirst());
+        self::assertEquals(900, $xml->content('//food[2]/calories')->first());
 
-        self::assertEquals('5.95 USD', $xml->content('.')->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->getFirst());
+        self::assertEquals('5.95 USD', $xml->content('.')->match('!<price value="([^"]+)"!iu')->replace('!^\\$(.+)!iu', '$1 USD')->first());
     }
 
 
@@ -383,7 +383,7 @@ class ElementFinderTest extends TestCase
     {
         $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
         $food = $xml->object('//food')->get(2);
-        self::assertEquals(900, (int)$food->value('/root/calories')->getFirst());
+        self::assertEquals(900, (int)$food->value('/root/calories')->first());
     }
 
 
@@ -437,7 +437,7 @@ class ElementFinderTest extends TestCase
         foreach ($objects as $index => $object) {
             $link = $object->content('link');
             self::assertCount(1, $link);
-            self::assertEquals('test' . $index, $link->getFirst());
+            self::assertEquals('test' . $index, $link->first());
         }
     }
 
