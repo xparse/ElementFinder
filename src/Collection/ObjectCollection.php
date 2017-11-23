@@ -46,17 +46,26 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * Return last item from collection
-     *
      * @return null|ElementFinder
      */
-    final public function getLast()
+    final public function last()
     {
         $items = $this->all();
         if (count($items) === 0) {
             return null;
         }
         return end($items);
+    }
+
+    /**
+     * @deprecated
+     * @see last
+     * @return ElementFinder|null
+     */
+    final public function getLast()
+    {
+        trigger_error('Deprecated. See last', E_USER_DEPRECATED);
+        return $this->last();
     }
 
 

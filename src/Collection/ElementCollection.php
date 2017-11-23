@@ -43,7 +43,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
     /**
      * @return Element|null
      */
-    final public function getLast()
+    final public function last()
     {
         $items = $this->all();
         if (count($items) === 0) {
@@ -52,6 +52,16 @@ class ElementCollection implements \IteratorAggregate, \Countable
         return end($items);
     }
 
+    /**
+     * @deprecated
+     * @see last
+     * @return Element|null
+     */
+    final public function getLast()
+    {
+        trigger_error('Deprecated. See last', E_USER_DEPRECATED);
+        return $this->last();
+    }
 
     /**
      * @return Element|null

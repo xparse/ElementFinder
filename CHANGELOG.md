@@ -13,6 +13,9 @@ All Notable changes to `ElementFinder` will be documented in this file
 - #99 Deprecate `ElementCollection::getFirst` see `ElementCollection::first` 
 - #99 Deprecate `StringCollection::getFirst` see `StringCollection::first` 
 - #99 Deprecate `ObjectCollection::getFirst` see `ObjectCollection::first` 
+- #99 Deprecate `ElementCollection::getLast` see `ElementCollection::last` 
+- #99 Deprecate `StringCollection::getLast` see `StringCollection::last` 
+- #99 Deprecate `ObjectCollection::getLast` see `ObjectCollection::last` 
 
 ### Changed  
 - #92 Require second parameter `StringCollection::replace`

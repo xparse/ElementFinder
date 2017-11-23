@@ -45,7 +45,7 @@ class StringCollection implements \IteratorAggregate, \Countable
     /**
      * @return null|string
      */
-    final public function getLast()
+    final public function last()
     {
         $items = $this->all();
         if (count($items) === 0) {
@@ -54,6 +54,16 @@ class StringCollection implements \IteratorAggregate, \Countable
         return end($items);
     }
 
+    /**
+     * @deprecated
+     * @see last
+     * @return string|null
+     */
+    final public function getLast()
+    {
+        trigger_error('Deprecated. See last', E_USER_DEPRECATED);
+        return $this->last();
+    }
 
     /**
      * @return null|string

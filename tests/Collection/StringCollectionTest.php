@@ -118,7 +118,7 @@ class StringCollectionTest extends TestCase
     public function testGetLast()
     {
         $collection = new StringCollection([1 => 'word']);
-        self::assertSame('word', $collection->getLast());
+        self::assertSame('word', $collection->last());
     }
 
 

@@ -61,7 +61,7 @@ class ObjectCollectionTest extends TestCase
         $newCollection = $sourceCollection->add(new ElementFinder('<a>2</a>'));
         self::assertCount(2, $sourceCollection);
         self::assertCount(3, $newCollection);
-        self::assertSame('2', $newCollection->getLast()->content('//a')->first());
+        self::assertSame('2', $newCollection->last()->content('//a')->first());
     }
 
 

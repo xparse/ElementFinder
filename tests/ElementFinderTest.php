@@ -371,7 +371,7 @@ class ElementFinderTest extends TestCase
 
         self::assertEquals('$5.95', $xml->value('//food[1]/price/@value')->first());
 
-        self::assertEquals(950, $xml->value('//food/calories')->getLast());
+        self::assertEquals(950, $xml->value('//food/calories')->last());
 
         self::assertEquals(900, $xml->content('//food[2]/calories')->first());
 

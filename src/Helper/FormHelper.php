@@ -81,7 +81,7 @@ class FormHelper
                 $name = rtrim($name, '[]');
                 $formData[$name] = $options->all();
             } else {
-                $formData[$name] = $options->getLast();
+                $formData[$name] = $options->last();
             }
         }
         return $formData;
