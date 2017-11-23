@@ -21,5 +21,4 @@ class Element extends \DOMElement
         }
         return $attributes;
     }
-
 }

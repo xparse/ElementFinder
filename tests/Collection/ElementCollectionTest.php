@@ -13,8 +13,6 @@ use Xparse\ElementFinder\ElementFinder\Element;
  */
 class ElementCollectionTest extends TestCase
 {
-
-
     public function testIterate()
     {
         $collection = new ElementCollection(
