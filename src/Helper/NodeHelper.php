@@ -33,13 +33,12 @@ class NodeHelper
      */
     final public static function getInnerContent(\DOMNode $itemObj)
     {
-        $innerContent = '';
+        $content = '';
         $children = $itemObj->childNodes;
         /** @var \DOMNode $child */
         foreach ($children as $child) {
-            $innerContent .= $child->ownerDocument->saveXML($child);
+            $content .= $child->ownerDocument->saveXML($child);
         }
-        $innerContent = StringHelper::safeEncodeStr($innerContent);
-        return $innerContent;
+        return StringHelper::safeEncodeStr($content);
     }
 }

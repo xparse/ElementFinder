@@ -11,9 +11,7 @@ class Element extends \DOMElement
 {
 
     /**
-     * Array of element attributes
-     *
-     * @return array
+     * @return array Array<String, String>
      */
     final public function getAttributes(): array
     {
@@ -21,7 +19,7 @@ class Element extends \DOMElement
         foreach ($this->attributes as $attr) {
             $attributes[$attr->name] = $attr->value;
         }
-
         return $attributes;
     }
+
 }

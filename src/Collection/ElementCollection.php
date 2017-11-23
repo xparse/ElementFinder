@@ -13,8 +13,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Array of objects
-     *
      * @var Element[]
      */
     private $items;
@@ -36,52 +34,47 @@ class ElementCollection implements \IteratorAggregate, \Countable
     }
 
 
-    /**
-     * Return number of items in this collection
-     *
-     * @return int
-     */
     final public function count(): int
     {
-        return count($this->items);
+        return count($this->getItems());
     }
 
 
     /**
-     * Return last item from collection
-     *
-     * @return null|Element
+     * @return Element|null
      */
     final public function getLast()
     {
-        if ($this->count() === 0) {
+        $items = $this->getItems();
+        if (count($items) === 0) {
             return null;
         }
-        return end($this->items);
+        return end($items);
     }
 
 
     /**
-     * Return first item from collection
-     * @return null|Element
+     * @return Element|null
      */
     final public function getFirst()
     {
-        if ($this->count() === 0) {
+        $items = $this->getItems();
+        if (count($items) === 0) {
             return null;
         }
-        return reset($this->items);
+        return reset($items);
     }
 
 
     /**
      * @param int $index
-     * @return null|Element
+     * @return Element|null
      */
     final public function get(int $index)
     {
-        if (array_key_exists($index, $this->items)) {
-            return $this->items[$index];
+        $items = $this->getItems();
+        if (array_key_exists($index, $items)) {
+            return $items[$index];
         }
         return null;
     }
@@ -158,6 +151,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     final public function getIterator()
     {
-        return new \ArrayIterator($this->items);
+        return new \ArrayIterator($this->getItems());
     }
 }

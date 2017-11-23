@@ -16,8 +16,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * Array of strings
-     *
      * @var string[]
      */
     private $items = [];
@@ -38,55 +36,39 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
-    /**
-     * Return number of items in this collection
-     *
-     * @return int
-     */
     final public function count(): int
     {
-        return count($this->items);
+        return count($this->getItems());
     }
 
 
     /**
-     * Return last item from collection
-     *
      * @return null|string
      */
     final public function getLast()
     {
-        if ($this->count() === 0) {
+        $items = $this->getItems();
+        if (count($items) === 0) {
             return null;
         }
-        return end($this->items);
+        return end($items);
     }
 
 
     /**
-     * Return first item from collection
-     *
      * @return null|string
      */
     final public function getFirst()
     {
-        if ($this->count() === 0) {
+        $items = $this->getItems();
+        if (count($items) === 0) {
             return null;
         }
-        return reset($this->items);
+        return reset($items);
     }
 
 
     /**
-     * Return array of items connected to this collection
-     *
-     * Rewrite this method in you class
-     *
-     * <code>
-     * foreach($collection->getItems() as $item){
-     *  echo get_class($item)."\n;
-     * }
-     * </code>
      * @return string[]
      */
     final public function getItems(): array
@@ -96,17 +78,10 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * Iterate over objects in collection
-     *
-     * <code>
-     * $collection->walk(function(string $item, int $index, StringCollection $collection){
-     *    echo $item;
-     * })
-     * </code>
      * @param callable $callback
-     * @return self
+     * @return StringCollection
      */
-    final public function walk(callable $callback): self
+    final public function walk(callable $callback): StringCollection
     {
         foreach ($this->getItems() as $index => $item) {
             $callback($item, $index, $this);
@@ -115,30 +90,20 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
-    /**
-     * @param StringModifyInterface $modifier
-     * @return StringCollection
-     */
     final public function map(StringModifyInterface $modifier): StringCollection
     {
         $items = [];
-        foreach ($this->items as $item) {
+        foreach ($this->getItems() as $item) {
             $items[] = $modifier->modify($item);
         }
         return new StringCollection($items);
     }
 
 
-    /**
-     * Return new filtered collection
-     *
-     * @param StringFilterInterface $filter
-     * @return StringCollection
-     */
     final public function filter(StringFilterInterface $filter): StringCollection
     {
         $items = [];
-        foreach ($this->items as $item) {
+        foreach ($this->getItems() as $item) {
             if ($filter->valid($item)) {
                 $items[] = $item;
             }
@@ -147,49 +112,29 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
-    /**
-     * @param string $regexp
-     * @param string $to
-     * @return self
-     * @throws \Exception
-     */
     final public function replace(string $regexp, string $to = null): StringCollection
     {
         if (null === $to) {
             trigger_error('Require second parameter $to', E_USER_DEPRECATED);
         }
         $result = [];
-        foreach ($this->items as $index => $item) {
+        foreach ($this->getItems() as $index => $item) {
             $result[] = preg_replace($regexp, $to, $item);
         }
         return new StringCollection($result);
     }
 
 
-    /**
-     * Match strings and return new collection
-     * @param string $regexp
-     * @param int $index
-     * @return StringCollection
-     * @throws \Exception
-     */
     final public function match(string $regexp, int $index = 1): StringCollection
     {
-        return RegexHelper::match($regexp, $index, $this->items);
+        return RegexHelper::match($regexp, $index, $this->getItems());
     }
 
 
-    /**
-     * Split strings by regexp
-     *
-     * @param string $regexp
-     * @return StringCollection
-     * @throws \Exception
-     */
     final public function split(string $regexp): StringCollection
     {
         $items = [];
-        foreach ($this->items as $item) {
+        foreach ($this->getItems() as $item) {
             $data = preg_split($regexp, $item);
             foreach ($data as $string) {
                 $items[] = $string;
@@ -199,32 +144,18 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
-    /**
-     * @return StringCollection
-     * @throws \Exception
-     */
     final public function unique(): StringCollection
     {
-        return new StringCollection(array_unique($this->items));
+        return new StringCollection(array_unique($this->getItems()));
     }
 
 
-    /**
-     * @param StringCollection $collection
-     * @return StringCollection
-     * @throws \Exception
-     */
     final public function merge(StringCollection $collection): StringCollection
     {
         return new StringCollection(array_merge($this->getItems(), $collection->getItems()));
     }
 
 
-    /**
-     * @param string $item
-     * @return StringCollection
-     * @throws \Exception
-     */
     final public function add(string $item): StringCollection
     {
         $items = $this->getItems();
@@ -239,21 +170,20 @@ class StringCollection implements \IteratorAggregate, \Countable
      */
     final public function get(int $index)
     {
-        if (array_key_exists($index, $this->items)) {
-            return $this->items[$index];
+        $items = $this->getItems();
+        if (array_key_exists($index, $items)) {
+            return $items[$index];
         }
         return null;
     }
 
 
     /**
-     * Retrieve an external iterator
-     *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return string[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
+     * @return string[]|\ArrayIterator
      */
     final public function getIterator()
     {
-        return new \ArrayIterator($this->items);
+        return new \ArrayIterator($this->getItems());
     }
 }

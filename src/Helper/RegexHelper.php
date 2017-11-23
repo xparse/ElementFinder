@@ -24,16 +24,13 @@ class RegexHelper
         $result = [];
         foreach ($strings as $string) {
             preg_match_all($regex, $string, $matchedData);
-
             if (!isset($matchedData[$i])) {
                 continue;
             }
-
             foreach ((array)$matchedData[$i] as $resultString) {
                 $result[] = $resultString;
             }
         }
-
         return new StringCollection($result);
     }
 
@@ -51,17 +48,14 @@ class RegexHelper
         foreach ($strings as $string) {
             if (preg_match_all($regex, $string, $matchedData)) {
                 $rawStringResult = $i($matchedData);
-
                 if (!is_array($rawStringResult)) {
                     throw new \Exception('Invalid value. Expect array from callback');
                 }
-
                 foreach ($rawStringResult as $resultString) {
                     $result[] = $resultString;
                 }
             }
         }
-
         return new StringCollection($result);
     }
 }

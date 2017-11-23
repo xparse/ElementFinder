@@ -89,7 +89,6 @@ class ElementFinder implements ElementFinderInterface
         $this->dom = new \DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
         $this->dom->registerNodeClass(\DOMElement::class, Element::class);
-
         $documentType = $documentType ?? static::DOCUMENT_HTML;
         $this->options = (LIBXML_NOCDATA & LIBXML_NOERROR);
         $this->setDocumentType($documentType);
@@ -130,7 +129,6 @@ class ElementFinder implements ElementFinderInterface
     final public function content(string $expression, bool $outerContent = false): StringCollection
     {
         $items = $this->query($expression);
-
         $result = [];
         foreach ($items as $node) {
             if ($outerContent) {
@@ -139,7 +137,6 @@ class ElementFinder implements ElementFinderInterface
                 $result[] = NodeHelper::getInnerContent($node);
             }
         }
-
         return new StringCollection($result);
     }
 
@@ -203,12 +200,10 @@ class ElementFinder implements ElementFinderInterface
         if ($keyNodes->length !== $valueNodes->length) {
             throw new \RuntimeException('Keys and values must have equal numbers of elements');
         }
-
         $result = [];
         foreach ($keyNodes as $index => $node) {
             $result[$node->nodeValue] = $valueNodes->item($index)->nodeValue;
         }
-
         return $result;
     }
 
@@ -223,9 +218,7 @@ class ElementFinder implements ElementFinderInterface
     final public function object($expression, $outerHtml = false): ObjectCollection
     {
         $type = $this->type;
-
         $items = $this->query($expression);
-
         $result = [];
         foreach ($items as $node) {
             /** @var \DOMElement $node */
@@ -234,7 +227,6 @@ class ElementFinder implements ElementFinderInterface
             } else {
                 $html = NodeHelper::getInnerContent($node);
             }
-
             if (trim($html) === '') {
                 $html = $this->getEmptyDocumentHtml();
             }
@@ -243,7 +235,6 @@ class ElementFinder implements ElementFinderInterface
             }
             $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
         }
-
         return new ObjectCollection($result);
     }
 
@@ -256,12 +247,10 @@ class ElementFinder implements ElementFinderInterface
     final public function element($expression): Collection\ElementCollection
     {
         $nodeList = $this->query($expression);
-
         $items = [];
         foreach ($nodeList as $item) {
             $items[] = $item;
         }
-
         return new ElementCollection($items);
     }
 
@@ -280,7 +269,6 @@ class ElementFinder implements ElementFinderInterface
     {
         trigger_error('Deprecated. Use content()->match()', E_USER_DEPRECATED);
         $documentHtml = $this->content('.')->getFirst();
-
         if (is_int($i)) {
             $collection = RegexHelper::match($regex, $i, [(string)$documentHtml]);
         } elseif (is_callable($i)) {
@@ -288,7 +276,6 @@ class ElementFinder implements ElementFinderInterface
         } else {
             throw new \InvalidArgumentException('Invalid argument. Expect int or callable');
         }
-
         return $collection;
     }
 
@@ -319,16 +306,12 @@ class ElementFinder implements ElementFinderInterface
         } else {
             $this->dom->loadXML($data, $this->options);
         }
-
         $this->loadErrors = libxml_get_errors();
         libxml_clear_errors();
-
         libxml_use_internal_errors($internalErrors);
         libxml_disable_entity_loader($disableEntities);
-
         unset($this->xpath);
         $this->xpath = new \DomXPath($this->dom);
-
         return $this;
     }
 
@@ -352,9 +335,7 @@ class ElementFinder implements ElementFinderInterface
         if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
             throw new \InvalidArgumentException('Doc type not valid. use xml or html');
         }
-
         $this->type = $documentType;
-
         return $this;
     }
 

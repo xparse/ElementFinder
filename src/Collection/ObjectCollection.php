@@ -13,8 +13,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 {
 
     /**
-     * Array of objects
-     *
      * @var ElementFinder[]
      */
     private $items;
@@ -43,7 +41,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     final public function count(): int
     {
-        return count($this->items);
+        return count($this->getItems());
     }
 
 
@@ -54,10 +52,11 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     final public function getLast()
     {
-        if ($this->count() === 0) {
+        $items = $this->getItems();
+        if (count($items) === 0) {
             return null;
         }
-        return end($this->items);
+        return end($items);
     }
 
 
@@ -68,10 +67,11 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     final public function getFirst()
     {
-        if ($this->count() === 0) {
+        $items = $this->getItems();
+        if (count($items) === 0) {
             return null;
         }
-        return reset($this->items);
+        return reset($items);
     }
 
 
@@ -144,21 +144,20 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     final public function get(int $index)
     {
-        if (array_key_exists($index, $this->items)) {
-            return $this->items[$index];
+        $items = $this->getItems();
+        if (array_key_exists($index, $items)) {
+            return $items[$index];
         }
         return null;
     }
 
 
     /**
-     * Retrieve an external iterator
-     *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return ElementFinder[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
+     * @return ElementFinder[]|\ArrayIterator
      */
     final public function getIterator()
     {
-        return new \ArrayIterator($this->items);
+        return new \ArrayIterator($this->getItems());
     }
 }
