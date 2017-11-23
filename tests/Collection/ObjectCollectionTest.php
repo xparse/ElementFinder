@@ -21,23 +21,6 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    public function testWalk()
-    {
-        $collection = new ObjectCollection(
-            [
-                new ElementFinder('<a>1</a>'),
-                new ElementFinder('<a>2</a>'),
-            ]
-        );
-
-        $linksTest = [];
-        $collection->walk(function (ElementFinder $elementFinder) use (&$linksTest) {
-            $linksTest[] = $elementFinder->content('//a')->getFirst();
-        });
-        self::assertSame(['1', '2'], $linksTest);
-    }
-
-
     public function testIterate()
     {
         $collection = new ObjectCollection(
@@ -64,12 +47,11 @@ class ObjectCollectionTest extends TestCase
         $newCollection = new ObjectCollection([new ElementFinder('<a>0</a>')]);
 
         $mergedCollection = $sourceCollection->merge($newCollection);
-
-        $aTexts = [];
-        $mergedCollection->walk(function (ElementFinder $element) use (&$aTexts) {
-            $aTexts[] = (string)$element->value('//a')->getFirst();
-        });
-        self::assertSame(['0', '1', '0'], $aTexts);
+        $result = [];
+        foreach ($mergedCollection as $element) {
+            $result[] = $element->value('//a')->getFirst();
+        }
+        self::assertSame(['0', '1', '0'], $result);
     }
 
 

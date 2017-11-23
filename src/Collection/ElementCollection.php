@@ -100,18 +100,13 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * Iterate over objects in collection
-     *
-     * <code>
-     * $collection->walk(function(Element $item, int $index, ElementCollection $collection){
-     *    echo $item->nodeValue;
-     * })
-     * </code>
+     * @deprecated
      * @param callable $callback
      * @return self
      */
     final public function walk(callable $callback): self
     {
+        trigger_error('Deprecated', E_USER_DEPRECATED);
         foreach ($this->getItems() as $index => $item) {
             $callback($item, $index, $this);
         }

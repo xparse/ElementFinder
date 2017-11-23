@@ -13,21 +13,6 @@ use Xparse\ElementFinder\ElementFinder\Element;
  */
 class ElementCollectionTest extends TestCase
 {
-    public function testWalk()
-    {
-        $collection = new ElementCollection(
-            [
-                new Element('a', 'link'),
-                new Element('b', 'bold'),
-            ]
-        );
-
-        $items = [];
-        $collection->walk(function (Element $element) use (&$items) {
-            $items[] = $element->tagName . '.' . $element->nodeValue;
-        });
-        self::assertSame(['a.link', 'b.bold'], $items);
-    }
 
 
     public function testIterate()

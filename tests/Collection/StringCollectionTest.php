@@ -47,17 +47,6 @@ class StringCollectionTest extends TestCase
     }
 
 
-    public function testWalk()
-    {
-        $collection = new \Xparse\ElementFinder\Collection\StringCollection(['1', '2', '3']);
-        $data = '';
-        $collection->walk(function (string $item) use (&$data) {
-            $data = $data . $item;
-        });
-        self::assertSame('123', $data);
-    }
-
-
     public function testUnique()
     {
         $collection = new StringCollection(['1', '2', '2']);

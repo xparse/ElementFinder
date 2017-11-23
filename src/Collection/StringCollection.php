@@ -78,11 +78,13 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
+     * @deprecated
      * @param callable $callback
      * @return StringCollection
      */
     final public function walk(callable $callback): StringCollection
     {
+        trigger_error('Deprecated', E_USER_DEPRECATED);
         foreach ($this->getItems() as $index => $item) {
             $callback($item, $index, $this);
         }

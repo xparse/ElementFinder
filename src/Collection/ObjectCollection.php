@@ -95,18 +95,13 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * Iterate over objects in collection
-     *
-     * <code>
-     * $collection->walk(function(ElementFinder $item, int $index, ObjectCollection $collection){
-     *    print_r($item->content('//a')->getItems());
-     * })
-     * </code>
+     * @deprecated
      * @param callable $callback
      * @return self
      */
     final public function walk(callable $callback): self
     {
+        trigger_error('Deprecated', E_USER_DEPRECATED);
         foreach ($this->getItems() as $index => $item) {
             $callback($item, $index, $this);
         }

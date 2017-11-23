@@ -3,6 +3,11 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ## 0.2.1 [Unreleased]
 
+### Deprecated 
+- #98 Deprecate `ElementCollection::walk`
+- #98 Deprecate `StringCollection::walk`
+- #98 Deprecate `ObjectCollection::walk`
+
 ### Changed  
 - #92 Require second parameter `StringCollection::replace`
 - #93 All public methods become final.
