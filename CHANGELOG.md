@@ -1,7 +1,9 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## 0.2.1 [Unreleased]
+## 0.2.2 [Unreleased]
+
+## 0.2.1 [2017-12-27]
 
 ### Deprecated 
 - #98 Deprecate `ElementCollection::walk`
