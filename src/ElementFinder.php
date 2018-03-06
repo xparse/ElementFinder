@@ -102,6 +102,13 @@ class ElementFinder implements ElementFinderInterface
     }
 
 
+    public function __clone()
+    {
+        $this->dom = clone $this->dom;
+        $this->xpath = new \DomXPath($this->dom);
+    }
+
+
     /**
      * @deprecated
      * @see content
@@ -151,11 +158,12 @@ class ElementFinder implements ElementFinderInterface
      * ```
      *
      * @param string $expression
-     * @return $this
+     * @return ElementFinder
      */
-    final public function remove($expression)
+    final public function remove($expression): ElementFinder
     {
-        $items = $this->query($expression);
+        $elementFinder = clone $this;
+        $items = $elementFinder->query($expression);
         foreach ($items as $key => $node) {
             if ($node instanceof \DOMAttr) {
                 $node->ownerElement->removeAttribute($node->name);
@@ -163,7 +171,7 @@ class ElementFinder implements ElementFinderInterface
                 $node->parentNode->removeChild($node);
             }
         }
-        return $this;
+        return $elementFinder;
     }
 
 

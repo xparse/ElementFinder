@@ -1,7 +1,10 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## 0.2.2 [Unreleased]
+## 0.3.0 [Unreleased]
+
+### Changed  
+- #84 method `ElementFinder::remove` return `new ElementFinder()`
 
 ## 0.2.1 [2017-12-27]
 
