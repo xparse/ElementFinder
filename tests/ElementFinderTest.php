@@ -77,12 +77,12 @@ class ElementFinderTest extends TestCase
 
         self::assertCount(4, $spanItems);
 
-        $html->remove('//span[2]');
+        $html = $html->remove('//span[2]');
 
         $spanItems = $html->content('//span');
         self::assertCount(3, $spanItems);
 
-        $html->remove('//span[@class]');
+        $html = $html->remove('//span[@class]');
 
         $spanItems = $html->content('//span');
         self::assertCount(1, $spanItems);
@@ -106,13 +106,13 @@ class ElementFinderTest extends TestCase
     {
         $html = $this->getHtmlTestObject();
 
-        $title = $html->value('//title')->get(0);
-        self::assertEquals('test doc', $title);
-
         $html->remove('//title');
+        $title = $html->value('//title')->first();
+        self::assertNotNull($title);
 
-        $title = $html->value('//title')->get(0);
-        self::assertEmpty($title);
+        $html = $html->remove('//title');
+        $title = $html->value('//title')->first();
+        self::assertNull($title);
     }
 
 
@@ -120,13 +120,13 @@ class ElementFinderTest extends TestCase
     {
         $html = $this->getHtmlTestObject();
 
-        $title = $html->value('//a/@title')->first();
-        self::assertEquals('my blog', $title);
-
         $html->remove('//a/@title');
-
         $title = $html->value('//a/@title')->first();
-        self::assertEmpty($title);
+        self::assertNotNull($title);
+
+        $html = $html->remove('//a/@title');
+        $title = $html->value('//a/@title')->first();
+        self::assertNull($title);
     }
 
 
@@ -364,7 +364,7 @@ class ElementFinderTest extends TestCase
 
         self::assertCount(5, $foods);
 
-        $xml->remove('//food[3]');
+        $xml = $xml->remove('//food[3]');
 
         $foods = $xml->object('//food');
         self::assertCount(4, $foods);
