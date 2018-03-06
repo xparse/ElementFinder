@@ -162,16 +162,16 @@ class ElementFinder implements ElementFinderInterface
      */
     final public function remove($expression): ElementFinder
     {
-        $dom = clone $this;
-        $items = $dom->query($expression);
+        $elementFinder = clone $this;
+        $items = $elementFinder->query($expression);
         foreach ($items as $key => $node) {
             if ($node instanceof \DOMAttr) {
                 $node->ownerElement->removeAttribute($node->name);
-                continue;
+            } else {
+                $node->parentNode->removeChild($node);
             }
-            $node->parentNode->removeChild($node);
         }
-        return $dom;
+        return $elementFinder;
     }
 
 
