@@ -469,6 +469,26 @@ class ElementFinderTest extends TestCase
     }
 
 
+    final public function testElement()
+    {
+        $page = new ElementFinder('<div><span title="Hello">sdf</span></div>');
+        $first = $page->element('//span')->first();
+        if ($first !== null) {
+            $first->setAttribute('title', 'Changed');
+            self::assertSame('Changed', $first->getAttribute('title'));
+        } else {
+            self::fail('Cant find first title');
+        }
+
+        $second = $page->element('//span')->first();
+        if ($first !== null) {
+            self::assertSame('Hello', $second->getAttribute('title'));
+        } else {
+            self::fail('Can find modified title');
+        }
+    }
+
+
     /**
      * @return string
      */
@@ -566,25 +586,5 @@ class ElementFinderTest extends TestCase
           </food>
       </breakfast_menu>
       ';
-    }
-
-
-    final public function testElement()
-    {
-        $page = new ElementFinder('<div><span title="Hello">sdf</span></div>');
-        $first = $page->element('//span')->first();
-        if ($first !== null) {
-            $first->setAttribute('title', 'Changed');
-            self::assertSame('Changed', $first->getAttribute('title'));
-        } else {
-            self::fail('Cant find first title');
-        }
-
-        $second = $page->element('//span')->first();
-        if ($first != null) {
-            self::assertSame('Hello', $second->getAttribute('title'));
-        } else {
-            self::fail('Can find modified title');
-        }
     }
 }

@@ -257,7 +257,7 @@ class ElementFinder implements ElementFinderInterface
             $data = StringHelper::safeEncodeStr($data);
             $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
             $this->dom->loadHTML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
-        } else if (static::DOCUMENT_XML === $this->type) {
+        } elseif (static::DOCUMENT_XML === $this->type) {
             $this->dom->loadXML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
         } else {
             throw new \InvalidArgumentException('Doc type not valid. use xml or html');
