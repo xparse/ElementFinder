@@ -4,7 +4,9 @@ All Notable changes to `ElementFinder` will be documented in this file
 ## 0.3.0 [Unreleased]
 
 ### Changed  
+- #84 `ElementFinder` become immutable 
 - #84 method `ElementFinder::remove` return `new ElementFinder()`
+- #84 method `ElementFinder::element` return copy of the element
 - Make second argument required `\Xparse\ElementFinder\Collection\StringCollection::replace`
 - #87 Remove exceptions from the constructor `ElementCollection`, `StringCollection`, `ObjectCollection`    
 

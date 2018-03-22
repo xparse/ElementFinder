@@ -232,12 +232,12 @@ class ElementFinder implements ElementFinderInterface
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    final public function element($expression): Collection\ElementCollection
+    final public function element($expression): ElementCollection
     {
         $nodeList = $this->query($expression);
         $items = [];
         foreach ($nodeList as $item) {
-            $items[] = $item;
+            $items[] = clone $item;
         }
         return new ElementCollection($items);
     }
