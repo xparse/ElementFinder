@@ -53,17 +53,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @deprecated
-     * @see last
-     * @return Element|null
-     */
-    final public function getLast()
-    {
-        trigger_error('Deprecated. See last', E_USER_DEPRECATED);
-        return $this->last();
-    }
-
-    /**
      * @return Element|null
      */
     final public function first()
@@ -73,17 +62,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
             return null;
         }
         return reset($items);
-    }
-
-    /**
-     * @deprecated
-     * @see first
-     * @return null|Element
-     */
-    public function getFirst()
-    {
-        trigger_error('Deprecated. See first');
-        return $this->first();
     }
 
 
@@ -108,33 +86,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
     {
         return $this->items;
     }
-
-    /**
-     * @deprecated
-     * @see all
-     * @return Element[]
-     */
-    final public function getItems(): array
-    {
-        trigger_error('Deprecated. See all', E_USER_DEPRECATED);
-        return $this->items;
-    }
-
-
-    /**
-     * @deprecated
-     * @param callable $callback
-     * @return self
-     */
-    final public function walk(callable $callback): self
-    {
-        trigger_error('Deprecated', E_USER_DEPRECATED);
-        foreach ($this->all() as $index => $item) {
-            $callback($item, $index, $this);
-        }
-        return $this;
-    }
-
 
     /**
      * @param ElementCollection $collection

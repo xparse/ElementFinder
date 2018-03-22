@@ -5,9 +5,24 @@ All Notable changes to `ElementFinder` will be documented in this file
 
 ### Changed  
 - #84 method `ElementFinder::remove` return `new ElementFinder()`
+- Make second argument required `\Xparse\ElementFinder\Collection\StringCollection::replace`
 
 ### Removed
-- #86 Remove deprecated method `ElementFinder::match`
+- #86 Remove deprecated method `\Xparse\ElementFinder\ElementFinder::match`
+- #86 Remove deprecated method `\Xparse\ElementFinder\ElementFinder::__toString`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\StringCollection::getLast`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\StringCollection::getFirst`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\StringCollection::getItems`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\StringCollection::walk`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ObjectCollection::getLast`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ObjectCollection::getFirst`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ObjectCollection::getItems`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ObjectCollection::walk`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ElementCollection::getLast`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ElementCollection::getFirst`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ElementCollection::getItems`
+- #86 Remove deprecated method `\Xparse\ElementFinder\Collection\ElementCollection::walk`
+- #86 Remove deprecated method ``
 
 ## 0.2.1 [2017-12-27]
 

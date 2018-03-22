@@ -55,17 +55,6 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @deprecated
-     * @see last
-     * @return string|null
-     */
-    final public function getLast()
-    {
-        trigger_error('Deprecated. See last', E_USER_DEPRECATED);
-        return $this->last();
-    }
-
-    /**
      * @return null|string
      */
     final public function first()
@@ -78,49 +67,11 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @deprecated
-     * @see first
-     * @return null|string
-     */
-    public function getFirst()
-    {
-        trigger_error('Deprecated. See first');
-        return $this->first();
-    }
-
-
-    /**
-     * @deprecated
-     * @see all
-     * @return string[]
-     */
-    final public function getItems(): array
-    {
-        trigger_error('Deprecated. See all', E_USER_DEPRECATED);
-        return $this->items;
-    }
-
-    /**
      * @return string[]
      */
     final public function all(): array
     {
         return $this->items;
-    }
-
-
-    /**
-     * @deprecated
-     * @param callable $callback
-     * @return StringCollection
-     */
-    final public function walk(callable $callback): StringCollection
-    {
-        trigger_error('Deprecated', E_USER_DEPRECATED);
-        foreach ($this->all() as $index => $item) {
-            $callback($item, $index, $this);
-        }
-        return $this;
     }
 
 
@@ -146,11 +97,8 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
-    final public function replace(string $regexp, string $to = null): StringCollection
+    final public function replace(string $regexp, string $to): StringCollection
     {
-        if (null === $to) {
-            trigger_error('Require second parameter $to', E_USER_DEPRECATED);
-        }
         $result = [];
         foreach ($this->all() as $index => $item) {
             $result[] = preg_replace($regexp, $to, $item);

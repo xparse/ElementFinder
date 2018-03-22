@@ -107,25 +107,6 @@ class ElementFinder implements ElementFinderInterface
         $this->xpath = new \DomXPath($this->dom);
     }
 
-
-    /**
-     * @deprecated
-     * @see content
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        trigger_error('Deprecated. See content method', E_USER_DEPRECATED);
-        try {
-            $result = $this->content('.')->first();
-        } catch (\Exception $e) {
-            $result = '';
-        }
-        return (string)$result;
-    }
-
-
     /**
      * @param string $expression
      * @param bool $outerContent
@@ -260,7 +241,6 @@ class ElementFinder implements ElementFinderInterface
         }
         return new ElementCollection($items);
     }
-
 
 
     /**

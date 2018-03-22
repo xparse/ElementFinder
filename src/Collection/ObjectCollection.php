@@ -26,7 +26,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     {
         foreach ($items as $key => $item) {
             if (!$item instanceof ElementFinder) {
-                $className = ($item === null) ? gettype($item) : get_class($item);
+                $className = ($item === null) ? \gettype($item) : \get_class($item);
                 throw new \InvalidArgumentException('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
             }
         }
@@ -41,7 +41,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     final public function count(): int
     {
-        return count($this->all());
+        return \count($this->all());
     }
 
 
@@ -51,48 +51,22 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     final public function last()
     {
         $items = $this->all();
-        if (count($items) === 0) {
+        if (\count($items) === 0) {
             return null;
         }
         return end($items);
     }
 
     /**
-     * @deprecated
-     * @see last
-     * @return ElementFinder|null
-     */
-    final public function getLast()
-    {
-        trigger_error('Deprecated. See last', E_USER_DEPRECATED);
-        return $this->last();
-    }
-
-
-    /**
-     * Return first item from collection
-     *
      * @return null|ElementFinder
      */
     final public function first()
     {
         $items = $this->all();
-        if (count($items) === 0) {
+        if (\count($items) === 0) {
             return null;
         }
         return reset($items);
-    }
-
-
-    /**
-     * @deprecated
-     * @see first
-     * @return null|ElementFinder
-     */
-    public function getFirst()
-    {
-        trigger_error('Deprecated. See first');
-        return $this->first();
     }
 
 
@@ -103,33 +77,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     {
         return $this->items;
     }
-
-    /**
-     * @deprecated
-     * @see all
-     * @return ElementFinder[]
-     */
-    final public function getItems(): array
-    {
-        trigger_error('Deprecated. See all', E_USER_DEPRECATED);
-        return $this->items;
-    }
-
-
-    /**
-     * @deprecated
-     * @param callable $callback
-     * @return self
-     */
-    final public function walk(callable $callback): self
-    {
-        trigger_error('Deprecated', E_USER_DEPRECATED);
-        foreach ($this->all() as $index => $item) {
-            $callback($item, $index, $this);
-        }
-        return $this;
-    }
-
 
     /**
      * @param ObjectCollection $collection
