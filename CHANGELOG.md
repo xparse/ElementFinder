@@ -6,6 +6,7 @@ All Notable changes to `ElementFinder` will be documented in this file
 ### Changed  
 - #84 method `ElementFinder::remove` return `new ElementFinder()`
 - Make second argument required `\Xparse\ElementFinder\Collection\StringCollection::replace`
+- #87 Remove exceptions from the constructor `ElementCollection`, `StringCollection`, `ObjectCollection`    
 
 ### Removed
 - #86 Remove deprecated method `\Xparse\ElementFinder\ElementFinder::match`
