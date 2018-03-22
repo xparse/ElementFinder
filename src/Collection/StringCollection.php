@@ -6,7 +6,6 @@ namespace Xparse\ElementFinder\Collection;
 
 use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
-use Xparse\ElementFinder\Helper\RegexHelper;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
@@ -146,7 +145,16 @@ class StringCollection implements \IteratorAggregate, \Countable
      */
     final public function match(string $regexp, int $index = 1): StringCollection
     {
-        return RegexHelper::match($regexp, $index, $this->all());
+        $result = [];
+        foreach ($this->all() as $string) {
+            preg_match_all($regexp, $string, $matchedData);
+            if (isset($matchedData[$index])) {
+                foreach ((array)$matchedData[$index] as $matchedString) {
+                    $result[] = $matchedString;
+                }
+            }
+        }
+        return new StringCollection($result);
     }
 
 

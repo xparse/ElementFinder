@@ -8,11 +8,13 @@ use Xparse\ElementFinder\Collection\StringCollection;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
+ * @deprecated Internal class. Will be removed in next release
  */
 class RegexHelper
 {
 
     /**
+     * @deprecated
      * @param string $regex
      * @param integer $i
      * @param string[] $strings
@@ -21,6 +23,7 @@ class RegexHelper
      */
     final public static function match($regex, int $i, array $strings): StringCollection
     {
+        trigger_error('Deprecated. This method is internal', E_USER_DEPRECATED);
         $result = [];
         foreach ($strings as $string) {
             preg_match_all($regex, $string, $matchedData);
