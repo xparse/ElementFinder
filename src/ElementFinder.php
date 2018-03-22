@@ -34,13 +34,6 @@ class ElementFinder implements ElementFinderInterface
     const DOCUMENT_XML = 1;
 
     /**
-     * Hide errors
-     *
-     * @var int
-     */
-    private $options;
-
-    /**
      * Current document type
      *
      * @var int
@@ -65,7 +58,7 @@ class ElementFinder implements ElementFinderInterface
     /**
      * @var array
      */
-    private $loadErrors;
+    private $loadErrors = [];
 
 
     /**
@@ -88,9 +81,7 @@ class ElementFinder implements ElementFinderInterface
         $this->dom = new \DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
         $this->dom->registerNodeClass(\DOMElement::class, Element::class);
-        $documentType = $documentType ?? static::DOCUMENT_HTML;
-        $this->options = (LIBXML_NOCDATA & LIBXML_NOERROR);
-        $this->setDocumentType($documentType);
+        $this->type = $documentType ?? static::DOCUMENT_HTML;
         $this->setData($data);
     }
 
@@ -216,7 +207,7 @@ class ElementFinder implements ElementFinderInterface
                 $html = NodeHelper::getInnerContent($node);
             }
             if (trim($html) === '') {
-                $html = $this->getEmptyDocumentHtml();
+                $html = '<html data-document-is-empty></html>';
             }
             if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
                 $html = '<root>' . $html . '</root>';
@@ -257,7 +248,7 @@ class ElementFinder implements ElementFinderInterface
      * @return $this
      * @throws \Exception
      */
-    private function setData($data)
+    private function setData($data): self
     {
         $internalErrors = libxml_use_internal_errors(true);
         $disableEntities = libxml_disable_entity_loader();
@@ -265,9 +256,11 @@ class ElementFinder implements ElementFinderInterface
         if (static::DOCUMENT_HTML === $this->type) {
             $data = StringHelper::safeEncodeStr($data);
             $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-            $this->dom->loadHTML($data, $this->options);
+            $this->dom->loadHTML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
+        } else if (static::DOCUMENT_XML === $this->type) {
+            $this->dom->loadXML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
         } else {
-            $this->dom->loadXML($data, $this->options);
+            throw new \InvalidArgumentException('Doc type not valid. use xml or html');
         }
         $this->loadErrors = libxml_get_errors();
         libxml_clear_errors();
@@ -277,31 +270,6 @@ class ElementFinder implements ElementFinderInterface
         $this->xpath = new \DomXPath($this->dom);
         return $this;
     }
-
-
-    /**
-     * @return string
-     */
-    private function getEmptyDocumentHtml(): string
-    {
-        return '<html data-document-is-empty></html>';
-    }
-
-
-    /**
-     * @param int $documentType
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    private function setDocumentType($documentType)
-    {
-        if ($documentType !== static::DOCUMENT_HTML and $documentType !== static::DOCUMENT_XML) {
-            throw new \InvalidArgumentException('Doc type not valid. use xml or html');
-        }
-        $this->type = $documentType;
-        return $this;
-    }
-
 
     /**
      * @see element
