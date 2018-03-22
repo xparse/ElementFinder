@@ -79,6 +79,6 @@ class ObjectCollectionTest extends TestCase
      */
     public function testInvalidDataType()
     {
-        new ObjectCollection([null]);
+        (new ObjectCollection([null]))->all();
     }
 }

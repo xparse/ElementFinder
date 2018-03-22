@@ -14,41 +14,44 @@ use Xparse\ElementFinder\Helper\RegexHelper;
 class StringCollection implements \IteratorAggregate, \Countable
 {
 
-
     /**
      * @var string[]
      */
-    private $items = [];
+    private $items;
+
+    /**
+     * @var bool
+     */
+    private $validated = false;
 
 
     /**
      * @param string[] $items
-     * @throws \Exception
      */
     public function __construct(array $items = [])
     {
-        foreach ($items as $key => $item) {
-            if (!is_string($item)) {
-                throw new \InvalidArgumentException('Expect string');
-            }
-        }
         $this->items = array_values($items);
     }
 
 
+    /**
+     * @return int
+     * @throws \Exception
+     */
     final public function count(): int
     {
-        return count($this->all());
+        return \count($this->all());
     }
 
 
     /**
      * @return null|string
+     * @throws \Exception
      */
     final public function last()
     {
         $items = $this->all();
-        if (count($items) === 0) {
+        if (\count($items) === 0) {
             return null;
         }
         return end($items);
@@ -56,11 +59,12 @@ class StringCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return null|string
+     * @throws \Exception
      */
     final public function first()
     {
         $items = $this->all();
-        if (count($items) === 0) {
+        if (\count($items) === 0) {
             return null;
         }
         return reset($items);
@@ -68,13 +72,29 @@ class StringCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return string[]
+     * @throws \Exception
      */
     final public function all(): array
     {
+        if (!$this->validated) {
+            foreach ($this->items as $key => $item) {
+                if (!\is_string($item)) {
+                    throw new \InvalidArgumentException(
+                        sprintf('Expect string. Check %s item', $key)
+                    );
+                }
+            }
+            $this->validated = true;
+        }
         return $this->items;
     }
 
 
+    /**
+     * @param StringModifyInterface $modifier
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function map(StringModifyInterface $modifier): StringCollection
     {
         $items = [];
@@ -85,6 +105,11 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
+    /**
+     * @param StringFilterInterface $filter
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function filter(StringFilterInterface $filter): StringCollection
     {
         $items = [];
@@ -97,6 +122,12 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
+    /**
+     * @param string $regexp
+     * @param string $to
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function replace(string $regexp, string $to): StringCollection
     {
         $result = [];
@@ -107,12 +138,23 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
+    /**
+     * @param string $regexp
+     * @param int $index
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function match(string $regexp, int $index = 1): StringCollection
     {
         return RegexHelper::match($regexp, $index, $this->all());
     }
 
 
+    /**
+     * @param string $regexp
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function split(string $regexp): StringCollection
     {
         $items = [];
@@ -126,18 +168,32 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
 
+    /**
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function unique(): StringCollection
     {
         return new StringCollection(array_unique($this->all()));
     }
 
 
+    /**
+     * @param StringCollection $collection
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function merge(StringCollection $collection): StringCollection
     {
         return new StringCollection(array_merge($this->all(), $collection->all()));
     }
 
 
+    /**
+     * @param string $item
+     * @return StringCollection
+     * @throws \Exception
+     */
     final public function add(string $item): StringCollection
     {
         $items = $this->all();
@@ -149,6 +205,7 @@ class StringCollection implements \IteratorAggregate, \Countable
     /**
      * @param int $index
      * @return null|string
+     * @throws \Exception
      */
     final public function get(int $index)
     {
@@ -163,6 +220,7 @@ class StringCollection implements \IteratorAggregate, \Countable
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return string[]|\ArrayIterator
+     * @throws \Exception
      */
     final public function getIterator()
     {

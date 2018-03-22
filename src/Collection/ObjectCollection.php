@@ -17,6 +17,11 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     private $items;
 
+    /**
+     * @var bool
+     */
+    private $validated = false;
+
 
     /**
      * @param ElementFinder[] $items
@@ -24,12 +29,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      */
     public function __construct(array $items = [])
     {
-        foreach ($items as $key => $item) {
-            if (!$item instanceof ElementFinder) {
-                $className = ($item === null) ? \gettype($item) : \get_class($item);
-                throw new \InvalidArgumentException('Invalid object type. Expect ' . ElementFinder::class . ' given ' . $className);
-            }
-        }
         $this->items = $items;
     }
 
@@ -38,6 +37,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
      * Return number of items in this collection
      *
      * @return int
+     * @throws \InvalidArgumentException
      */
     final public function count(): int
     {
@@ -47,6 +47,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return null|ElementFinder
+     * @throws \InvalidArgumentException
      */
     final public function last()
     {
@@ -59,6 +60,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return null|ElementFinder
+     * @throws \InvalidArgumentException
      */
     final public function first()
     {
@@ -72,9 +74,26 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return ElementFinder[]
+     * @throws \InvalidArgumentException
      */
     final public function all(): array
     {
+        if (!$this->validated) {
+            foreach ($this->items as $key => $item) {
+                if (!$item instanceof ElementFinder) {
+                    $className = ($item === null) ? \gettype($item) : \get_class($item);
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'Invalid object type. Expect %s given %s Check item %d',
+                            ElementFinder::class,
+                            $className,
+                            $key
+                        )
+                    );
+                }
+            }
+            $this->validated = true;
+        }
         return $this->items;
     }
 
@@ -105,6 +124,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     /**
      * @param int $index
      * @return null|ElementFinder
+     * @throws \InvalidArgumentException
      */
     final public function get(int $index)
     {
@@ -119,6 +139,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return ElementFinder[]|\ArrayIterator
+     * @throws \InvalidArgumentException
      */
     final public function getIterator()
     {

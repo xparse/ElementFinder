@@ -17,6 +17,11 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     private $items;
 
+    /**
+     * @var bool
+     */
+    private $validated = false;
+
 
     /**
      * @param Element[] $items
@@ -24,29 +29,28 @@ class ElementCollection implements \IteratorAggregate, \Countable
      */
     public function __construct(array $items = [])
     {
-        foreach ($items as $item) {
-            if (!$item instanceof Element) {
-                $className = ($item === null) ? gettype($item) : get_class($item);
-                throw new \InvalidArgumentException('Invalid object type. Expect ' . Element::class . ' given ' . $className);
-            }
-        }
         $this->items = $items;
     }
 
 
+    /**
+     * @return int
+     * @throws \InvalidArgumentException
+     */
     final public function count(): int
     {
-        return count($this->all());
+        return \count($this->all());
     }
 
 
     /**
      * @return Element|null
+     * @throws \InvalidArgumentException
      */
     final public function last()
     {
         $items = $this->all();
-        if (count($items) === 0) {
+        if (\count($items) === 0) {
             return null;
         }
         return end($items);
@@ -54,11 +58,12 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return Element|null
+     * @throws \InvalidArgumentException
      */
     final public function first()
     {
         $items = $this->all();
-        if (count($items) === 0) {
+        if (\count($items) === 0) {
             return null;
         }
         return reset($items);
@@ -68,6 +73,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
     /**
      * @param int $index
      * @return Element|null
+     * @throws \InvalidArgumentException
      */
     final public function get(int $index)
     {
@@ -81,9 +87,26 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return Element[]
+     * @throws \InvalidArgumentException
      */
     final public function all(): array
     {
+        if (!$this->validated) {
+            foreach ($this->items as $key => $item) {
+                if (!$item instanceof Element) {
+                    $className = ($item === null) ? \gettype($item) : \get_class($item);
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'Invalid object type. Expect %s given %s Check item %d',
+                            Element::class,
+                            $className,
+                            $key
+                        )
+                    );
+                }
+            }
+        }
+
         return $this->items;
     }
 
@@ -116,6 +139,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return Element[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
+     * @throws \InvalidArgumentException
      */
     final public function getIterator()
     {
