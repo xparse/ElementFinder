@@ -6,6 +6,9 @@ All Notable changes to `ElementFinder` will be documented in this file
 ### Changed  
 - #84 method `ElementFinder::remove` return `new ElementFinder()`
 
+### Removed
+- #86 Remove deprecated method `ElementFinder::match`
+
 ## 0.2.1 [2017-12-27]
 
 ### Deprecated 

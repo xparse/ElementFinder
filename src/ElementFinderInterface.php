@@ -77,18 +77,6 @@ interface ElementFinderInterface
 
 
     /**
-     * @deprecated
-     *
-     * @param string $regex
-     * @param int|callable $i
-     * @return StringCollection
-     * @throws \InvalidArgumentException
-     * @throws \Exception
-     */
-    public function match($regex, $i = 1): Collection\StringCollection;
-
-
-    /**
      * @return array
      */
     public function getLoadErrors(): array;

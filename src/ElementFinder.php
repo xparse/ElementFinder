@@ -9,7 +9,6 @@ use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\ElementFinder\Element;
 use Xparse\ElementFinder\Helper\NodeHelper;
-use Xparse\ElementFinder\Helper\RegexHelper;
 use Xparse\ElementFinder\Helper\StringHelper;
 use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
 use Xparse\ExpressionTranslator\XpathExpression;
@@ -262,30 +261,6 @@ class ElementFinder implements ElementFinderInterface
         return new ElementCollection($items);
     }
 
-
-    /**
-     * @deprecated
-     * @see content
-     *
-     * @param string $regex
-     * @param int|callable $i
-     * @return StringCollection
-     * @throws \InvalidArgumentException
-     * @throws \Exception
-     */
-    final public function match($regex, $i = 1): Collection\StringCollection
-    {
-        trigger_error('Deprecated. Use content()->match()', E_USER_DEPRECATED);
-        $documentHtml = $this->content('.')->first();
-        if (is_int($i)) {
-            $collection = RegexHelper::match($regex, $i, [(string)$documentHtml]);
-        } elseif (is_callable($i)) {
-            $collection = RegexHelper::matchCallback($regex, $i, [(string)$documentHtml]);
-        } else {
-            throw new \InvalidArgumentException('Invalid argument. Expect int or callable');
-        }
-        return $collection;
-    }
 
 
     /**
