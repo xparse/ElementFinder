@@ -10,9 +10,9 @@
   interface ElementFinderModifierInterface
   {
 
-    /**
-     * @param \DOMNodeList $nodeList
-     * @return void
-     */
+      /**
+       * @param \DOMNodeList $nodeList
+       * @return void
+       */
       public function modify(\DOMNodeList $nodeList);
   }
