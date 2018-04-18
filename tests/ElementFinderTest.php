@@ -7,6 +7,7 @@ namespace Test\Xparse\ElementFinder;
 use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
 use Xparse\ElementFinder\ElementFinder;
+use Xparse\ElementFinder\ElementFinder\RemoveElements;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
@@ -88,6 +89,15 @@ class ElementFinderTest extends TestCase
         self::assertCount(1, $spanItems);
     }
 
+
+    public function testModify()
+    {
+        $page = new ElementFinder('<html><span>user</span></html>');
+        self::assertCount(1, $page->value('//span'));
+        $cleanPage = $page->modify('//span', new RemoveElements());
+        self::assertCount(1, $page->value('//span'));
+        self::assertCount(0, $cleanPage->value('//span'));
+    }
 
     public function testObjectWithOuterHtml()
     {
