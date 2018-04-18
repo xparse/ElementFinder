@@ -8,6 +8,8 @@ use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\ElementFinder\Element;
+use Xparse\ElementFinder\ElementFinder\ElementFinderModifierInterface;
+use Xparse\ElementFinder\ElementFinder\RemoveElements;
 use Xparse\ElementFinder\Helper\NodeHelper;
 use Xparse\ElementFinder\Helper\StringHelper;
 use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
@@ -131,20 +133,20 @@ class ElementFinder implements ElementFinderInterface
      * @param string $expression
      * @return ElementFinder
      */
-    final public function remove($expression): ElementFinder
+    final public function remove($expression): ElementFinderInterface
     {
-        $elementFinder = clone $this;
-        $items = $elementFinder->query($expression);
-        foreach ($items as $key => $node) {
-            if ($node instanceof \DOMAttr) {
-                $node->ownerElement->removeAttribute($node->name);
-            } else {
-                $node->parentNode->removeChild($node);
-            }
-        }
-        return $elementFinder;
+        return $this->modify($expression, new RemoveElements());
     }
 
+
+    public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface
+    {
+        $result = clone $this;
+        $modifier->modify(
+            $result->query($expression)
+        );
+        return $result;
+    }
 
     /**
      * Get nodeValue of node

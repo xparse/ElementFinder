@@ -6,6 +6,7 @@ namespace Xparse\ElementFinder;
 
 use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
+use Xparse\ElementFinder\ElementFinder\ElementFinderModifierInterface;
 
 /**
  * @author Ivan Scherbak <dev@funivan.com>
@@ -34,8 +35,14 @@ interface ElementFinderInterface
      * @param string $expression
      * @return $this
      */
-    public function remove($expression);
+    public function remove($expression) : ElementFinderInterface;
 
+    /**
+     * @param string $expression
+     * @param ElementFinderModifierInterface $modifier
+     * @return ElementFinderInterface
+     */
+    public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface;
 
     /**
      * Get nodeValue of node
