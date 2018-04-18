@@ -16,7 +16,7 @@ use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
 use Xparse\ExpressionTranslator\XpathExpression;
 
 /**
- * @author Ivan Scherbak <dev@funivan.com>
+ * @author Ivan Scherbak <alotofall@gmail.com>
  */
 class ElementFinder implements ElementFinderInterface
 {
@@ -139,6 +139,11 @@ class ElementFinder implements ElementFinderInterface
     }
 
 
+    /**
+     * @param string $expression
+     * @param ElementFinderModifierInterface $modifier
+     * @return ElementFinderInterface
+     */
     public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface
     {
         $result = clone $this;

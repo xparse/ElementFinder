@@ -4,6 +4,9 @@
 
   namespace Xparse\ElementFinder\ElementFinder;
 
+  /**
+   * @author Ivan Scherbak <alotofall@gmail.com>
+   */
   interface ElementFinderModifierInterface {
 
     /**

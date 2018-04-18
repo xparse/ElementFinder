@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Xparse\ElementFinder;
 
 use Xparse\ElementFinder\Collection\ElementCollection;
+use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\ElementFinder\ElementFinderModifierInterface;
 
 /**
- * @author Ivan Scherbak <dev@funivan.com>
+ * @author Ivan Scherbak <alotofall@gmail.com>
  */
 interface ElementFinderInterface
 {
@@ -69,10 +70,10 @@ interface ElementFinderInterface
      * @param string $expression
      * @param bool $outerHtml
      * @throws \Exception
-     * @return \Xparse\ElementFinder\Collection\ObjectCollection
+     * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
-    public function object($expression, $outerHtml = false): Collection\ObjectCollection;
+    public function object($expression, $outerHtml = false): ObjectCollection;
 
 
     /**
