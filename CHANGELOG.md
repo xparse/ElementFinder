@@ -1,7 +1,7 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## 0.3.1 [Unreleased]
+## 0.3.1 [2018-04-18]
 - Add new method: `ElementFinder::modify`.
  
 ## 0.3.0 [2018-03-22]
