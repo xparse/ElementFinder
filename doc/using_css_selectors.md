@@ -28,12 +28,11 @@ Here is full working example:
   $finder = new ElementFinder('<div>
       <a href="#page">123</a>
       <a href="#second" class="test">321<span>ad</span></a>
-</div>');
-
-  $finder->setExpressionTranslator(new CssExpressionTranslator());
+</div>', ElementFinder::DOCUMENT_HTML, new CssExpressionTranslator());
+  
 
   # 321<span>ad</span>
-  echo $finder->html('a.test')->getFirst();
+  echo $finder->content('a.test')->first();
 ```  
 
 ## How it works?
