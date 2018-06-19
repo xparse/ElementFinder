@@ -21,7 +21,7 @@ $ composer require xparse/element-finder
 
 ``` php
   $page = new ElementFinder($html);
-  $title = $page->value('//title')->getFirst();  
+  $title = $page->value('//title')->first();  
   echo $title;  
 ```
 
