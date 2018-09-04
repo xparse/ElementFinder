@@ -34,7 +34,7 @@ interface ElementFinderInterface
      * ```
      *
      * @param string $expression
-     * @return $this
+     * @return ElementFinderInterface
      */
     public function remove($expression) : ElementFinderInterface;
 
