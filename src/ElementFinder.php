@@ -133,7 +133,7 @@ class ElementFinder implements ElementFinderInterface
      * @param string $expression
      * @return ElementFinder
      */
-    final public function remove($expression): ElementFinderInterface
+    final public function remove(string $expression): ElementFinderInterface
     {
         return $this->modify($expression, new RemoveElements());
     }
@@ -160,7 +160,7 @@ class ElementFinder implements ElementFinderInterface
      * @return StringCollection
      * @throws \Exception
      */
-    final public function value($expression): Collection\StringCollection
+    final public function value(string $expression): Collection\StringCollection
     {
         $items = $this->query($expression);
         $result = [];
@@ -201,7 +201,7 @@ class ElementFinder implements ElementFinderInterface
      * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
-    final public function object($expression, $outerHtml = false): ObjectCollection
+    final public function object(string $expression, bool $outerHtml = false): ObjectCollection
     {
         $type = $this->type;
         $items = $this->query($expression);
@@ -230,7 +230,7 @@ class ElementFinder implements ElementFinderInterface
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    final public function element($expression): ElementCollection
+    final public function element(string $expression): ElementCollection
     {
         $nodeList = $this->query($expression);
         $items = [];
@@ -255,7 +255,7 @@ class ElementFinder implements ElementFinderInterface
      * @return $this
      * @throws \Exception
      */
-    private function setData($data): self
+    private function setData(string $data): self
     {
         $internalErrors = libxml_use_internal_errors(true);
         $disableEntities = libxml_disable_entity_loader();
@@ -285,7 +285,7 @@ class ElementFinder implements ElementFinderInterface
      * @param string $expression
      * @return \DOMNodeList
      */
-    private function query($expression): \DOMNodeList
+    private function query(string $expression): \DOMNodeList
     {
         return $this->xpath->query(
             $this->expressionTranslator->convertToXpath($expression)

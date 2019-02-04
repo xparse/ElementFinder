@@ -14,14 +14,14 @@ class RegexHelper
 {
 
     /**
-     * @deprecated
      * @param string $regex
      * @param integer $i
      * @param string[] $strings
      * @return \Xparse\ElementFinder\Collection\StringCollection
      * @throws \Exception
+     * @deprecated
      */
-    final public static function match($regex, int $i, array $strings): StringCollection
+    final public static function match(string $regex, int $i, array $strings): StringCollection
     {
         trigger_error('Deprecated. This method is internal', E_USER_DEPRECATED);
         $result = [];
@@ -42,10 +42,10 @@ class RegexHelper
      * @param string $regex
      * @param callable $i
      * @param array $strings
-     * @return \Xparse\ElementFinder\Collection\StringCollection
+     * @return StringCollection
      * @throws \Exception
      */
-    final public static function matchCallback($regex, callable $i, array $strings)
+    final public static function matchCallback(string $regex, callable $i, array $strings): StringCollection
     {
         $result = [];
         foreach ($strings as $string) {

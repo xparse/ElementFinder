@@ -14,7 +14,7 @@ class NodeHelper
      * @param \DOMNode $node
      * @return string
      */
-    final public static function getOuterContent(\DOMNode $node)
+    final public static function getOuterContent(\DOMNode $node): string
     {
         $domDocument = new \DOMDocument('1.0');
         $b = $domDocument->importNode($node->cloneNode(true), true);
@@ -31,12 +31,10 @@ class NodeHelper
      * @param \DOMNode $itemObj
      * @return string
      */
-    final public static function getInnerContent(\DOMNode $itemObj)
+    final public static function getInnerContent(\DOMNode $itemObj): string
     {
         $content = '';
-        $children = $itemObj->childNodes;
-        /** @var \DOMNode $child */
-        foreach ($children as $child) {
+        foreach ($itemObj->childNodes as $child) {
             $content .= $child->ownerDocument->saveXML($child);
         }
         return StringHelper::safeEncodeStr($content);

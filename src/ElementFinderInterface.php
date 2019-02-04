@@ -36,7 +36,7 @@ interface ElementFinderInterface
      * @param string $expression
      * @return ElementFinderInterface
      */
-    public function remove($expression) : ElementFinderInterface;
+    public function remove(string $expression): ElementFinderInterface;
 
     /**
      * @param string $expression
@@ -52,7 +52,7 @@ interface ElementFinderInterface
      * @return StringCollection
      * @throws \Exception
      */
-    public function value($expression): Collection\StringCollection;
+    public function value(string $expression): Collection\StringCollection;
 
 
     /**
@@ -60,8 +60,8 @@ interface ElementFinderInterface
      *
      * @param string $keyExpression
      * @param string $valueExpression
-     * @throws \Exception
      * @return array
+     * @throws \Exception
      */
     public function keyValue(string $keyExpression, string $valueExpression): array;
 
@@ -69,11 +69,11 @@ interface ElementFinderInterface
     /**
      * @param string $expression
      * @param bool $outerHtml
-     * @throws \Exception
      * @return ObjectCollection
+     * @throws \Exception
      * @throws \InvalidArgumentException
      */
-    public function object($expression, $outerHtml = false): ObjectCollection;
+    public function object(string $expression, bool $outerHtml = false): ObjectCollection;
 
 
     /**
@@ -81,7 +81,7 @@ interface ElementFinderInterface
      * @return ElementCollection
      * @throws \InvalidArgumentException
      */
-    public function element($expression): Collection\ElementCollection;
+    public function element(string $expression): Collection\ElementCollection;
 
 
     /**
