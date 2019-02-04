@@ -10,7 +10,7 @@ use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\ElementFinder\ElementFinderModifierInterface;
 
 /**
- * @author Ivan Scherbak <alotofall@gmail.com>
+ * @author Ivan Shcherbak <alotofall@gmail.com>
  */
 interface ElementFinderInterface
 {
