@@ -12,7 +12,7 @@ use Xparse\ElementFinder\ElementFinder\RemoveElements;
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class ElementFinderTest extends TestCase
+final class ElementFinderTest extends TestCase
 {
     public function testLoad()
     {
@@ -101,9 +101,7 @@ class ElementFinderTest extends TestCase
 
     public function testObjectWithOuterHtml()
     {
-        $html = $this->getHtmlTestObject();
-
-        $spanItems = $html->object('//span', true);
+        $spanItems = $this->getHtmlTestObject()->object('//span', true);
         self::assertCount(4, $spanItems);
         self::assertContains(
             '<span class="span-1">',
@@ -251,10 +249,7 @@ class ElementFinderTest extends TestCase
 
     public function testInitClassWithValidContent()
     {
-        $dataObject = $this->getHtmlDataObject();
-
-        $errors = $dataObject->getLoadErrors();
-
+        $errors = $this->getHtmlDataObject()->getLoadErrors();
         self::assertCount(0, $errors);
     }
 
@@ -512,7 +507,7 @@ class ElementFinderTest extends TestCase
      * @param string $file
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    protected function initFromFile($file)
+    protected function initFromFile(string $file)
     {
         $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
         return new \Xparse\ElementFinder\ElementFinder($fileData);

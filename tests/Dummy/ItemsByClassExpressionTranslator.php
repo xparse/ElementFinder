@@ -17,7 +17,7 @@ class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface
      * @param string $expression
      * @return string
      */
-    public function convertToXpath($expression)
+    public function convertToXpath($expression): string
     {
         return '//*[@class="' . $expression . '"]';
     }
