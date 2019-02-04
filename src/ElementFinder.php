@@ -16,7 +16,7 @@ use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
 use Xparse\ExpressionTranslator\XpathExpression;
 
 /**
- * @author Ivan Scherbak <alotofall@gmail.com>
+ * @author Ivan Shcherbak <alotofall@gmail.com>
  */
 class ElementFinder implements ElementFinderInterface
 {
