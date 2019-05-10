@@ -18,7 +18,9 @@
   ],
   "require": {
     "php": "^7.0",
-    "xparse/expression-translator": "0.0.3"
+    "xparse/expression-translator": "0.0.3",
+    "ext-libxml": "*",
+    "ext-dom": "*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.7",
