@@ -69,7 +69,6 @@ class ElementFinder implements ElementFinderInterface
      * Example:
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
-     * @param string $data
      * @param null|int $documentType
      * @param ExpressionTranslatorInterface|null $translator
      * @throws \InvalidArgumentException
@@ -101,9 +100,6 @@ class ElementFinder implements ElementFinderInterface
     }
 
     /**
-     * @param string $expression
-     * @param bool $outerContent
-     * @return StringCollection
      * @throws \Exception
      */
     final public function content(string $expression, bool $outerContent = false): StringCollection
@@ -130,7 +126,6 @@ class ElementFinder implements ElementFinderInterface
      * $html->remove("//input");
      * ```
      *
-     * @param string $expression
      * @return ElementFinder
      */
     final public function remove(string $expression): ElementFinderInterface
@@ -140,9 +135,6 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @param string $expression
-     * @param ElementFinderModifierInterface $modifier
-     * @return ElementFinderInterface
      */
     public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface
     {
@@ -156,8 +148,6 @@ class ElementFinder implements ElementFinderInterface
     /**
      * Get nodeValue of node
      *
-     * @param string $expression
-     * @return StringCollection
      * @throws \Exception
      */
     final public function value(string $expression): Collection\StringCollection
@@ -174,10 +164,7 @@ class ElementFinder implements ElementFinderInterface
     /**
      * Return array of keys and values
      *
-     * @param string $keyExpression
-     * @param string $valueExpression
      * @throws \Exception
-     * @return array
      */
     final public function keyValue(string $keyExpression, string $valueExpression): array
     {
@@ -195,10 +182,7 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @param string $expression
-     * @param bool $outerHtml
      * @throws \Exception
-     * @return ObjectCollection
      * @throws \InvalidArgumentException
      */
     final public function object(string $expression, bool $outerHtml = false): ObjectCollection
@@ -226,8 +210,6 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @param string $expression
-     * @return ElementCollection
      * @throws \InvalidArgumentException
      */
     final public function element(string $expression): ElementCollection
@@ -242,7 +224,6 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @return array
      */
     final public function getLoadErrors(): array
     {
@@ -251,7 +232,6 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @param string $data
      * @return $this
      * @throws \Exception
      */
@@ -282,8 +262,6 @@ class ElementFinder implements ElementFinderInterface
      * @see element
      * Fetch nodes from document
      *
-     * @param string $expression
-     * @return \DOMNodeList
      */
     private function query(string $expression): \DOMNodeList
     {

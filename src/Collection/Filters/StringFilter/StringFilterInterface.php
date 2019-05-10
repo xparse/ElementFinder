@@ -11,8 +11,6 @@ interface StringFilterInterface
 {
 
     /**
-     * @param string $input
-     * @return bool
      */
     public function valid(string $input): bool;
 }

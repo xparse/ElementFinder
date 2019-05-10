@@ -11,8 +11,6 @@ interface StringModifyInterface
 {
 
     /**
-     * @param string $input
-     * @return string
      */
     public function modify(string $input): string;
 }

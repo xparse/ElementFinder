@@ -34,7 +34,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return int
      * @throws \InvalidArgumentException
      */
     final public function count(): int
@@ -71,7 +70,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param int $index
      * @return Element|null
      * @throws \InvalidArgumentException
      */
@@ -111,8 +109,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param ElementCollection $collection
-     * @return ElementCollection
      * @throws \InvalidArgumentException
      */
     final public function merge(ElementCollection $collection): ElementCollection
@@ -122,8 +118,6 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param Element $element
-     * @return ElementCollection
      * @throws \InvalidArgumentException
      */
     final public function add(Element $element): ElementCollection

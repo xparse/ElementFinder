@@ -8,7 +8,6 @@ class RemoveElements implements ElementFinderModifierInterface
 {
 
     /**
-     * @param \DOMNodeList $nodeList
      * @return void
      */
     public function modify(\DOMNodeList $nodeList)

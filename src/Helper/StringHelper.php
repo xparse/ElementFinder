@@ -13,8 +13,6 @@ class StringHelper
     /**
      * Simple helper function for str encoding
      *
-     * @param string $str
-     * @return string
      */
     final public static function safeEncodeStr(string $str): string
     {

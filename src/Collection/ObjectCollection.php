@@ -36,7 +36,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     /**
      * Return number of items in this collection
      *
-     * @return int
      * @throws \InvalidArgumentException
      */
     final public function count(): int
@@ -98,8 +97,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param ObjectCollection $collection
-     * @return ObjectCollection
      * @throws \Exception
      */
     final public function merge(ObjectCollection $collection): ObjectCollection
@@ -109,8 +106,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param ElementFinder $element
-     * @return ObjectCollection
      * @throws \Exception
      */
     final public function add(ElementFinder $element): ObjectCollection
@@ -122,7 +117,6 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param int $index
      * @return null|ElementFinder
      * @throws \InvalidArgumentException
      */

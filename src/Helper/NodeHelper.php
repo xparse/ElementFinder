@@ -11,8 +11,6 @@ class NodeHelper
 {
 
     /**
-     * @param \DOMNode $node
-     * @return string
      */
     final public static function getOuterContent(\DOMNode $node): string
     {
@@ -28,8 +26,6 @@ class NodeHelper
 
 
     /**
-     * @param \DOMNode $itemObj
-     * @return string
      */
     final public static function getInnerContent(\DOMNode $itemObj): string
     {

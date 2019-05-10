@@ -22,8 +22,6 @@ class RegexReplace implements StringModifyInterface
 
 
     /**
-     * @param string $from
-     * @param string $to
      */
     public function __construct(string $from, string $to)
     {
@@ -33,8 +31,6 @@ class RegexReplace implements StringModifyInterface
 
 
     /**
-     * @param string $input
-     * @return string
      */
     final public function modify(string $input): string
     {

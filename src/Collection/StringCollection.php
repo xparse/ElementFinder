@@ -34,7 +34,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return int
      * @throws \Exception
      */
     final public function count(): int
@@ -90,8 +89,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param StringModifyInterface $modifier
-     * @return StringCollection
      * @throws \Exception
      */
     final public function map(StringModifyInterface $modifier): StringCollection
@@ -105,8 +102,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param StringFilterInterface $filter
-     * @return StringCollection
      * @throws \Exception
      */
     final public function filter(StringFilterInterface $filter): StringCollection
@@ -122,9 +117,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param string $regexp
-     * @param string $to
-     * @return StringCollection
      * @throws \Exception
      */
     final public function replace(string $regexp, string $to): StringCollection
@@ -138,9 +130,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param string $regexp
-     * @param int $index
-     * @return StringCollection
      * @throws \Exception
      */
     final public function match(string $regexp, int $index = 1): StringCollection
@@ -159,8 +148,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param string $regexp
-     * @return StringCollection
      * @throws \Exception
      */
     final public function split(string $regexp): StringCollection
@@ -177,7 +164,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return StringCollection
      * @throws \Exception
      */
     final public function unique(): StringCollection
@@ -187,8 +173,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param StringCollection $collection
-     * @return StringCollection
      * @throws \Exception
      */
     final public function merge(StringCollection $collection): StringCollection
@@ -198,8 +182,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param string $item
-     * @return StringCollection
      * @throws \Exception
      */
     final public function add(string $item): StringCollection
@@ -211,7 +193,6 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @param int $index
      * @return null|string
      * @throws \Exception
      */

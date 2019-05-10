@@ -19,7 +19,6 @@ class FormHelper
 
 
     /**
-     * @param ElementFinder $page
      */
     public function __construct(ElementFinder $page)
     {
@@ -34,7 +33,6 @@ class FormHelper
      * Return key->value array where key is name of field
      *
      * @param string $formExpression css or xpath expression to form element
-     * @return array
      * @throws \Exception
      */
     final public function getFormData(string $formExpression): array

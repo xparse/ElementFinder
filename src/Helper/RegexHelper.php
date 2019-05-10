@@ -14,10 +14,7 @@ class RegexHelper
 {
 
     /**
-     * @param string $regex
-     * @param integer $i
      * @param string[] $strings
-     * @return \Xparse\ElementFinder\Collection\StringCollection
      * @throws \Exception
      * @deprecated
      */
@@ -39,10 +36,6 @@ class RegexHelper
 
 
     /**
-     * @param string $regex
-     * @param callable $i
-     * @param array $strings
-     * @return StringCollection
      * @throws \Exception
      */
     final public static function matchCallback(string $regex, callable $i, array $strings): StringCollection

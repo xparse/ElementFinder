@@ -17,7 +17,6 @@ class RegexStringFilter implements StringFilterInterface
 
 
     /**
-     * @param string $regex
      */
     public function __construct(string $regex)
     {
@@ -26,8 +25,6 @@ class RegexStringFilter implements StringFilterInterface
 
 
     /**
-     * @param string $input
-     * @return bool
      */
     final public function valid(string $input): bool
     {
