@@ -504,7 +504,6 @@ final class ElementFinderTest extends TestCase
 
 
     /**
-     * @param string $file
      * @return \Xparse\ElementFinder\ElementFinder
      */
     protected function initFromFile(string $file)

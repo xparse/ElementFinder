@@ -15,7 +15,6 @@ class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface
      * Select items only by specific class
      *
      * @param string $expression
-     * @return string
      */
     public function convertToXpath($expression): string
     {
