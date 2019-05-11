@@ -1,7 +1,8 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
+## Unreleased [Unreleased]
 
-## 0.4.0 [Unreleased]
+## 0.4.0 [2019-05-11]
 - Remove ElementFinder\ElementFinderModifierInterface see DomNodeListAction\DomNodeListActionInterface
 - Remove ElementFinder\RemoveElements see DomNodeListAction\RemoveNodes
 - Remove deprecated class RegexHelper 
