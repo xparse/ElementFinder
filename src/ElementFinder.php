@@ -7,9 +7,9 @@ namespace Xparse\ElementFinder;
 use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
+use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
+use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder\Element;
-use Xparse\ElementFinder\ElementFinder\ElementFinderModifierInterface;
-use Xparse\ElementFinder\ElementFinder\RemoveElements;
 use Xparse\ElementFinder\Helper\NodeHelper;
 use Xparse\ElementFinder\Helper\StringHelper;
 use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
@@ -125,14 +125,14 @@ class ElementFinder implements ElementFinderInterface
      */
     final public function remove(string $expression): ElementFinderInterface
     {
-        return $this->modify($expression, new RemoveElements());
+        return $this->modify($expression, new RemoveNodes());
     }
 
 
-    final public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface
+    final public function modify(string $expression, DomNodeListActionInterface $action): ElementFinderInterface
     {
         $result = clone $this;
-        $modifier->modify(
+        $action->execute(
             $result->query($expression)
         );
         return $result;

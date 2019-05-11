@@ -6,15 +6,15 @@ namespace Test\Xparse\ElementFinder;
 
 use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
+use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder;
-use Xparse\ElementFinder\ElementFinder\RemoveElements;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
 final class ElementFinderTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $html = $this->getHtmlTestObject();
         self::assertContains('<title>test doc</title>', $html->content('.')->first());
@@ -24,7 +24,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @expectedException \Exception
      */
-    public function testInvalidType()
+    public function testInvalidType(): void
     {
         new ElementFinder('', -1);
     }
@@ -33,7 +33,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testLoadEmptyDoc()
+    public function testLoadEmptyDoc(): void
     {
         new ElementFinder('');
     }
@@ -42,7 +42,7 @@ final class ElementFinderTest extends TestCase
     /**
      *
      */
-    public function testLoadDocumentWithZero()
+    public function testLoadDocumentWithZero(): void
     {
         self::assertSame(
             '<body><p>0 </p></body>',
@@ -51,7 +51,7 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testAttributes()
+    public function testAttributes(): void
     {
         $html = $this->getHtmlTestObject();
 
@@ -70,7 +70,7 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testObjects()
+    public function testObjects(): void
     {
         $html = $this->getHtmlTestObject();
 
@@ -90,16 +90,16 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testModify()
+    public function testModify(): void
     {
         $page = new ElementFinder('<html><span>user</span></html>');
         self::assertCount(1, $page->value('//span'));
-        $cleanPage = $page->modify('//span', new RemoveElements());
+        $cleanPage = $page->modify('//span', new RemoveNodes());
         self::assertCount(1, $page->value('//span'));
         self::assertCount(0, $cleanPage->value('//span'));
     }
 
-    public function testObjectWithOuterHtml()
+    public function testObjectWithOuterHtml(): void
     {
         $spanItems = $this->getHtmlTestObject()->object('//span', true);
         self::assertCount(4, $spanItems);
@@ -110,10 +110,11 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testDeleteNode()
+    public function testDeleteNode(): void
     {
         $html = $this->getHtmlTestObject();
 
+        /** @noinspection UnusedFunctionResultInspection */
         $html->remove('//title');
         $title = $html->value('//title')->first();
         self::assertNotNull($title);
@@ -124,10 +125,11 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testDeleteAttribute()
+    public function testDeleteAttribute(): void
     {
         $html = $this->getHtmlTestObject();
 
+        /** @noinspection UnusedFunctionResultInspection */
         $html->remove('//a/@title');
         $title = $html->value('//a/@title')->first();
         self::assertNotNull($title);
@@ -138,7 +140,7 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testHtmlSelector()
+    public function testHtmlSelector(): void
     {
         $html = $this->getHtmlTestObject();
         $stringCollection = $html->content('//td');
@@ -154,7 +156,7 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testMatch()
+    public function testMatch(): void
     {
         $html = $this->getHtmlDataObject();
         $regex = '!([\d-]+)[<|\n]!';
@@ -172,20 +174,18 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testMatchWithEmptyElements()
+    public function testMatchWithEmptyElements(): void
     {
-        $html = $this->getHtmlDataObject();
-        $items = $html->content('.')->match('!(1233)!');
-        self::assertEmpty($items);
+        self::assertEmpty(
+            $this->getHtmlDataObject()->content('.')->match('!(1233)!')
+        );
     }
 
 
-    public function testObjectWithInnerContent()
+    public function testObjectWithInnerContent(): void
     {
-        $html = $this->getHtmlTestObject();
-
         # inner
-        $spanItems = $html->object('//span');
+        $spanItems = $this->getHtmlTestObject()->object('//span');
         self::assertCount(4, $spanItems);
 
         self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->first());
@@ -203,7 +203,7 @@ final class ElementFinderTest extends TestCase
      * you can select all the nodes that belong both to the node sets $ns1 and $ns2.
      *
      */
-    public function testGetAllNodesBetweenSiblings()
+    public function testGetAllNodesBetweenSiblings(): void
     {
         $html = new ElementFinder('
         <html>
@@ -228,12 +228,12 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testInitClassWithInvalidContent()
+    public function testInitClassWithInvalidContent(): void
     {
         $elementFinder = new ElementFinder('
         <!DOCTYPE html>
         <html>
-          <head></head>
+          <head><title></title></head>
           <body>
             <span></span></span>
           </body>
@@ -247,17 +247,16 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testInitClassWithValidContent()
+    public function testInitClassWithValidContent(): void
     {
         $errors = $this->getHtmlDataObject()->getLoadErrors();
         self::assertCount(0, $errors);
     }
 
 
-    public function testGetObjectWithEmptyHtml()
+    public function testGetObjectWithEmptyHtml(): void
     {
-        $page = new ElementFinder('<div></div><div><a>df</a></div>');
-        $objects = $page->object('//div');
+        $objects = (new ElementFinder('<div></div><div><a>df</a></div>'))->object('//div');
 
         self::assertEmpty($objects->get(0)->content('.')->first());
         self::assertContains('data-document-is-empty', $objects->get(0)->content('/')->get(0));
@@ -271,14 +270,14 @@ final class ElementFinderTest extends TestCase
     /**
      *
      */
-    public function testValidDocumentType()
+    public function testValidDocumentType(): void
     {
         $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
         self::assertContains('<list>123</list>', $document->content('.')->first());
     }
 
 
-    public function testFetchTextNode()
+    public function testFetchTextNode(): void
     {
         $html = new ElementFinder('
         <div>
@@ -306,7 +305,7 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testKeyValue()
+    public function testKeyValue(): void
     {
         $html = new ElementFinder('
         <table>
@@ -339,7 +338,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @expectedException \Exception
      */
-    public function testKeyValueFail()
+    public function testKeyValueFail(): void
     {
         $html = new ElementFinder('
         <table>
@@ -358,11 +357,12 @@ final class ElementFinderTest extends TestCase
           </tbody>
         </table>
       ');
+        /** @noinspection UnusedFunctionResultInspection */
         $html->keyValue('//table//td[1]', '//table//td[2]');
     }
 
 
-    public function testXmlData()
+    public function testXmlData(): void
     {
         $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
         $foods = $xml->object('//food');
@@ -384,15 +384,14 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testXmlRootNode()
+    public function testXmlRootNode(): void
     {
-        $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
-        $food = $xml->object('//food')->get(2);
-        self::assertEquals(900, (int)$food->value('/root/calories')->first());
+        $food = (new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML))->object('//food')->get(2);
+        self::assertEquals(900, (int) $food->value('/root/calories')->first());
     }
 
 
-    public function testLoadXmlWithoutErrors()
+    public function testLoadXmlWithoutErrors(): void
     {
         $xml = new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML);
 
@@ -400,17 +399,16 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testLoadXmlWithErrors()
+    public function testLoadXmlWithErrors(): void
     {
-        $xml = new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML);
-        $errors = $xml->getLoadErrors();
+        $errors = (new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML))->getLoadErrors();
 
         self::assertCount(1, $errors);
         self::assertContains('Opening and ending tag mismatch: from', $errors[0]->message);
     }
 
 
-    public function testXmlRootNodes()
+    public function testXmlRootNodes(): void
     {
         $xml = new ElementFinder($this->getInvalidRootNodesXml(), ElementFinder::DOCUMENT_XML);
         $errors = $xml->getLoadErrors();
@@ -420,7 +418,7 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    public function testShareExpressionTranslator()
+    public function testShareExpressionTranslator(): void
     {
         $page = new ElementFinder('
           <div class="node"> 
@@ -450,7 +448,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    public function getHtmlTestObject()
+    public function getHtmlTestObject(): ElementFinder
     {
         return $this->initFromFile('test.html');
     }
@@ -459,7 +457,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    public function getHtmlDataObject()
+    public function getHtmlDataObject(): ElementFinder
     {
         return $this->initFromFile('data.html');
     }
@@ -468,17 +466,18 @@ final class ElementFinderTest extends TestCase
     /**
      * @return \Xparse\ElementFinder\ElementFinder
      */
-    public function getNodeItemsHtmlObject()
+    public function getNodeItemsHtmlObject(): ElementFinder
     {
         return $this->initFromFile('node-items.html');
     }
 
 
-    final public function testElement()
+    final public function testElement(): void
     {
         $page = new ElementFinder('<div><span title="Hello">sdf</span></div>');
         $first = $page->element('//span')->first();
         if ($first !== null) {
+            /** @noinspection UnusedFunctionResultInspection */
             $first->setAttribute('title', 'Changed');
             self::assertSame('Changed', $first->getAttribute('title'));
         } else {
@@ -497,16 +496,13 @@ final class ElementFinderTest extends TestCase
     /**
      * @return string
      */
-    protected function getDemoDataDirectoryPath()
+    private function getDemoDataDirectoryPath(): string
     {
         return __DIR__ . '/demo-data/';
     }
 
 
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    protected function initFromFile(string $file)
+    private function initFromFile(string $file): ElementFinder
     {
         $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
         return new \Xparse\ElementFinder\ElementFinder($fileData);
@@ -516,7 +512,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @return string
      */
-    private function getInvalidRootNodesXml()
+    private function getInvalidRootNodesXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
       <note>
@@ -538,7 +534,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @return string
      */
-    private function getInvalidXml()
+    private function getInvalidXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
       <note>
@@ -554,7 +550,7 @@ final class ElementFinderTest extends TestCase
     /**
      * @return string
      */
-    private function getValidXml()
+    private function getValidXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
       <breakfast_menu>

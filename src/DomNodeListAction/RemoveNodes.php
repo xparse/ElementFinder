@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Xparse\ElementFinder\ElementFinder;
+namespace Xparse\ElementFinder\DomNodeListAction;
 
-class RemoveElements implements ElementFinderModifierInterface
+class RemoveNodes implements DomNodeListActionInterface
 {
-    final public function modify(\DOMNodeList $nodeList): void
+    final public function execute(\DOMNodeList $nodeList): void
     {
         foreach ($nodeList as $node) {
             if ($node instanceof \DOMAttr) {

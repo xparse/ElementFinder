@@ -6,7 +6,7 @@ namespace Xparse\ElementFinder;
 
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
-use Xparse\ElementFinder\ElementFinder\ElementFinderModifierInterface;
+use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
@@ -31,7 +31,7 @@ interface ElementFinderInterface
      */
     public function remove(string $expression): ElementFinderInterface;
 
-    public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface;
+    public function modify(string $expression, DomNodeListActionInterface $action): ElementFinderInterface;
 
     /**
      * Get nodeValue of the node
