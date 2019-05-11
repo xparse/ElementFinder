@@ -9,7 +9,6 @@ namespace Xparse\ElementFinder\Helper;
  */
 class NodeHelper
 {
-
     final public static function getOuterContent(\DOMNode $node): string
     {
         $domDocument = new \DOMDocument('1.0');

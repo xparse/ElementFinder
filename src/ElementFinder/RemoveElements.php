@@ -6,7 +6,6 @@ namespace Xparse\ElementFinder\ElementFinder;
 
 class RemoveElements implements ElementFinderModifierInterface
 {
-
     final public function modify(\DOMNodeList $nodeList): void
     {
         foreach ($nodeList as $node) {

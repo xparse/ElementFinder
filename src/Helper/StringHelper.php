@@ -9,7 +9,6 @@ namespace Xparse\ElementFinder\Helper;
  */
 class StringHelper
 {
-
     final public static function safeEncodeStr(string $str): string
     {
         return preg_replace_callback('/&#([a-z\d]+);/i', static function ($m) {
