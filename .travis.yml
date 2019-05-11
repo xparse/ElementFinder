@@ -1,9 +1,8 @@
 language: php
 
 php:
-  - 7.0
-  - 7.1
-  - 7.2
+  - "7.1"
+  - "7.2"
 
 before_script:
   - travis_retry composer self-update
@@ -14,6 +13,6 @@ script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_script:
-  - if [ $(phpenv version-name) == "7.0" ]; then bash <(curl -s https://codecov.io/bash) ; fi
-  - if [ $(phpenv version-name) == "7.0" ]; then wget https://scrutinizer-ci.com/ocular.phar -O build/ocular.phar ; fi
-  - if [ $(phpenv version-name) == "7.0" ]; then php build/ocular.phar code-coverage:upload --format=php-clover coverage.xml ; fi
+  - if [ $(phpenv version-name) == "7.1" ]; then bash <(curl -s https://codecov.io/bash) ; fi
+  - if [ $(phpenv version-name) == "7.1" ]; then wget https://scrutinizer-ci.com/ocular.phar -O build/ocular.phar ; fi
+  - if [ $(phpenv version-name) == "7.1" ]; then php build/ocular.phar code-coverage:upload --format=php-clover coverage.xml ; fi
