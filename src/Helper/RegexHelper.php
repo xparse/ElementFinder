@@ -36,7 +36,8 @@ class RegexHelper
 
 
     /**
-     * @throws \Exception
+     * @param callable $i
+     * @param string[] $strings
      */
     final public static function matchCallback(string $regex, callable $i, array $strings): StringCollection
     {
@@ -45,7 +46,7 @@ class RegexHelper
             if (preg_match_all($regex, $string, $matchedData)) {
                 $rawStringResult = $i($matchedData);
                 if (!is_array($rawStringResult)) {
-                    throw new \Exception('Invalid value. Expect array from callback');
+                    throw new \RuntimeException('Invalid value. Expect array from callback');
                 }
                 foreach ($rawStringResult as $resultString) {
                     $result[] = $resultString;

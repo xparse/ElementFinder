@@ -10,13 +10,9 @@ namespace Xparse\ElementFinder\Helper;
 class StringHelper
 {
 
-    /**
-     * Simple helper function for str encoding
-     *
-     */
     final public static function safeEncodeStr(string $str): string
     {
-        return preg_replace_callback('/&#([a-z\d]+);/i', function ($m) {
+        return preg_replace_callback('/&#([a-z\d]+);/i', static function ($m) {
             $value = (string)$m[0];
             $value = mb_convert_encoding($value, 'UTF-8', 'HTML-ENTITIES');
             return $value;

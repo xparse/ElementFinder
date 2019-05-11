@@ -10,12 +10,11 @@ namespace Xparse\ElementFinder\Helper;
 class NodeHelper
 {
 
-    /**
-     */
     final public static function getOuterContent(\DOMNode $node): string
     {
         $domDocument = new \DOMDocument('1.0');
         $b = $domDocument->importNode($node->cloneNode(true), true);
+        /** @noinspection UnusedFunctionResultInspection */
         $domDocument->appendChild($b);
 
         $content = $domDocument->saveHTML();
@@ -25,8 +24,6 @@ class NodeHelper
     }
 
 
-    /**
-     */
     final public static function getInnerContent(\DOMNode $itemObj): string
     {
         $content = '';

@@ -26,14 +26,14 @@ class ElementFinder implements ElementFinderInterface
      *
      * @var int
      */
-    const DOCUMENT_HTML = 0;
+    public const DOCUMENT_HTML = 0;
 
     /**
      * Xml document type
      *
      * @var int
      */
-    const DOCUMENT_XML = 1;
+    public const DOCUMENT_XML = 1;
 
     /**
      * Current document type
@@ -69,8 +69,6 @@ class ElementFinder implements ElementFinderInterface
      * Example:
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
-     * @param null|int $documentType
-     * @param ExpressionTranslatorInterface|null $translator
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
@@ -121,12 +119,9 @@ class ElementFinder implements ElementFinderInterface
      * You can remove elements and attributes
      *
      * ```php
-     * $html->remove("//span/@class");
-     *
-     * $html->remove("//input");
+     * $html = $html->remove("//span/@class");
+     * $html = $html->remove("//input");
      * ```
-     *
-     * @return ElementFinder
      */
     final public function remove(string $expression): ElementFinderInterface
     {
@@ -134,9 +129,7 @@ class ElementFinder implements ElementFinderInterface
     }
 
 
-    /**
-     */
-    public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface
+    final public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface
     {
         $result = clone $this;
         $modifier->modify(
@@ -191,12 +184,10 @@ class ElementFinder implements ElementFinderInterface
         $items = $this->query($expression);
         $result = [];
         foreach ($items as $node) {
-            /** @var \DOMElement $node */
-            if ($outerHtml) {
-                $html = NodeHelper::getOuterContent($node);
-            } else {
-                $html = NodeHelper::getInnerContent($node);
-            }
+            assert($node instanceof \DOMElement);
+            $html = $outerHtml
+                ? NodeHelper::getOuterContent($node)
+                : NodeHelper::getInnerContent($node);
             if (trim($html) === '') {
                 $html = '<html data-document-is-empty></html>';
             }
@@ -261,7 +252,6 @@ class ElementFinder implements ElementFinderInterface
     /**
      * @see element
      * Fetch nodes from document
-     *
      */
     private function query(string $expression): \DOMNodeList
     {

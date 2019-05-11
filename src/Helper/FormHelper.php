@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Helper;
 
-use Xparse\ElementFinder\ElementFinder;
+use Xparse\ElementFinder\ElementFinderInterface;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
@@ -13,14 +13,12 @@ class FormHelper
 {
 
     /**
-     * @var ElementFinder
+     * @var ElementFinderInterface
      */
     private $page;
 
 
-    /**
-     */
-    public function __construct(ElementFinder $page)
+    public function __construct(ElementFinderInterface $page)
     {
         $this->page = $page;
     }

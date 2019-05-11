@@ -1,16 +1,13 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  namespace Xparse\ElementFinder\ElementFinder;
+namespace Xparse\ElementFinder\ElementFinder;
 
 class RemoveElements implements ElementFinderModifierInterface
 {
 
-    /**
-     * @return void
-     */
-    public function modify(\DOMNodeList $nodeList)
+    final public function modify(\DOMNodeList $nodeList): void
     {
         foreach ($nodeList as $node) {
             if ($node instanceof \DOMAttr) {

@@ -2,6 +2,8 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="AmbiguousMemberInitializationInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="AutolineCheckTypeDocCommentInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="ClassNameCollisionInspection" enabled="true" level="TYPO" enabled_by_default="true" />
     <inspection_tool class="CssConvertColorToRgbInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CssMissingSemicolonInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ForgottenDebugOutputInspection" enabled="true" level="ERROR" enabled_by_default="true">
@@ -28,6 +30,7 @@
       </option>
       <option name="migratedIntoUserSpace" value="true" />
     </inspection_tool>
+    <inspection_tool class="HtmlRequiredLangAttribute" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MessDetectorValidationInspection" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="CODESIZE" value="true" />
       <option name="CONTROVERSIAL" value="true" />
@@ -43,8 +46,17 @@
     <inspection_tool class="PhpCSValidationInspection" enabled="false" level="ERROR" enabled_by_default="false">
       <option name="CODING_STANDARD" value="ScIvStandart" />
     </inspection_tool>
+    <inspection_tool class="PhpDocMissingReturnTagInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="SKIP_ON_PRESENT_TYPE_HINT" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PhpDocSignatureInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ALLOW_MISSING_PARAMETERS" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PhpFullyQualifiedNameUsageInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="IGNORE_GLOBAL_NAMESPACE" value="true" />
+    </inspection_tool>
     <inspection_tool class="PhpIllegalArrayKeyTypeInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PhpMissingDocCommentInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpMissingDocCommentInspection" enabled="false" level="TYPO" enabled_by_default="false">
       <scope name="Tests" level="WEAK WARNING" enabled="false" />
       <option name="CHECK_CONSTANT" value="true" />
       <option name="CHECK_FIELD" value="true" />
@@ -61,10 +73,16 @@
     <inspection_tool class="SecurityAdvisoriesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="optionConfiguration">
         <list>
+          <option value="barryvdh/laravel-debugbar" />
           <option value="behat/behat" />
           <option value="brianium/paratest" />
           <option value="codeception/codeception" />
+          <option value="codeception/mockery-module" />
+          <option value="codeception/specify" />
+          <option value="codeception/verify" />
+          <option value="codedungeon/phpunit-result-printer" />
           <option value="composer/composer" />
+          <option value="doctrine/coding-standard" />
           <option value="filp/whoops" />
           <option value="friendsofphp/php-cs-fixer" />
           <option value="humbug/humbug" />
@@ -74,9 +92,11 @@
           <option value="mikey179/vfsStream" />
           <option value="mockery/mockery" />
           <option value="mybuilder/phpunit-accelerator" />
+          <option value="orchestra/testbench" />
           <option value="pdepend/pdepend" />
           <option value="phan/phan" />
           <option value="phing/phing" />
+          <option value="phpcompatibility/php-compatibility" />
           <option value="phpmd/phpmd" />
           <option value="phpro/grumphp" />
           <option value="phpspec/phpspec" />
@@ -87,21 +107,25 @@
           <option value="phpunit/phpunit" />
           <option value="phpunit/phpunit-selenium" />
           <option value="povils/phpmnd" />
+          <option value="roave/security-advisories" />
           <option value="satooshi/php-coveralls" />
           <option value="sebastian/phpcpd" />
           <option value="slevomat/coding-standard" />
+          <option value="spatie/phpunit-watcher" />
           <option value="squizlabs/php_codesniffer" />
+          <option value="sstalle/php7cc" />
           <option value="symfony/debug" />
+          <option value="symfony/maker-bundle" />
           <option value="symfony/phpunit-bridge" />
           <option value="symfony/var-dumper" />
           <option value="vimeo/psalm" />
+          <option value="wimg/php-compatibility" />
           <option value="yiisoft/yii2-debug" />
           <option value="yiisoft/yii2-gii" />
           <option value="zendframework/zend-debug" />
           <option value="zendframework/zend-test" />
         </list>
       </option>
-      <option name="optionConfigurationMigrated" value="true" />
     </inspection_tool>
     <inspection_tool class="SelfClassReferencingInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
   </profile>

@@ -21,8 +21,6 @@ class RegexReplace implements StringModifyInterface
     private $to;
 
 
-    /**
-     */
     public function __construct(string $from, string $to)
     {
         $this->from = $from;
@@ -30,8 +28,6 @@ class RegexReplace implements StringModifyInterface
     }
 
 
-    /**
-     */
     final public function modify(string $input): string
     {
         return preg_replace($this->from, $this->to, $input);

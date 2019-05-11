@@ -24,20 +24,17 @@ interface ElementFinderInterface
      * You can remove elements and attributes
      *
      * ```php
-     * $html->remove("//span/@class");
-     *
-     * $html->remove("//input");
+     * $html = $html->remove("//span/@class");
+     * $html = $html->remove("//input");
      * ```
      *
      */
     public function remove(string $expression): ElementFinderInterface;
 
-    /**
-     */
     public function modify(string $expression, ElementFinderModifierInterface $modifier): ElementFinderInterface;
 
     /**
-     * Get nodeValue of node
+     * Get nodeValue of the node
      *
      * @throws \Exception
      */
@@ -64,8 +61,8 @@ interface ElementFinderInterface
      */
     public function element(string $expression): Collection\ElementCollection;
 
-
     /**
+     * @return string[]
      */
     public function getLoadErrors(): array;
 }

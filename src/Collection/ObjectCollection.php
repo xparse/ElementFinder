@@ -45,10 +45,9 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return null|ElementFinder
      * @throws \InvalidArgumentException
      */
-    final public function last()
+    final public function last(): ?ElementFinder
     {
         $items = $this->all();
         if (\count($items) === 0) {
@@ -58,10 +57,9 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return null|ElementFinder
      * @throws \InvalidArgumentException
      */
-    final public function first()
+    final public function first(): ?ElementFinder
     {
         $items = $this->all();
         if (\count($items) === 0) {
@@ -117,25 +115,20 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return null|ElementFinder
      * @throws \InvalidArgumentException
      */
-    final public function get(int $index)
+    final public function get(int $index): ?ElementFinder
     {
-        $items = $this->all();
-        if (array_key_exists($index, $items)) {
-            return $items[$index];
-        }
-        return null;
+        return $this->all()[$index] ?? null;
     }
 
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return ElementFinder[]|\ArrayIterator
+     * @return ElementFinder[]|\Traversable
      * @throws \InvalidArgumentException
      */
-    final public function getIterator()
+    final public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->all());
     }

@@ -43,29 +43,27 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return null|string
      * @throws \Exception
      */
-    final public function last()
+    final public function last(): ?string
     {
         $items = $this->all();
         if (\count($items) === 0) {
             return null;
         }
-        return end($items);
+        return (string)end($items);
     }
 
     /**
-     * @return null|string
      * @throws \Exception
      */
-    final public function first()
+    final public function first(): ?string
     {
         $items = $this->all();
         if (\count($items) === 0) {
             return null;
         }
-        return reset($items);
+        return (string)reset($items);
     }
 
     /**
@@ -154,8 +152,7 @@ class StringCollection implements \IteratorAggregate, \Countable
     {
         $items = [];
         foreach ($this->all() as $item) {
-            $data = preg_split($regexp, $item);
-            foreach ($data as $string) {
+            foreach (preg_split($regexp, $item) as $string) {
                 $items[] = $string;
             }
         }
@@ -193,25 +190,20 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return null|string
      * @throws \Exception
      */
-    final public function get(int $index)
+    final public function get(int $index): ?string
     {
-        $items = $this->all();
-        if (array_key_exists($index, $items)) {
-            return $items[$index];
-        }
-        return null;
+        return $this->all()[$index] ?? null;
     }
 
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return string[]|\ArrayIterator
+     * @return string[]|\Traversable
      * @throws \Exception
      */
-    final public function getIterator()
+    final public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->all());
     }

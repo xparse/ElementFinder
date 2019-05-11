@@ -43,10 +43,9 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return Element|null
      * @throws \InvalidArgumentException
      */
-    final public function last()
+    final public function last(): ?Element
     {
         $items = $this->all();
         if (\count($items) === 0) {
@@ -56,10 +55,9 @@ class ElementCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return Element|null
      * @throws \InvalidArgumentException
      */
-    final public function first()
+    final public function first(): ?Element
     {
         $items = $this->all();
         if (\count($items) === 0) {
@@ -70,16 +68,11 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return Element|null
      * @throws \InvalidArgumentException
      */
-    final public function get(int $index)
+    final public function get(int $index): ?Element
     {
-        $items = $this->all();
-        if (array_key_exists($index, $items)) {
-            return $items[$index];
-        }
-        return null;
+        return $this->all()[$index] ?? null;
     }
 
 
@@ -132,10 +125,10 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * Retrieve an external iterator
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Element[]|\ArrayIterator An instance of an object implementing Iterator or Traversable
+     * @return Element[]|\Traversable An instance of an object implementing Iterator or Traversable
      * @throws \InvalidArgumentException
      */
-    final public function getIterator()
+    final public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->all());
     }
