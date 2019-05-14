@@ -9,7 +9,6 @@ use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
  */
 class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface
 {
-
     final public function convertToXpath(string $expression): string
     {
         return '//*[@class="' . $expression . '"]';
