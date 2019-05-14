@@ -1,12 +1,13 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
-## Unreleased [Unreleased]
+## 0.5.0 [2019-05-14]
+- Use `ElementFinderInterface` instead of `ElementFinder` class
+- Move to php 7.1 
 
 ## 0.4.0 [2019-05-11]
 - Remove ElementFinder\ElementFinderModifierInterface see DomNodeListAction\DomNodeListActionInterface
 - Remove ElementFinder\RemoveElements see DomNodeListAction\RemoveNodes
 - Remove deprecated class RegexHelper 
-- Move to php 7.1 
 - Specify types
 - Add final modifiers for all public methods
 ## 0.3.1 [2018-04-18]

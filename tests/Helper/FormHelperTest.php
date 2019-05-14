@@ -11,9 +11,9 @@ use Xparse\ElementFinder\Helper\FormHelper;
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class FormHelperTest extends TestCase
+final class FormHelperTest extends TestCase
 {
-    public function testFormData()
+    public function testFormData(): void
     {
         $html = '
       <!DOCTYPE html>
@@ -109,12 +109,12 @@ class FormHelperTest extends TestCase
     }
 
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testInvalidFormPath()
+    public function testInvalidFormPath(): void
     {
         $page = new ElementFinder('<div></div>');
-        (new FormHelper($page))->getFormData('//form');
+        $helper = (new FormHelper($page));
+        $this->expectException(\Exception::class);
+        /** @noinspection UnusedFunctionResultInspection */
+        $helper->getFormData('//form');
     }
 }
