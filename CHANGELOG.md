@@ -1,6 +1,7 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
-## Unreleased [Unreleased]
+## 0.4.1 [Unreleased]
+- Use `ElementFinderInterface` instead of `ElementFinder` class
 
 ## 0.4.0 [2019-05-11]
 - Remove ElementFinder\ElementFinderModifierInterface see DomNodeListAction\DomNodeListActionInterface
