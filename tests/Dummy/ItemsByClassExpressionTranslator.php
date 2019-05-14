@@ -10,13 +10,7 @@ use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
 class ItemsByClassExpressionTranslator implements ExpressionTranslatorInterface
 {
 
-    /**
-     * Translate expression to xpath
-     * Select items only by specific class
-     *
-     * @param string $expression
-     */
-    public function convertToXpath($expression): string
+    final public function convertToXpath(string $expression): string
     {
         return '//*[@class="' . $expression . '"]';
     }

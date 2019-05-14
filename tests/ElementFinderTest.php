@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
 use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder;
+use Xparse\ElementFinder\ElementFinderInterface;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
@@ -60,7 +61,7 @@ final class ElementFinderTest extends TestCase
         self::assertCount(1, $links);
 
         foreach ($html->content('//a') as $htmlString) {
-            self::assertTrue(is_string($htmlString));
+            self::assertIsString($htmlString);
         }
 
         self::assertContains(
@@ -387,7 +388,7 @@ final class ElementFinderTest extends TestCase
     public function testXmlRootNode(): void
     {
         $food = (new ElementFinder($this->getValidXml(), ElementFinder::DOCUMENT_XML))->object('//food')->get(2);
-        self::assertEquals(900, (int) $food->value('/root/calories')->first());
+        self::assertEquals(900, (int)$food->value('/root/calories')->first());
     }
 
 
@@ -445,34 +446,25 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    public function getHtmlTestObject(): ElementFinder
+    public function getHtmlTestObject(): ElementFinderInterface
     {
         return $this->initFromFile('test.html');
     }
 
 
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
-    public function getHtmlDataObject(): ElementFinder
+    public function getHtmlDataObject(): ElementFinderInterface
     {
         return $this->initFromFile('data.html');
     }
 
 
-    /**
-     * @return \Xparse\ElementFinder\ElementFinder
-     */
     public function getNodeItemsHtmlObject(): ElementFinder
     {
         return $this->initFromFile('node-items.html');
     }
 
 
-    final public function testElement(): void
+    public function testElement(): void
     {
         $page = new ElementFinder('<div><span title="Hello">sdf</span></div>');
         $first = $page->element('//span')->first();
@@ -493,9 +485,6 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @return string
-     */
     private function getDemoDataDirectoryPath(): string
     {
         return __DIR__ . '/demo-data/';
@@ -509,9 +498,6 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @return string
-     */
     private function getInvalidRootNodesXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
@@ -531,9 +517,6 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @return string
-     */
     private function getInvalidXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
@@ -547,40 +530,37 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @return string
-     */
     private function getValidXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
       <breakfast_menu>
           <food>
               <name>Belgian Waffles</name>
-              <price value="$5.95"/>
+              <price value="$5.95"></price>
               <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
               <calories>650</calories>
           </food>
           <food>
               <name>Strawberry Belgian Waffles</name>
-              <price value="$7.95"/>
+              <price value="$7.95"></price>
               <description>Light Belgian waffles covered with strawberries and whipped cream</description>
               <calories>900</calories>
           </food>
           <food>
               <name>Berry-Berry Belgian Waffles</name>
-              <price value="$8.95"/>
+              <price value="$8.95"></price>
               <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
               <calories>900</calories>
           </food>
           <food>
               <name>French Toast</name>
-              <price value="$4.50"/>
+              <price value="$4.50"></price>
               <description>Thick slices made from our homemade sourdough bread</description>
               <calories>600</calories>
           </food>
           <food>
               <name>Homestyle Breakfast</name>
-              <price value="$6.95"/>
+              <price value="$6.95"></price>
               <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
               <calories>950</calories>
           </food>
