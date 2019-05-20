@@ -75,7 +75,7 @@ class ElementFinder implements ElementFinderInterface
     public function __construct(string $data, int $documentType = null, ExpressionTranslatorInterface $translator = null)
     {
         if ('' === $data) {
-            throw new \InvalidArgumentException('Expect not empty string');
+            $data = '<html></html>';
         }
         $this->dom = new \DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
