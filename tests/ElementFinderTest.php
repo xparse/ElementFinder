@@ -31,12 +31,11 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testLoadEmptyDoc(): void
     {
-        new ElementFinder('');
+        $elementFinder = new ElementFinder('');
+        self::assertEquals('', $elementFinder->content('.')->first());
+        self::assertEquals('', $elementFinder->value('//*')->get(0));
     }
 
 
