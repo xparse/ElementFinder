@@ -1,5 +1,8 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
+## 0.5.1 [2019-05-23]
+- Allow pass empty string to constructor `ElementFinder`
+
 ## 0.5.0 [2019-05-14]
 - Use `ElementFinderInterface` instead of `ElementFinder` class
 - Move to php 7.1 
