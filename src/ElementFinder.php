@@ -64,24 +64,18 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     *
-     *
      * Example:
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
-     * @throws \InvalidArgumentException
      * @throws \Exception
      */
     public function __construct(string $data, int $documentType = null, ExpressionTranslatorInterface $translator = null)
     {
-        if ('' === $data) {
-            throw new \InvalidArgumentException('Expect not empty string');
-        }
         $this->dom = new \DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
         $this->dom->registerNodeClass(\DOMElement::class, Element::class);
         $this->type = $documentType ?? static::DOCUMENT_HTML;
-        $this->setData($data);
+        $this->setData($data ?: '<html></html>');
     }
 
 
