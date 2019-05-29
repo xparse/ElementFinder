@@ -2129,7 +2129,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.27",
+            "version": "v3.4.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
