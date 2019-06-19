@@ -11,7 +11,7 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - vendor/bin/php-cs-fixer fix --config=.php_cs_config.php -v --dry-run --stop-on-violation --using-cache=no
+  - if [ $(phpenv version-name) == "7.1" ]; then vendor/bin/php-cs-fixer fix --config=.php_cs_config.php -v --dry-run --stop-on-violation --using-cache=no; fi
   - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_script:
