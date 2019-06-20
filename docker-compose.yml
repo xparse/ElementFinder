@@ -1,0 +1,17 @@
+version: "3"
+services:
+  build:
+    image: composer:latest
+    volumes:
+      - ./:/app
+    user: "1000:1000"
+    command: "composer install"
+  test:
+    image: php:7.1-cli
+    depends_on:
+      - build
+    user: "1000:1000"
+    volumes:
+      - ./:/app
+    command: "./vendor/bin/phpunit"
+    working_dir: /app
