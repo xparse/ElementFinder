@@ -2463,7 +2463,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.32",
+            "version": "v3.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
