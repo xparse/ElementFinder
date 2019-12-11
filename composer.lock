@@ -2414,16 +2414,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.4.35",
+            "version": "v3.4.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e"
+                "reference": "9a4545c01e1e4f473492bd52b71e574dcc401ca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e",
-                "reference": "c19da50bc3e8fa7d60628fdb4ab5d67de534cf3e",
+                "url": "https://api.github.com/repos/symfony/process/zipball/9a4545c01e1e4f473492bd52b71e574dcc401ca2",
+                "reference": "9a4545c01e1e4f473492bd52b71e574dcc401ca2",
                 "shasum": ""
             },
             "require": {
@@ -2459,7 +2459,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-24T15:33:53+00:00"
+            "time": "2019-11-28T10:05:51+00:00"
         },
         {
             "name": "symfony/stopwatch",
