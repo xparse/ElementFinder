@@ -1,6 +1,6 @@
 {
   "name": "xparse/element-finder",
-  "description": "",
+  "description": "Elegant data scrapping",
   "keywords": [
     "xpath",
     "parser",
@@ -11,7 +11,7 @@
   "authors": [
     {
       "name": "Ivan Shcherbak",
-      "email": "dev@funivan.com",
+      "email": "alotofall@gmail.com",
       "homepage": "http://funivan.com/",
       "role": "Developer"
     }
