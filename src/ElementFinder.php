@@ -223,7 +223,9 @@ class ElementFinder implements ElementFinderInterface
     private function setData(string $data): self
     {
         $internalErrors = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader();
+        if (\LIBXML_VERSION < 20900) {
+          $disableEntities = libxml_disable_entity_loader(true);
+        }
 
         if (static::DOCUMENT_HTML === $this->type) {
             $data = StringHelper::safeEncodeStr($data);
@@ -237,7 +239,9 @@ class ElementFinder implements ElementFinderInterface
         $this->loadErrors = libxml_get_errors();
         libxml_clear_errors();
         libxml_use_internal_errors($internalErrors);
-        libxml_disable_entity_loader($disableEntities);
+        if (\LIBXML_VERSION < 20900) {
+          libxml_disable_entity_loader($disableEntities);
+        }
         unset($this->xpath);
         $this->xpath = new \DomXPath($this->dom);
         return $this;
