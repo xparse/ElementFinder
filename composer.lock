@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1363e81e17ce709cfab290852a9072ba",
+    "content-hash": "b841b3bfabf0cbb519c7283b319edc8b",
     "packages": [
         {
             "name": "xparse/expression-translator",
@@ -4114,7 +4114,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1 || ^8.0",
+        "php": "^7.3 || ^8.0",
         "ext-libxml": "*",
         "ext-dom": "*"
     },
