@@ -1,5 +1,10 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
+
+## Planned changes
+- Move to php 7.3
+- Add php 8.0 support
+
 ## 0.5.1 [2019-05-23]
 - Allow pass empty string to constructor `ElementFinder`
 
