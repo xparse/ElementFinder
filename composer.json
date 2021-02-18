@@ -17,14 +17,14 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": "^7.3 || ^8.0",
     "xparse/expression-translator": "0.0.*",
     "ext-libxml": "*",
     "ext-dom": "*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.7",
-    "phpunit/phpunit": "^7.5"
+    "phpunit/phpunit": "^9.5.2"
   },
   "autoload": {
     "psr-4": {
@@ -38,7 +38,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.1"
+      "php": "7.4"
     },
     "optimize-autoloader": true,
     "sort-packages": true
