@@ -18,7 +18,7 @@ final class ElementFinderTest extends TestCase
     public function testLoad(): void
     {
         $html = $this->getHtmlTestObject();
-        self::assertContains('<title>test doc</title>', $html->content('.')->first());
+        self::assertStringContainsString('<title>test doc</title>', $html->content('.')->first());
     }
 
 
@@ -63,7 +63,7 @@ final class ElementFinderTest extends TestCase
             self::assertIsString($htmlString);
         }
 
-        self::assertContains(
+        self::assertStringContainsString(
             '<a href="http://funivan.com/" title="my blog">link</a>',
             $html->content('//a', true)->first()
         );
@@ -103,7 +103,7 @@ final class ElementFinderTest extends TestCase
     {
         $spanItems = $this->getHtmlTestObject()->object('//span', true);
         self::assertCount(4, $spanItems);
-        self::assertContains(
+        self::assertStringContainsString(
             '<span class="span-1">',
             $spanItems->get(0)->content('.')->first()
         );
@@ -166,8 +166,8 @@ final class ElementFinderTest extends TestCase
 
         $phones = $html->content('.')->match($regex, 0);
         self::assertCount(2, $phones);
-        self::assertContains('<', $phones->get(0));
-        self::assertContains("\n", $phones->get(1));
+        self::assertStringContainsString('<', $phones->get(0));
+        self::assertStringContainsString("\n", $phones->get(1));
 
         $phones = $html->content('.')->match($regex, 4);
         self::assertCount(0, $phones);
@@ -188,8 +188,8 @@ final class ElementFinderTest extends TestCase
         $spanItems = $this->getHtmlTestObject()->object('//span');
         self::assertCount(4, $spanItems);
 
-        self::assertNotContains('<span class="span-1">', $spanItems->get(0)->content('.')->first());
-        self::assertContains('<b>1 </b>', $spanItems->get(0)->content('.')->first());
+        self::assertStringNotContainsString('<span class="span-1">', $spanItems->get(0)->content('.')->first());
+        self::assertStringContainsString('<b>1 </b>', $spanItems->get(0)->content('.')->first());
     }
 
 
@@ -243,7 +243,7 @@ final class ElementFinderTest extends TestCase
         $errors = $elementFinder->getLoadErrors();
 
         self::assertCount(1, $errors);
-        self::assertContains("Unexpected end tag : span\n", $errors[0]->message);
+        self::assertStringContainsString("Unexpected end tag : span\n", $errors[0]->message);
     }
 
 
@@ -259,7 +259,7 @@ final class ElementFinderTest extends TestCase
         $objects = (new ElementFinder('<div></div><div><a>df</a></div>'))->object('//div');
 
         self::assertEmpty($objects->get(0)->content('.')->first());
-        self::assertContains('data-document-is-empty', $objects->get(0)->content('/')->get(0));
+        self::assertStringContainsString('data-document-is-empty', $objects->get(0)->content('/')->get(0));
 
         self::assertNotEmpty($objects->get(1)->content('.')->first());
         $linkText = $objects->get(1)->value('//a')->get(0);
@@ -273,7 +273,7 @@ final class ElementFinderTest extends TestCase
     public function testValidDocumentType(): void
     {
         $document = new ElementFinder('<xml><list>123</list></xml>', ElementFinder::DOCUMENT_XML);
-        self::assertContains('<list>123</list>', $document->content('.')->first());
+        self::assertStringContainsString('<list>123</list>', $document->content('.')->first());
     }
 
 
@@ -404,7 +404,7 @@ final class ElementFinderTest extends TestCase
         $errors = (new ElementFinder($this->getInvalidXml(), ElementFinder::DOCUMENT_XML))->getLoadErrors();
 
         self::assertCount(1, $errors);
-        self::assertContains('Opening and ending tag mismatch: from', $errors[0]->message);
+        self::assertStringContainsString('Opening and ending tag mismatch: from', $errors[0]->message);
     }
 
 
@@ -414,7 +414,7 @@ final class ElementFinderTest extends TestCase
         $errors = $xml->getLoadErrors();
 
         self::assertCount(1, $errors);
-        self::assertContains('Extra content at the end of the document', $errors[0]->message);
+        self::assertStringContainsString('Extra content at the end of the document', $errors[0]->message);
     }
 
 
