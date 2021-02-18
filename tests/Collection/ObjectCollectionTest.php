@@ -74,11 +74,9 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidDataType()
     {
+        $this->expectException(\InvalidArgumentException::class);
         (new ObjectCollection([null]))->all();
     }
 }

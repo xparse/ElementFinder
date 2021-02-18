@@ -22,11 +22,9 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @expectedException \Exception
-     */
     public function testInvalidType(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
         new ElementFinder('', -1);
     }
 
@@ -335,9 +333,6 @@ final class ElementFinderTest extends TestCase
     }
 
 
-    /**
-     * @expectedException \Exception
-     */
     public function testKeyValueFail(): void
     {
         $html = new ElementFinder('
@@ -357,7 +352,7 @@ final class ElementFinderTest extends TestCase
           </tbody>
         </table>
       ');
-        /** @noinspection UnusedFunctionResultInspection */
+        $this->expectException(\RuntimeException::class);
         $html->keyValue('//table//td[1]', '//table//td[2]');
     }
 
