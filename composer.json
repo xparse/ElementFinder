@@ -23,7 +23,7 @@
     "ext-dom": "*"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.7",
+    "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "^9.5.2"
   },
   "autoload": {
