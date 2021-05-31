@@ -2,8 +2,9 @@
 All Notable changes to `ElementFinder` will be documented in this file
 
 ## Planned changes
-Create the release of version 1.0.0.
-No breaking changes.
+
+## 1.0.0 [2021-05-31]
+- No breaking changes.
 
 ## 0.5.1-alpha [2021-04-22]
 - Move to php 7.3
