@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "xparse/expression-translator",
-            "version": "0.0.4",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xparse/ExpressionTranslator.git",
-                "reference": "d36ccc9a89dd6db45df3611858925d6bcf5b08f3"
+                "reference": "95af456864787c347d27676d38a6bd3298949af1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xparse/ExpressionTranslator/zipball/d36ccc9a89dd6db45df3611858925d6bcf5b08f3",
-                "reference": "d36ccc9a89dd6db45df3611858925d6bcf5b08f3",
+                "url": "https://api.github.com/repos/xparse/ExpressionTranslator/zipball/95af456864787c347d27676d38a6bd3298949af1",
+                "reference": "95af456864787c347d27676d38a6bd3298949af1",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1||^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^7.0"
@@ -48,9 +48,9 @@
             "homepage": "https://github.com/",
             "support": {
                 "issues": "https://github.com/xparse/ExpressionTranslator/issues",
-                "source": "https://github.com/xparse/ExpressionTranslator/tree/master"
+                "source": "https://github.com/xparse/ExpressionTranslator/tree/1.0.0"
             },
-            "time": "2019-05-11T07:59:00+00:00"
+            "time": "2021-05-31T13:35:15+00:00"
         }
     ],
     "packages-dev": [
