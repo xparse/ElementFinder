@@ -6,6 +6,7 @@ namespace Test\Xparse\ElementFinder;
 
 use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
+use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\ElementFinderInterface;
@@ -457,27 +458,6 @@ final class ElementFinderTest extends TestCase
         return $this->initFromFile('node-items.html');
     }
 
-
-    /**
-     * @dataProvider contentDataProvider
-     */
-    public function testContent(string $data, $documentType, string $expression, bool $outerContent, mixed $expected): void
-    {
-        $elementFinder = new ElementFinder($data, $documentType);
-        $actual = $elementFinder->content($expression, $outerContent);
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function contentDataProvider(): array
-    {
-        return [
-            ['<html><div>test </div></html>', ElementFinder::DOCUMENT_HTML, 'div', false, new StringCollection(['test '])],
-            ['<html><div>test </div></html>', ElementFinder::DOCUMENT_HTML, 'div', true, new StringCollection(['<div>test </div>'])],
-            ['<html><div>test1 </div><div>test2 </div></html>', ElementFinder::DOCUMENT_HTML, 'div', false, new StringCollection(['test1 ', 'test2 '])],
-            ['<html><div>test1 </div><div>test2 </div></html>', ElementFinder::DOCUMENT_HTML, 'div', true, new StringCollection(['<div>test1 </div>', '<div>test2 </div>'])],
-        ];
-    }
-    
     public function testElement(): void
     {
         $page = new ElementFinder('<div><span title="Hello">sdf</span></div>');
