@@ -149,4 +149,24 @@ class StringCollectionTest extends TestCase
             $collection->all()
         );
     }
+
+    /**
+     * @dataProvider lastDataProvider
+     */
+    public function testLast(array $items, mixed $expected): void
+    {
+        $collection = new StringCollection($items);
+        $this->assertEquals($expected, $collection->last());
+    }
+
+    public static function lastDataProvider(): array
+    {
+        return [
+                [['a', 'b', 'c'], 'c'],
+                [['a', 'b', 'c', 'd'], 'd'],
+                [['a', 'b', 'c', 'd', 'e'], 'e'],
+                [['a', 'b', 'c', 'd', 'e', 'f'], 'f'],
+                [[], null],
+        ];
+    }
 }
