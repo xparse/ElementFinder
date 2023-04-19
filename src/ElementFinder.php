@@ -54,9 +54,9 @@ class ElementFinder implements ElementFinderInterface
      * @throws \Exception
      */
     public function __construct(
-            string $data,
-            int $documentType = null,
-            ExpressionTranslatorInterface $translator = null
+        string $data,
+        int $documentType = null,
+        ExpressionTranslatorInterface $translator = null
     ) {
         $this->dom = new \DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
@@ -114,7 +114,7 @@ class ElementFinder implements ElementFinderInterface
     {
         $result = clone $this;
         $action->execute(
-                $result->query($expression)
+            $result->query($expression)
         );
         return $result;
     }
@@ -242,7 +242,7 @@ class ElementFinder implements ElementFinderInterface
     private function query(string $expression): \DOMNodeList
     {
         return $this->xpath->query(
-                $this->expressionTranslator->convertToXpath($expression)
+            $this->expressionTranslator->convertToXpath($expression)
         );
     }
 }
