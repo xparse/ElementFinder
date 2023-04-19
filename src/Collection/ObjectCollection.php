@@ -11,7 +11,6 @@ use Xparse\ElementFinder\ElementFinderInterface;
  */
 class ObjectCollection implements \IteratorAggregate, \Countable
 {
-
     /**
      * @var ElementFinderInterface[]
      */

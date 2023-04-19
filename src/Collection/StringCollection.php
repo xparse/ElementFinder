@@ -12,7 +12,6 @@ use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
  */
 class StringCollection implements \IteratorAggregate, \Countable
 {
-
     /**
      * @var string[]
      */

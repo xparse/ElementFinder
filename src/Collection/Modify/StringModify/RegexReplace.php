@@ -9,7 +9,6 @@ namespace Xparse\ElementFinder\Collection\Modify\StringModify;
  */
 class RegexReplace implements StringModifyInterface
 {
-
     /**
      * @var string
      */
