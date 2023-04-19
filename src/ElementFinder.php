@@ -34,32 +34,17 @@ class ElementFinder implements ElementFinderInterface
      */
     public const DOCUMENT_XML = 1;
 
-    /**
-     * Current document type
-     *
-     * @var int
-     */
-    private $type;
+    private int $type;
+    private \DOMDocument $dom;
+
+    private \DomXPath $xpath;
+
+    private ExpressionTranslatorInterface $expressionTranslator;
 
     /**
-     * @var \DOMDocument
+     * @var \LibXMLError[]
      */
-    private $dom;
-
-    /**
-     * @var \DomXPath
-     */
-    private $xpath;
-
-    /**
-     * @var ExpressionTranslatorInterface
-     */
-    private $expressionTranslator;
-
-    /**
-     * @var array
-     */
-    private $loadErrors = [];
+    private array $loadErrors = [];
 
 
     /**
@@ -68,8 +53,11 @@ class ElementFinder implements ElementFinderInterface
      *
      * @throws \Exception
      */
-    public function __construct(string $data, int $documentType = null, ExpressionTranslatorInterface $translator = null)
-    {
+    public function __construct(
+            string $data,
+            int $documentType = null,
+            ExpressionTranslatorInterface $translator = null
+    ) {
         $this->dom = new \DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
         $this->dom->registerNodeClass(\DOMElement::class, Element::class);
@@ -126,7 +114,7 @@ class ElementFinder implements ElementFinderInterface
     {
         $result = clone $this;
         $action->execute(
-            $result->query($expression)
+                $result->query($expression)
         );
         return $result;
     }
@@ -179,12 +167,12 @@ class ElementFinder implements ElementFinderInterface
         foreach ($items as $node) {
             assert($node instanceof \DOMElement);
             $html = $outerHtml
-                ? NodeHelper::getOuterContent($node)
-                : NodeHelper::getInnerContent($node);
+                    ? NodeHelper::getOuterContent($node)
+                    : NodeHelper::getInnerContent($node);
             if (trim($html) === '') {
                 $html = '<html data-document-is-empty></html>';
             }
-            if ($this->type === static::DOCUMENT_XML and strpos($html, '<?xml') === false) {
+            if ($this->type === static::DOCUMENT_XML and !str_contains($html, '<?xml')) {
                 $html = '<root>' . $html . '</root>';
             }
             $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
@@ -224,7 +212,7 @@ class ElementFinder implements ElementFinderInterface
         $internalErrors = libxml_use_internal_errors(true);
         $disableEntities = false;
         if (\LIBXML_VERSION < 20900) {
-            $disableEntities = libxml_disable_entity_loader(true);
+            $disableEntities = libxml_disable_entity_loader();
         }
 
         if (static::DOCUMENT_HTML === $this->type) {
@@ -254,7 +242,7 @@ class ElementFinder implements ElementFinderInterface
     private function query(string $expression): \DOMNodeList
     {
         return $this->xpath->query(
-            $this->expressionTranslator->convertToXpath($expression)
+                $this->expressionTranslator->convertToXpath($expression)
         );
     }
 }
