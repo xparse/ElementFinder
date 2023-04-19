@@ -20,7 +20,6 @@ use Xparse\ExpressionTranslator\XpathExpression;
  */
 class ElementFinder implements ElementFinderInterface
 {
-
     /**
      * Html document type
      *
