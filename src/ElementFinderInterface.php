@@ -13,7 +13,6 @@ use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
  */
 interface ElementFinderInterface
 {
-
     /**
      * @throws \Exception
      */

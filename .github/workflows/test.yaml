@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  schedule:
+    - cron: '00 1 * * 1'  # At 01:00 on Mondays.
   push:
     branches:
       - master
@@ -13,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['8.0', '8.1', '8.2']
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout
@@ -38,8 +40,13 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --dev
 
-#      - name: Run fixer
-#        run: ./vendor/bin/php-cs-fixer fix --config=.php_cs_config.php -v --dry-run --stop-on-violation
+      - name: Run fixer
+        run: ./vendor/bin/php-cs-fixer fix . -v --dry-run --stop-on-violation
 
       - name: Run tests
         run: ./vendor/bin/phpunit
+
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID:  ${{secrets.CC_TEST_REPORTER_ID}}

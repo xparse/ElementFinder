@@ -9,7 +9,6 @@ namespace Xparse\ElementFinder\Collection\Filters\StringFilter;
  */
 class RegexStringFilter implements StringFilterInterface
 {
-
     /**
      * @var string
      */

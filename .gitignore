@@ -1,6 +1,9 @@
 .idea
 build
 vendor
+composer.lock
+.phpunit.result.cache
+.php-cs-fixer.cache
 
 # Share ide configuration
 !.idea/inspectionProfiles/*

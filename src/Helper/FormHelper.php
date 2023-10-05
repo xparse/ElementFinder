@@ -11,7 +11,6 @@ use Xparse\ElementFinder\ElementFinderInterface;
  */
 class FormHelper
 {
-
     /**
      * @var ElementFinderInterface
      */

@@ -6,6 +6,7 @@ namespace Test\Xparse\ElementFinder;
 
 use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
+use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\ElementFinderInterface;
@@ -456,7 +457,6 @@ final class ElementFinderTest extends TestCase
     {
         return $this->initFromFile('node-items.html');
     }
-
 
     public function testElement(): void
     {

@@ -9,7 +9,6 @@ namespace Xparse\ElementFinder\ElementFinder;
  */
 class Element extends \DOMElement
 {
-
     /**
      * @return array Array<String, String>
      */
