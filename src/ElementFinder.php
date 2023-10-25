@@ -87,9 +87,9 @@ class ElementFinder implements ElementFinderInterface
         $result = [];
         foreach ($items as $node) {
             if ($outerContent) {
-                $result[] = NodeHelper::getOuterContent($node);
+                $result[] = NodeHelper::getOuterContent($node, $this->type);
             } else {
-                $result[] = NodeHelper::getInnerContent($node);
+                $result[] = NodeHelper::getInnerContent($node, $this->type);
             }
         }
         return new StringCollection($result);
@@ -167,8 +167,8 @@ class ElementFinder implements ElementFinderInterface
         foreach ($items as $node) {
             assert($node instanceof \DOMElement);
             $html = $outerHtml
-                    ? NodeHelper::getOuterContent($node)
-                    : NodeHelper::getInnerContent($node);
+                ? NodeHelper::getOuterContent($node, $this->type)
+                : NodeHelper::getInnerContent($node, $this->type);
             if (trim($html) === '') {
                 $html = '<html data-document-is-empty></html>';
             }
