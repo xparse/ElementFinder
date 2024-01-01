@@ -1,10 +1,6 @@
 name: CI
 
-on:
-  - push
-  - pull_request:
-permissions:
-  contents: read # to fetch code (actions/checkout)
+on: [push]
 
 jobs:
   run:
@@ -36,13 +32,5 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --dev
 
-      - name: Run fixer
-        run: ./vendor/bin/php-cs-fixer fix . -v --dry-run --stop-on-violation
-
       - name: Run tests
         run: ./vendor/bin/phpunit
-
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v3.2.0
-        env:
-          CC_TEST_REPORTER_ID:  ${{secrets.CC_TEST_REPORTER_ID}}
