@@ -1,7 +1,14 @@
 name: CI
 
 on:
-  - push
+  schedule:
+  - cron: '00 1 * * 1'  # At 01:00 on Mondays.
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   run:
