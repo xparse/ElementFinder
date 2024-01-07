@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection;
 
+use IteratorAggregate;
+use Countable;
+use InvalidArgumentException;
+use Traversable;
+use ArrayIterator;
 use Xparse\ElementFinder\ElementFinder\Element;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class ElementCollection implements \IteratorAggregate, \Countable
+class ElementCollection implements IteratorAggregate, Countable
 {
-    /**
-     * @var Element[]
-     */
-    private $items;
-
     /**
      * @var bool
      */
@@ -24,16 +24,15 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
     /**
      * @param Element[] $items
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function __construct(array $items = [])
+    public function __construct(private array $items = [])
     {
-        $this->items = $items;
     }
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function count(): int
     {
@@ -42,7 +41,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function last(): ?Element
     {
@@ -54,7 +53,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function first(): ?Element
     {
@@ -67,7 +66,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function get(int $index): ?Element
     {
@@ -77,15 +76,15 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return Element[]
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function all(): array
     {
         if (!$this->validated) {
             foreach ($this->items as $key => $item) {
                 if (!$item instanceof Element) {
-                    $className = ($item === null) ? \gettype($item) : \get_class($item);
-                    throw new \InvalidArgumentException(
+                    $className = ($item === null) ? \gettype($item) : $item::class;
+                    throw new InvalidArgumentException(
                         sprintf(
                             'Invalid object type. Expect %s given %s Check item %d',
                             Element::class,
@@ -101,7 +100,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function merge(ElementCollection $collection): ElementCollection
     {
@@ -110,7 +109,7 @@ class ElementCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function add(Element $element): ElementCollection
     {
@@ -124,11 +123,11 @@ class ElementCollection implements \IteratorAggregate, \Countable
      * Retrieve an external iterator
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Element[]|\Traversable An instance of an object implementing Iterator or Traversable
-     * @throws \InvalidArgumentException
+     * @return Element[]|Traversable An instance of an object implementing Iterator or Traversable
+     * @throws InvalidArgumentException
      */
-    final public function getIterator(): \Traversable
+    final public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->all());
+        return new ArrayIterator($this->all());
     }
 }

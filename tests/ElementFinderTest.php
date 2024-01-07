@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Test\Xparse\ElementFinder;
 
+use InvalidArgumentException;
+use RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
 use Xparse\ElementFinder\Collection\StringCollection;
@@ -25,7 +27,7 @@ final class ElementFinderTest extends TestCase
 
     public function testInvalidType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ElementFinder('', -1);
     }
 
@@ -353,7 +355,7 @@ final class ElementFinderTest extends TestCase
           </tbody>
         </table>
       ');
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $html->keyValue('//table//td[1]', '//table//td[2]');
     }
 
@@ -488,7 +490,7 @@ final class ElementFinderTest extends TestCase
     private function initFromFile(string $file): ElementFinder
     {
         $fileData = file_get_contents($this->getDemoDataDirectoryPath() . DIRECTORY_SEPARATOR . $file);
-        return new \Xparse\ElementFinder\ElementFinder($fileData);
+        return new ElementFinder($fileData);
     }
 
 

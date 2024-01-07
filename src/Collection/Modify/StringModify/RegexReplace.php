@@ -9,21 +9,8 @@ namespace Xparse\ElementFinder\Collection\Modify\StringModify;
  */
 class RegexReplace implements StringModifyInterface
 {
-    /**
-     * @var string
-     */
-    private $from;
-
-    /**
-     * @var string
-     */
-    private $to;
-
-
-    public function __construct(string $from, string $to)
+    public function __construct(private string $from, private string $to)
     {
-        $this->from = $from;
-        $this->to = $to;
     }
 
 

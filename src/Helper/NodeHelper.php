@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Helper;
 
+use DOMNode;
+use DOMDocument;
 use Xparse\ElementFinder\ElementFinder;
 
 /**
@@ -11,9 +13,9 @@ use Xparse\ElementFinder\ElementFinder;
  */
 class NodeHelper
 {
-    final public static function getOuterContent(\DOMNode $node, int $documentType): string
+    final public static function getOuterContent(DOMNode $node, int $documentType): string
     {
-        $domDocument = new \DOMDocument('1.0');
+        $domDocument = new DOMDocument('1.0');
         $b = $domDocument->importNode($node->cloneNode(true), true);
         /** @noinspection UnusedFunctionResultInspection */
         $domDocument->appendChild($b);
@@ -25,7 +27,7 @@ class NodeHelper
     }
 
 
-    final public static function getInnerContent(\DOMNode $itemObj, int $documentType): string
+    final public static function getInnerContent(DOMNode $itemObj, int $documentType): string
     {
         $content = '';
         foreach ($itemObj->childNodes as $child) {

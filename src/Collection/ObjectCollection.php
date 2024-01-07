@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection;
 
+use IteratorAggregate;
+use Countable;
+use Exception;
+use InvalidArgumentException;
+use Traversable;
+use ArrayIterator;
 use Xparse\ElementFinder\ElementFinderInterface;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class ObjectCollection implements \IteratorAggregate, \Countable
+class ObjectCollection implements IteratorAggregate, Countable
 {
-    /**
-     * @var ElementFinderInterface[]
-     */
-    private $items;
-
     /**
      * @var bool
      */
@@ -24,16 +25,15 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
     /**
      * @param ElementFinderInterface[] $items
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __construct(array $items = [])
+    public function __construct(private array $items = [])
     {
-        $this->items = $items;
     }
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function count(): int
     {
@@ -42,7 +42,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function last(): ?ElementFinderInterface
     {
@@ -54,7 +54,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function first(): ?ElementFinderInterface
     {
@@ -68,15 +68,15 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return ElementFinderInterface[]
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function all(): array
     {
         if (!$this->validated) {
             foreach ($this->items as $key => $item) {
                 if (!$item instanceof ElementFinderInterface) {
-                    $className = ($item === null) ? \gettype($item) : \get_class($item);
-                    throw new \InvalidArgumentException(
+                    $className = ($item === null) ? \gettype($item) : $item::class;
+                    throw new InvalidArgumentException(
                         sprintf(
                             'Invalid object type. Expect %s given %s Check item %d',
                             ElementFinderInterface::class,
@@ -92,7 +92,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function merge(ObjectCollection $collection): ObjectCollection
     {
@@ -101,7 +101,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function add(ElementFinderInterface $element): ObjectCollection
     {
@@ -112,7 +112,7 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function get(int $index): ?ElementFinderInterface
     {
@@ -121,11 +121,11 @@ class ObjectCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @return ElementFinderInterface[]|\Traversable
-     * @throws \InvalidArgumentException
+     * @return ElementFinderInterface[]|Traversable
+     * @throws InvalidArgumentException
      */
-    final public function getIterator(): \Traversable
+    final public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->all());
+        return new ArrayIterator($this->all());
     }
 }

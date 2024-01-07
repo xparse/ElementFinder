@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection;
 
+use IteratorAggregate;
+use Countable;
+use Exception;
+use InvalidArgumentException;
+use Traversable;
+use ArrayIterator;
 use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class StringCollection implements \IteratorAggregate, \Countable
+class StringCollection implements IteratorAggregate, Countable
 {
     /**
      * @var string[]
      */
-    private $items;
+    private array $items;
 
     /**
      * @var bool
@@ -33,7 +39,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function count(): int
     {
@@ -42,7 +48,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function last(): ?string
     {
@@ -54,7 +60,7 @@ class StringCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function first(): ?string
     {
@@ -67,14 +73,14 @@ class StringCollection implements \IteratorAggregate, \Countable
 
     /**
      * @return string[]
-     * @throws \Exception
+     * @throws Exception
      */
     final public function all(): array
     {
         if (!$this->validated) {
             foreach ($this->items as $key => $item) {
                 if (!\is_string($item)) {
-                    throw new \InvalidArgumentException(
+                    throw new InvalidArgumentException(
                         sprintf('Expect string. Check %s item', $key)
                     );
                 }
@@ -86,7 +92,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function map(StringModifyInterface $modifier): StringCollection
     {
@@ -99,7 +105,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function filter(StringFilterInterface $filter): StringCollection
     {
@@ -114,7 +120,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function replace(string $regexp, string $to): StringCollection
     {
@@ -127,7 +133,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function match(string $regexp, int $index = 1): StringCollection
     {
@@ -145,7 +151,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function split(string $regexp): StringCollection
     {
@@ -160,7 +166,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function unique(): StringCollection
     {
@@ -169,7 +175,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function merge(StringCollection $collection): StringCollection
     {
@@ -178,7 +184,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function add(string $item): StringCollection
     {
@@ -189,7 +195,7 @@ class StringCollection implements \IteratorAggregate, \Countable
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function get(int $index): ?string
     {
@@ -199,11 +205,11 @@ class StringCollection implements \IteratorAggregate, \Countable
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return string[]|\Traversable
-     * @throws \Exception
+     * @return string[]|Traversable
+     * @throws Exception
      */
-    final public function getIterator(): \Traversable
+    final public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->all());
+        return new ArrayIterator($this->all());
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Helper;
 
+use Exception;
+use InvalidArgumentException;
 use Xparse\ElementFinder\ElementFinderInterface;
 
 /**
@@ -11,15 +13,8 @@ use Xparse\ElementFinder\ElementFinderInterface;
  */
 class FormHelper
 {
-    /**
-     * @var ElementFinderInterface
-     */
-    private $page;
-
-
-    public function __construct(ElementFinderInterface $page)
+    public function __construct(private ElementFinderInterface $page)
     {
-        $this->page = $page;
     }
 
 
@@ -30,13 +25,13 @@ class FormHelper
      * Return key->value array where key is name of field
      *
      * @param string $formExpression css or xpath expression to form element
-     * @throws \Exception
+     * @throws Exception
      */
     final public function getFormData(string $formExpression): array
     {
         $form = $this->page->object($formExpression, true)->first();
         if ($form === null) {
-            throw new \InvalidArgumentException('Cant find form. Possible invalid expression ');
+            throw new InvalidArgumentException('Cant find form. Possible invalid expression ');
         }
 
         $formData = [];
@@ -72,7 +67,7 @@ class FormHelper
                 continue;
             }
             $options = $multipleSelect->value('//option[@selected]/@value');
-            if (preg_match('!\[\]$!', $name)) {
+            if (preg_match('!\[]$!', $name)) {
                 $name = rtrim($name, '[]');
                 $formData[$name] = $options->all();
             } else {

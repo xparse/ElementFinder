@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder;
 
+use DOMDocument;
+use DomXPath;
+use LibXMLError;
+use Exception;
+use DOMElement;
+use RuntimeException;
+use InvalidArgumentException;
+use DOMNodeList;
 use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
@@ -35,14 +43,14 @@ class ElementFinder implements ElementFinderInterface
     public const DOCUMENT_XML = 1;
 
     private int $type;
-    private \DOMDocument $dom;
+    private DOMDocument $dom;
 
-    private \DomXPath $xpath;
+    private DomXPath $xpath;
 
     private ExpressionTranslatorInterface $expressionTranslator;
 
     /**
-     * @var \LibXMLError[]
+     * @var LibXMLError[]
      */
     private array $loadErrors = [];
 
@@ -51,16 +59,16 @@ class ElementFinder implements ElementFinderInterface
      * Example:
      * new ElementFinder("<html><div>test </div></html>", ElementFinder::HTML);
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(
         string $data,
         int $documentType = null,
         ExpressionTranslatorInterface $translator = null
     ) {
-        $this->dom = new \DomDocument();
+        $this->dom = new DomDocument();
         $this->expressionTranslator = $translator ?? new XpathExpression();
-        $this->dom->registerNodeClass(\DOMElement::class, Element::class);
+        $this->dom->registerNodeClass(DOMElement::class, Element::class);
         $this->type = $documentType ?? static::DOCUMENT_HTML;
         $this->setData($data ?: '<html></html>');
     }
@@ -75,11 +83,11 @@ class ElementFinder implements ElementFinderInterface
     public function __clone()
     {
         $this->dom = clone $this->dom;
-        $this->xpath = new \DomXPath($this->dom);
+        $this->xpath = new DomXPath($this->dom);
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     final public function content(string $expression, bool $outerContent = false): StringCollection
     {
@@ -122,9 +130,9 @@ class ElementFinder implements ElementFinderInterface
     /**
      * Get nodeValue of node
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    final public function value(string $expression): Collection\StringCollection
+    final public function value(string $expression): StringCollection
     {
         $items = $this->query($expression);
         $result = [];
@@ -138,14 +146,14 @@ class ElementFinder implements ElementFinderInterface
     /**
      * Return array of keys and values
      *
-     * @throws \Exception
+     * @throws Exception
      */
     final public function keyValue(string $keyExpression, string $valueExpression): array
     {
         $keyNodes = $this->query($keyExpression);
         $valueNodes = $this->query($valueExpression);
         if ($keyNodes->length !== $valueNodes->length) {
-            throw new \RuntimeException('Keys and values must have equal numbers of elements');
+            throw new RuntimeException('Keys and values must have equal numbers of elements');
         }
         $result = [];
         foreach ($keyNodes as $index => $node) {
@@ -156,8 +164,8 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @throws \Exception
-     * @throws \InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     final public function object(string $expression, bool $outerHtml = false): ObjectCollection
     {
@@ -165,7 +173,7 @@ class ElementFinder implements ElementFinderInterface
         $items = $this->query($expression);
         $result = [];
         foreach ($items as $node) {
-            assert($node instanceof \DOMElement);
+            assert($node instanceof DOMElement);
             $html = $outerHtml
                 ? NodeHelper::getOuterContent($node, $this->type)
                 : NodeHelper::getInnerContent($node, $this->type);
@@ -182,7 +190,7 @@ class ElementFinder implements ElementFinderInterface
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function element(string $expression): ElementCollection
     {
@@ -205,7 +213,7 @@ class ElementFinder implements ElementFinderInterface
 
     /**
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     private function setData(string $data): self
     {
@@ -222,7 +230,7 @@ class ElementFinder implements ElementFinderInterface
         } elseif (static::DOCUMENT_XML === $this->type) {
             $this->dom->loadXML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
         } else {
-            throw new \InvalidArgumentException('Doc type not valid. use xml or html');
+            throw new InvalidArgumentException('Doc type not valid. use xml or html');
         }
         $this->loadErrors = libxml_get_errors();
         libxml_clear_errors();
@@ -231,7 +239,7 @@ class ElementFinder implements ElementFinderInterface
             libxml_disable_entity_loader($disableEntities);
         }
         unset($this->xpath);
-        $this->xpath = new \DomXPath($this->dom);
+        $this->xpath = new DomXPath($this->dom);
         return $this;
     }
 
@@ -239,7 +247,7 @@ class ElementFinder implements ElementFinderInterface
      * @see element
      * Fetch nodes from document
      */
-    private function query(string $expression): \DOMNodeList
+    private function query(string $expression): DOMNodeList
     {
         return $this->xpath->query(
             $this->expressionTranslator->convertToXpath($expression)
