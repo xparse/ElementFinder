@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Xparse\ElementFinder\Collection;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\ElementFinder;
@@ -11,9 +12,9 @@ use Xparse\ElementFinder\ElementFinder;
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class ObjectCollectionTest extends TestCase
+final class ObjectCollectionTest extends TestCase
 {
-    public function testInvalidObjectIndex()
+    public function testInvalidObjectIndex(): void
     {
         $collection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
         self::assertNotNull($collection->get(0));
@@ -21,7 +22,7 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    public function testIterate()
+    public function testIterate() : void
     {
         $collection = new ObjectCollection(
             [
@@ -41,7 +42,7 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    public function testMerge()
+    public function testMerge() : void
     {
         $sourceCollection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
         $newCollection = new ObjectCollection([new ElementFinder('<a>0</a>')]);
@@ -55,7 +56,7 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    public function testAdd()
+    public function testAdd() : void
     {
         $sourceCollection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
         $newCollection = $sourceCollection->add(new ElementFinder('<a>2</a>'));
@@ -65,7 +66,7 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    public function testGet()
+    public function testGet() : void
     {
         $collection = new ObjectCollection([new ElementFinder('<b>0</b>'), new ElementFinder('<a>data1</a>')]);
         self::assertNotNull('data1', $collection->get(0)->content('//b')->first());
@@ -74,9 +75,10 @@ class ObjectCollectionTest extends TestCase
     }
 
 
-    public function testInvalidDataType()
+    public function testInvalidDataType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
+        /** @noinspection PhpParamsInspection */
         (new ObjectCollection([null]))->all();
     }
 }

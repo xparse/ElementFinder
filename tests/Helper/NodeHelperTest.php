@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Xparse\ElementFinder\Helper;
 
+use DOMDocument;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\Helper\NodeHelper;
@@ -17,11 +18,11 @@ final class NodeHelperTest extends TestCase
     {
         $originalHtml = "<body><style>
           span {
-            font-family: tahoma;
+            font-family: tahoma, serif;
           }
         </style></body>";
 
-        $doc = new \DOMDocument('1.0');
+        $doc = new DOMDocument('1.0');
         $doc->loadHTML($originalHtml);
         $body = $doc->getElementsByTagName("body")->item(0);
 

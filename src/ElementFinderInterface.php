@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder;
 
+use Exception;
+use InvalidArgumentException;
+use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
@@ -14,7 +17,7 @@ use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
 interface ElementFinderInterface
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function content(string $expression, bool $outerContent = false): StringCollection;
 
@@ -35,30 +38,30 @@ interface ElementFinderInterface
     /**
      * Get nodeValue of the node
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function value(string $expression): Collection\StringCollection;
+    public function value(string $expression): StringCollection;
 
 
     /**
      * Return array of keys and values
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function keyValue(string $keyExpression, string $valueExpression): array;
 
 
     /**
-     * @throws \Exception
-     * @throws \InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function object(string $expression, bool $outerHtml = false): ObjectCollection;
 
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function element(string $expression): Collection\ElementCollection;
+    public function element(string $expression): ElementCollection;
 
     /**
      * @return string[]

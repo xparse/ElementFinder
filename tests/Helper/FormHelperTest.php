@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Xparse\ElementFinder\Helper;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\Helper\FormHelper;
@@ -113,7 +114,7 @@ final class FormHelperTest extends TestCase
     {
         $page = new ElementFinder('<div></div>');
         $helper = (new FormHelper($page));
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         /** @noinspection UnusedFunctionResultInspection */
         $helper->getFormData('//form');
     }

@@ -6,20 +6,14 @@ namespace Test\Xparse\ElementFinder\Collection\Dummy;
 
 use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 
-class WithLetterFilter implements StringFilterInterface
+final class WithLetterFilter implements StringFilterInterface
 {
-    /**
-     * @var string
-     */
-    private $letter;
-
-    public function __construct(string $letter)
+    public function __construct(private string $letter)
     {
-        $this->letter = $letter;
     }
 
     public function valid(string $input): bool
     {
-        return strpos($input, $this->letter) !== false;
+        return str_contains($input, $this->letter);
     }
 }

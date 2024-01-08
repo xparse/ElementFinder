@@ -9,15 +9,8 @@ namespace Xparse\ElementFinder\Collection\Filters\StringFilter;
  */
 class RegexStringFilter implements StringFilterInterface
 {
-    /**
-     * @var string
-     */
-    private $regex;
-
-
-    public function __construct(string $regex)
+    public function __construct(private string $regex)
     {
-        $this->regex = $regex;
     }
 
 
