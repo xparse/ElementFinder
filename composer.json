@@ -17,8 +17,7 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "xparse/expression-translator": "0.0.* || ^1.0.0",
+    "php": "^8.1",
     "ext-libxml": "*",
     "ext-dom": "*"
   },
