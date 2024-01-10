@@ -20,8 +20,8 @@ use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder\Element;
 use Xparse\ElementFinder\Helper\NodeHelper;
 use Xparse\ElementFinder\Helper\StringHelper;
-use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
-use Xparse\ExpressionTranslator\XpathExpression;
+use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
+use Xparse\ElementFinder\ExpressionTranslator\XpathExpression;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>

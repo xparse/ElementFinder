@@ -2,7 +2,7 @@
 
 namespace Test\Xparse\ElementFinder\Dummy;
 
-use Xparse\ExpressionTranslator\ExpressionTranslatorInterface;
+use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
