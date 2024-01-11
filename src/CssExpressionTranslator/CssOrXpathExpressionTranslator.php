@@ -23,7 +23,6 @@ class CssOrXpathExpressionTranslator implements ExpressionTranslatorInterface
 
     public function __construct(private ExpressionTranslatorInterface $cssTranslator)
     {
-        $this->cssTranslator = $cssTranslator;
     }
 
 
