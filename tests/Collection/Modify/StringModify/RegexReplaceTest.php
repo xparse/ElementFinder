@@ -8,7 +8,7 @@ use Xparse\ElementFinder\Collection\StringCollection;
 
 class RegexReplaceTest extends TestCase
 {
-    public function testReplace()
+    public function testReplace(): void
     {
         $collection = new StringCollection(['test-1', 'test--123', '--3']);
         $collection = $collection->map(new RegexReplace('!([a-z]+)-+!', '$1::'));

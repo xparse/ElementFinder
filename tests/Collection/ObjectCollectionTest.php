@@ -21,8 +21,7 @@ final class ObjectCollectionTest extends TestCase
         self::assertEquals(null, $collection->get(2));
     }
 
-
-    public function testIterate() : void
+    public function testIterate(): void
     {
         $collection = new ObjectCollection(
             [
@@ -35,14 +34,13 @@ final class ObjectCollectionTest extends TestCase
         foreach ($collection as $index => $item) {
             $collectedItems++;
             $data = $item->content('.')->match('!<a>(.*)</a>!')->first();
-            self::assertSame((string)$index, $data);
+            self::assertSame((string) $index, $data);
         }
 
         self::assertSame(2, $collectedItems);
     }
 
-
-    public function testMerge() : void
+    public function testMerge(): void
     {
         $sourceCollection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
         $newCollection = new ObjectCollection([new ElementFinder('<a>0</a>')]);
@@ -55,8 +53,7 @@ final class ObjectCollectionTest extends TestCase
         self::assertSame(['0', '1', '0'], $result);
     }
 
-
-    public function testAdd() : void
+    public function testAdd(): void
     {
         $sourceCollection = new ObjectCollection([new ElementFinder('<a>0</a>'), new ElementFinder('<a>1</a>')]);
         $newCollection = $sourceCollection->add(new ElementFinder('<a>2</a>'));
@@ -65,15 +62,13 @@ final class ObjectCollectionTest extends TestCase
         self::assertSame('2', $newCollection->last()->content('//a')->first());
     }
 
-
-    public function testGet() : void
+    public function testGet(): void
     {
         $collection = new ObjectCollection([new ElementFinder('<b>0</b>'), new ElementFinder('<a>data1</a>')]);
         self::assertNotNull('data1', $collection->get(0)->content('//b')->first());
         self::assertNotNull('data1', $collection->get(1)->content('//a')->first());
         self::assertNull($collection->get(2));
     }
-
 
     public function testInvalidDataType(): void
     {

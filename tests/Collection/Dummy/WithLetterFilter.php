@@ -8,8 +8,9 @@ use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 
 final class WithLetterFilter implements StringFilterInterface
 {
-    public function __construct(private string $letter)
-    {
+    public function __construct(
+        private string $letter
+    ) {
     }
 
     public function valid(string $input): bool

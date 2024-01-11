@@ -13,7 +13,6 @@ use Xparse\ElementFinder\CssExpressionTranslator\CssOrXpathExpressionTranslator;
  */
 final class CssOrXpathExpressionTranslatorTest extends TestCase
 {
-
     /**
      * @return string[][]
      */
@@ -91,7 +90,6 @@ final class CssOrXpathExpressionTranslatorTest extends TestCase
         ];
     }
 
-
     /**
      * @dataProvider getQueriesDataProvider
      */
@@ -102,18 +100,15 @@ final class CssOrXpathExpressionTranslatorTest extends TestCase
         self::assertEquals($expect, $output);
     }
 
-
     public function testEmptyString(): void
     {
         self::expectException(InvalidArgumentException::class);
         CssOrXpathExpressionTranslator::getTranslator()->convertToXpath('');
     }
 
-
     public function testEmptyStringWithSpaces(): void
     {
         self::expectException(InvalidArgumentException::class);
         CssOrXpathExpressionTranslator::getTranslator()->convertToXpath('     ');
     }
-
 }

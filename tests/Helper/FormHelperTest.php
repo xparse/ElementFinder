@@ -91,7 +91,6 @@ final class FormHelperTest extends TestCase
 
         $formData = (new FormHelper(new ElementFinder($html)))->getFormData('//form');
 
-
         self::assertSame([
             'comment' => 'Enter you comment here',
             'gender' => 'male',
@@ -108,7 +107,6 @@ final class FormHelperTest extends TestCase
             'motolist' => 'bmw',
         ], $formData);
     }
-
 
     public function testInvalidFormPath(): void
     {
