@@ -17,5 +17,5 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(TypedPropertyFromStrictConstructorRector::class);
     $rectorConfig->rule(SeparateMultiUseImportsRector::class);
     $rectorConfig->importNames();
-    $rectorConfig->sets([LevelSetList::UP_TO_PHP_80, PHPUnitSetList::PHPUNIT_90]);
+    $rectorConfig->sets([LevelSetList::UP_TO_PHP_81, PHPUnitSetList::PHPUNIT_90]);
 };

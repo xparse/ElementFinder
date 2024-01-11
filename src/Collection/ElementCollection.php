@@ -26,7 +26,7 @@ class ElementCollection implements IteratorAggregate, Countable
      * @throws InvalidArgumentException
      */
     public function __construct(
-        private array $items = []
+        private readonly array $items = []
     ) {
     }
 

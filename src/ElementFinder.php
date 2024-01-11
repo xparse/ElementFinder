@@ -33,14 +33,14 @@ class ElementFinder implements ElementFinderInterface
      *
      * @var int
      */
-    public const DOCUMENT_HTML = 0;
+    final public const DOCUMENT_HTML = 0;
 
     /**
      * Xml document type
      *
      * @var int
      */
-    public const DOCUMENT_XML = 1;
+    final public const DOCUMENT_XML = 1;
 
     private int $type;
 

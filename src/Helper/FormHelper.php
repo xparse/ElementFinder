@@ -14,7 +14,7 @@ use Xparse\ElementFinder\ElementFinderInterface;
 class FormHelper
 {
     public function __construct(
-        private ElementFinderInterface $page
+        private readonly ElementFinderInterface $page
     ) {
     }
 

@@ -21,7 +21,7 @@ class StringCollection implements IteratorAggregate, Countable
     /**
      * @var string[]
      */
-    private array $items;
+    private readonly array $items;
 
     /**
      * @var bool

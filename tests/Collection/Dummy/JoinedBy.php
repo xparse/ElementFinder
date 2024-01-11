@@ -9,7 +9,7 @@ use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
 final class JoinedBy implements StringModifyInterface
 {
     public function __construct(
-        private string $str
+        private readonly string $str
     ) {
     }
 

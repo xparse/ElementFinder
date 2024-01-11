@@ -27,7 +27,7 @@ class ObjectCollection implements IteratorAggregate, Countable
      * @throws Exception
      */
     public function __construct(
-        private array $items = []
+        private readonly array $items = []
     ) {
     }
 

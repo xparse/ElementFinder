@@ -7,7 +7,7 @@ namespace Xparse\ElementFinder\Collection\Filters\StringFilter;
 class RegexStringFilter implements StringFilterInterface
 {
     public function __construct(
-        private string $regex
+        private readonly string $regex
     ) {
     }
 
