@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Helper;
 
-use DOMNode;
 use DOMDocument;
+use DOMNode;
 use Xparse\ElementFinder\ElementFinder;
 
 /**
@@ -25,7 +25,6 @@ class NodeHelper
 
         return $content;
     }
-
 
     final public static function getInnerContent(DOMNode $itemObj, int $documentType): string
     {

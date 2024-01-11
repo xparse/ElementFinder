@@ -21,7 +21,6 @@ interface ElementFinderInterface
      */
     public function content(string $expression, bool $outerContent = false): StringCollection;
 
-
     /**
      * You can remove elements and attributes
      *
@@ -29,7 +28,6 @@ interface ElementFinderInterface
      * $html = $html->remove("//span/@class");
      * $html = $html->remove("//input");
      * ```
-     *
      */
     public function remove(string $expression): ElementFinderInterface;
 
@@ -42,7 +40,6 @@ interface ElementFinderInterface
      */
     public function value(string $expression): StringCollection;
 
-
     /**
      * Return array of keys and values
      *
@@ -50,13 +47,11 @@ interface ElementFinderInterface
      */
     public function keyValue(string $keyExpression, string $valueExpression): array;
 
-
     /**
      * @throws Exception
      * @throws InvalidArgumentException
      */
     public function object(string $expression, bool $outerHtml = false): ObjectCollection;
-
 
     /**
      * @throws InvalidArgumentException

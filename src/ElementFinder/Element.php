@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Xparse\ElementFinder\ElementFinder;
 
 use DOMElement;
+
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */

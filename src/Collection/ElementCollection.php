@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection;
 
-use IteratorAggregate;
+use ArrayIterator;
 use Countable;
 use InvalidArgumentException;
+use IteratorAggregate;
 use Traversable;
-use ArrayIterator;
 use Xparse\ElementFinder\ElementFinder\Element;
 
 /**
@@ -21,15 +21,14 @@ class ElementCollection implements IteratorAggregate, Countable
      */
     private $validated = false;
 
-
     /**
      * @param Element[] $items
      * @throws InvalidArgumentException
      */
-    public function __construct(private array $items = [])
-    {
+    public function __construct(
+        private array $items = []
+    ) {
     }
-
 
     /**
      * @throws InvalidArgumentException
@@ -38,7 +37,6 @@ class ElementCollection implements IteratorAggregate, Countable
     {
         return \count($this->all());
     }
-
 
     /**
      * @throws InvalidArgumentException
@@ -64,7 +62,6 @@ class ElementCollection implements IteratorAggregate, Countable
         return reset($items);
     }
 
-
     /**
      * @throws InvalidArgumentException
      */
@@ -73,16 +70,15 @@ class ElementCollection implements IteratorAggregate, Countable
         return $this->all()[$index] ?? null;
     }
 
-
     /**
      * @return Element[]
      * @throws InvalidArgumentException
      */
     final public function all(): array
     {
-        if (!$this->validated) {
+        if (! $this->validated) {
             foreach ($this->items as $key => $item) {
-                if (!$item instanceof Element) {
+                if (! $item instanceof Element) {
                     $className = ($item === null) ? \gettype($item) : $item::class;
                     throw new InvalidArgumentException(
                         sprintf(
@@ -107,7 +103,6 @@ class ElementCollection implements IteratorAggregate, Countable
         return new ElementCollection(array_merge($this->all(), $collection->all()));
     }
 
-
     /**
      * @throws InvalidArgumentException
      */
@@ -117,7 +112,6 @@ class ElementCollection implements IteratorAggregate, Countable
         $items[] = $element;
         return new ElementCollection($items);
     }
-
 
     /**
      * Retrieve an external iterator

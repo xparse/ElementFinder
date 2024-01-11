@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection;
 
-use IteratorAggregate;
+use ArrayIterator;
 use Countable;
 use Exception;
 use InvalidArgumentException;
+use IteratorAggregate;
 use Traversable;
-use ArrayIterator;
 use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
 
@@ -28,7 +28,6 @@ class StringCollection implements IteratorAggregate, Countable
      */
     private $validated = false;
 
-
     /**
      * @param string[] $items
      */
@@ -37,7 +36,6 @@ class StringCollection implements IteratorAggregate, Countable
         $this->items = array_values($items);
     }
 
-
     /**
      * @throws Exception
      */
@@ -45,7 +43,6 @@ class StringCollection implements IteratorAggregate, Countable
     {
         return \count($this->all());
     }
-
 
     /**
      * @throws Exception
@@ -56,7 +53,7 @@ class StringCollection implements IteratorAggregate, Countable
         if (\count($items) === 0) {
             return null;
         }
-        return (string)end($items);
+        return (string) end($items);
     }
 
     /**
@@ -68,7 +65,7 @@ class StringCollection implements IteratorAggregate, Countable
         if (\count($items) === 0) {
             return null;
         }
-        return (string)reset($items);
+        return (string) reset($items);
     }
 
     /**
@@ -77,9 +74,9 @@ class StringCollection implements IteratorAggregate, Countable
      */
     final public function all(): array
     {
-        if (!$this->validated) {
+        if (! $this->validated) {
             foreach ($this->items as $key => $item) {
-                if (!\is_string($item)) {
+                if (! \is_string($item)) {
                     throw new InvalidArgumentException(
                         sprintf('Expect string. Check %s item', $key)
                     );
@@ -89,7 +86,6 @@ class StringCollection implements IteratorAggregate, Countable
         }
         return $this->items;
     }
-
 
     /**
      * @throws Exception
@@ -102,7 +98,6 @@ class StringCollection implements IteratorAggregate, Countable
         }
         return new StringCollection($items);
     }
-
 
     /**
      * @throws Exception
@@ -118,7 +113,6 @@ class StringCollection implements IteratorAggregate, Countable
         return new StringCollection($items);
     }
 
-
     /**
      * @throws Exception
      */
@@ -131,7 +125,6 @@ class StringCollection implements IteratorAggregate, Countable
         return new StringCollection($result);
     }
 
-
     /**
      * @throws Exception
      */
@@ -141,14 +134,13 @@ class StringCollection implements IteratorAggregate, Countable
         foreach ($this->all() as $string) {
             preg_match_all($regexp, $string, $matchedData);
             if (isset($matchedData[$index])) {
-                foreach ((array)$matchedData[$index] as $matchedString) {
+                foreach ((array) $matchedData[$index] as $matchedString) {
                     $result[] = $matchedString;
                 }
             }
         }
         return new StringCollection($result);
     }
-
 
     /**
      * @throws Exception
@@ -164,7 +156,6 @@ class StringCollection implements IteratorAggregate, Countable
         return new StringCollection($items);
     }
 
-
     /**
      * @throws Exception
      */
@@ -173,7 +164,6 @@ class StringCollection implements IteratorAggregate, Countable
         return new StringCollection(array_unique($this->all()));
     }
 
-
     /**
      * @throws Exception
      */
@@ -181,7 +171,6 @@ class StringCollection implements IteratorAggregate, Countable
     {
         return new StringCollection(array_merge($this->all(), $collection->all()));
     }
-
 
     /**
      * @throws Exception
@@ -193,7 +182,6 @@ class StringCollection implements IteratorAggregate, Countable
         return new StringCollection($items);
     }
 
-
     /**
      * @throws Exception
      */
@@ -201,7 +189,6 @@ class StringCollection implements IteratorAggregate, Countable
     {
         return $this->all()[$index] ?? null;
     }
-
 
     /**
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php

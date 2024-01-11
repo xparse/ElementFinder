@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Xparse\ElementFinder;
 
 use DOMDocument;
-use DomXPath;
-use LibXMLError;
-use Exception;
 use DOMElement;
-use RuntimeException;
-use InvalidArgumentException;
 use DOMNodeList;
+use DomXPath;
+use Exception;
+use InvalidArgumentException;
+use LibXMLError;
+use RuntimeException;
 use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
 use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder\Element;
-use Xparse\ElementFinder\Helper\NodeHelper;
-use Xparse\ElementFinder\Helper\StringHelper;
 use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
 use Xparse\ElementFinder\ExpressionTranslator\XpathExpression;
+use Xparse\ElementFinder\Helper\NodeHelper;
+use Xparse\ElementFinder\Helper\StringHelper;
 
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
@@ -43,6 +43,7 @@ class ElementFinder implements ElementFinderInterface
     public const DOCUMENT_XML = 1;
 
     private int $type;
+
     private DOMDocument $dom;
 
     private DomXPath $xpath;
@@ -53,7 +54,6 @@ class ElementFinder implements ElementFinderInterface
      * @var LibXMLError[]
      */
     private array $loadErrors = [];
-
 
     /**
      * Example:
@@ -73,12 +73,10 @@ class ElementFinder implements ElementFinderInterface
         $this->setData($data ?: '<html></html>');
     }
 
-
     public function __destruct()
     {
         unset($this->dom, $this->xpath);
     }
-
 
     public function __clone()
     {
@@ -103,7 +101,6 @@ class ElementFinder implements ElementFinderInterface
         return new StringCollection($result);
     }
 
-
     /**
      * You can remove elements and attributes
      *
@@ -116,7 +113,6 @@ class ElementFinder implements ElementFinderInterface
     {
         return $this->modify($expression, new RemoveNodes());
     }
-
 
     final public function modify(string $expression, DomNodeListActionInterface $action): ElementFinderInterface
     {
@@ -142,7 +138,6 @@ class ElementFinder implements ElementFinderInterface
         return new StringCollection($result);
     }
 
-
     /**
      * Return array of keys and values
      *
@@ -162,7 +157,6 @@ class ElementFinder implements ElementFinderInterface
         return $result;
     }
 
-
     /**
      * @throws Exception
      * @throws InvalidArgumentException
@@ -180,14 +174,13 @@ class ElementFinder implements ElementFinderInterface
             if (trim($html) === '') {
                 $html = '<html data-document-is-empty></html>';
             }
-            if ($this->type === static::DOCUMENT_XML and !str_contains($html, '<?xml')) {
+            if ($this->type === static::DOCUMENT_XML and ! str_contains($html, '<?xml')) {
                 $html = '<root>' . $html . '</root>';
             }
             $result[] = new ElementFinder($html, $type, $this->expressionTranslator);
         }
         return new ObjectCollection($result);
     }
-
 
     /**
      * @throws InvalidArgumentException
@@ -202,14 +195,10 @@ class ElementFinder implements ElementFinderInterface
         return new ElementCollection($items);
     }
 
-
-    /**
-     */
     final public function getLoadErrors(): array
     {
         return $this->loadErrors;
     }
-
 
     /**
      * @return $this
