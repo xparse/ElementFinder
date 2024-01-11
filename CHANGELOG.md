@@ -1,10 +1,11 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
 
-## Planned changes
+## 2.0.0 [2023-01-11]
+- Move to php 8.1
 - Add `ExpressionTranslator` (merged from the [xparse/expression-translator](https://github.com/xparse/ExpressionTranslator) repository)
 - Add `CssExpressionTranslator` (merged from the [xparse/css-expression-translator](https://github.com/xparse/CssExpressionTranslator) repository)
-- Move to php 8.1
+- Constants ElementFinder::DOCUMENT_HTML, ElementFinder::DOCUMENT_XML marked as final
 
 ## 1.0.1 [2021-06-01]
 - Move xparse/expression-translator to 1.0.0
