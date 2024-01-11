@@ -8,8 +8,9 @@ use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
 
 final class JoinedBy implements StringModifyInterface
 {
-    public function __construct(private string $str)
-    {
+    public function __construct(
+        private readonly string $str
+    ) {
     }
 
     public function modify(string $input): string

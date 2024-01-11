@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\DomNodeListAction;
 
-use DOMNodeList;
 use DOMAttr;
+use DOMNodeList;
+
 class RemoveNodes implements DomNodeListActionInterface
 {
     final public function execute(DOMNodeList $nodeList): void

@@ -7,15 +7,14 @@ use Xparse\ElementFinder\Collection\Filters\StringFilter\RegexStringFilter;
 
 class RegexStringFilterTest extends TestCase
 {
-    public function testRegexSuccess()
+    public function testRegexSuccess(): void
     {
         self::assertTrue(
             (new RegexStringFilter('!^[a-z]+$!'))->valid('test')
         );
     }
 
-
-    public function testRegexFailure()
+    public function testRegexFailure(): void
     {
         self::assertFalse(
             (new RegexStringFilter('![0-9]+$!'))->valid('123user')

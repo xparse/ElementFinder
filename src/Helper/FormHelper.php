@@ -13,10 +13,10 @@ use Xparse\ElementFinder\ElementFinderInterface;
  */
 class FormHelper
 {
-    public function __construct(private ElementFinderInterface $page)
-    {
+    public function __construct(
+        private readonly ElementFinderInterface $page
+    ) {
     }
-
 
     /**
      * Get data from <form> element

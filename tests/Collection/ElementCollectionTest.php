@@ -13,7 +13,7 @@ use Xparse\ElementFinder\ElementFinder\Element;
  */
 class ElementCollectionTest extends TestCase
 {
-    public function testIterate()
+    public function testIterate(): void
     {
         $collection = new ElementCollection(
             [
@@ -31,8 +31,7 @@ class ElementCollectionTest extends TestCase
         self::assertSame(2, $collectedItems);
     }
 
-
-    public function testMerge()
+    public function testMerge(): void
     {
         $collection = (new ElementCollection([new Element('a', 'link')]))->merge(new ElementCollection([new Element('b', 'bold')]));
         self::assertSame(['a.link', 'b.bold'], [
@@ -41,36 +40,31 @@ class ElementCollectionTest extends TestCase
         ]);
     }
 
-
-    public function testGetLast()
+    public function testGetLast(): void
     {
         $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'bold')]);
         self::assertSame('b', $collection->last()->tagName);
     }
 
-
-    public function testGetLastOnEmptyCollection()
+    public function testGetLastOnEmptyCollection(): void
     {
         $collection = new ElementCollection();
         self::assertNull($collection->last());
     }
 
-
-    public function testGetFirst()
+    public function testGetFirst(): void
     {
         $collection = new ElementCollection([new Element('a', 'link'), new Element('b', 'bold')]);
         self::assertSame('a', $collection->first()->tagName);
     }
 
-
-    public function testGetFirstOnEmptyCollection()
+    public function testGetFirstOnEmptyCollection(): void
     {
         $collection = new ElementCollection();
         self::assertNull($collection->first());
     }
 
-
-    public function testAdd()
+    public function testAdd(): void
     {
         $collection = new ElementCollection();
         $newCollection = $collection->add(new Element('a', 'link'));
@@ -79,8 +73,7 @@ class ElementCollectionTest extends TestCase
         self::assertCount(1, $newCollection);
     }
 
-
-    public function testGet()
+    public function testGet(): void
     {
         $collection = new ElementCollection([new Element('span', 'link')]);
         self::assertSame('span', $collection->get(0)->tagName);

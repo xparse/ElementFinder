@@ -14,28 +14,15 @@ use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
  */
 class CssOrXpathExpressionTranslator implements ExpressionTranslatorInterface
 {
+    public function __construct(
+        private readonly ExpressionTranslatorInterface $cssTranslator = new CssExpressionTranslator()
+    ) {
+    }
 
     /**
-     * @var ?ExpressionTranslatorInterface
+     * @throws InvalidArgumentException
      */
-    private static $translator;
-
-
-    public function __construct(private ExpressionTranslatorInterface $cssTranslator)
-    {
-    }
-
-
-    public static function getTranslator(): ExpressionTranslatorInterface
-    {
-        if (self::$translator === null) {
-            self::$translator = new CssOrXpathExpressionTranslator(new CssExpressionTranslator());
-        }
-        return self::$translator;
-    }
-
-
-    public function convertToXpath(string $expression): string
+    final public function convertToXpath(string $expression): string
     {
         $expression = trim($expression);
         if ($expression === '') {
@@ -53,5 +40,4 @@ class CssOrXpathExpressionTranslator implements ExpressionTranslatorInterface
         }
         return $this->cssTranslator->convertToXpath($expression);
     }
-
 }

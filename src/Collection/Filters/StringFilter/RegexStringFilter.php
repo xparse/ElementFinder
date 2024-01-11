@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection\Filters\StringFilter;
 
-/**
- *
- */
 class RegexStringFilter implements StringFilterInterface
 {
-    public function __construct(private string $regex)
-    {
+    public function __construct(
+        private readonly string $regex
+    ) {
     }
-
 
     final public function valid(string $input): bool
     {

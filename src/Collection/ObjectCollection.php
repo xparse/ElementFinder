@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection;
 
-use IteratorAggregate;
+use ArrayIterator;
 use Countable;
 use Exception;
 use InvalidArgumentException;
+use IteratorAggregate;
 use Traversable;
-use ArrayIterator;
 use Xparse\ElementFinder\ElementFinderInterface;
 
 /**
@@ -22,15 +22,14 @@ class ObjectCollection implements IteratorAggregate, Countable
      */
     private $validated = false;
 
-
     /**
      * @param ElementFinderInterface[] $items
      * @throws Exception
      */
-    public function __construct(private array $items = [])
-    {
+    public function __construct(
+        private readonly array $items = []
+    ) {
     }
-
 
     /**
      * @throws InvalidArgumentException
@@ -39,7 +38,6 @@ class ObjectCollection implements IteratorAggregate, Countable
     {
         return \count($this->all());
     }
-
 
     /**
      * @throws InvalidArgumentException
@@ -65,16 +63,15 @@ class ObjectCollection implements IteratorAggregate, Countable
         return reset($items);
     }
 
-
     /**
      * @return ElementFinderInterface[]
      * @throws InvalidArgumentException
      */
     final public function all(): array
     {
-        if (!$this->validated) {
+        if (! $this->validated) {
             foreach ($this->items as $key => $item) {
-                if (!$item instanceof ElementFinderInterface) {
+                if (! $item instanceof ElementFinderInterface) {
                     $className = ($item === null) ? \gettype($item) : $item::class;
                     throw new InvalidArgumentException(
                         sprintf(
@@ -99,7 +96,6 @@ class ObjectCollection implements IteratorAggregate, Countable
         return new ObjectCollection(array_merge($this->all(), $collection->all()));
     }
 
-
     /**
      * @throws Exception
      */
@@ -110,7 +106,6 @@ class ObjectCollection implements IteratorAggregate, Countable
         return new ObjectCollection($items);
     }
 
-
     /**
      * @throws InvalidArgumentException
      */
@@ -118,7 +113,6 @@ class ObjectCollection implements IteratorAggregate, Countable
     {
         return $this->all()[$index] ?? null;
     }
-
 
     /**
      * @return ElementFinderInterface[]|Traversable

@@ -14,15 +14,14 @@ use Xparse\ElementFinder\Collection\StringCollection;
  */
 class StringCollectionTest extends TestCase
 {
-    public function testInvalidObjectIndex()
+    public function testInvalidObjectIndex(): void
     {
         $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
         self::assertEquals('a-1', $collection->get(0));
         self::assertEquals(null, $collection->get(3));
     }
 
-
-    public function testReplace()
+    public function testReplace(): void
     {
         $mainCollection = new StringCollection(['a-1', 'b.2', 'c,3']);
         $collection = $mainCollection->replace('![-,.]!', '::');
@@ -30,24 +29,21 @@ class StringCollectionTest extends TestCase
         self::assertSame(['a-1', 'b.2', 'c,3'], $mainCollection->all());
     }
 
-
-    public function testMatch()
+    public function testMatch(): void
     {
         $collection = new StringCollection(['a-1', 'b.2', 'c,3']);
         $collection = $collection->match('/[a-z][-,](\d)/');
         self::assertSame(['1', '3'], $collection->all());
     }
 
-
-    public function testSplit()
+    public function testSplit(): void
     {
         $collection = new StringCollection(['a-1', 'b.2']);
         $collection = $collection->split('/[.-]/');
         self::assertSame(['a', '1', 'b', '2'], $collection->all());
     }
 
-
-    public function testUnique()
+    public function testUnique(): void
     {
         $collection = new StringCollection(['1', '2', '2']);
         self::assertCount(3, $collection);
@@ -56,8 +52,7 @@ class StringCollectionTest extends TestCase
         self::assertCount(2, $collection);
     }
 
-
-    public function testIterate()
+    public function testIterate(): void
     {
         $collection = new StringCollection(
             [
@@ -76,53 +71,57 @@ class StringCollectionTest extends TestCase
         self::assertSame(3, $collectedItems);
     }
 
-
-    public function testMergeWithItems()
+    public function testMergeWithItems(): void
     {
         $collection = (new StringCollection(['a', 'b']))->merge(new StringCollection(['a', 'c']));
         self::assertSame(['a', 'b', 'a', 'c'], $collection->all());
     }
 
-
-    public function testMergeWithoutItems()
+    public function testMergeWithoutItems(): void
     {
         $collection = (new StringCollection())->merge(new StringCollection());
         self::assertSame([], $collection->all());
     }
 
-
-    public function testMergeWithPartialItems()
+    public function testMergeWithPartialItems(): void
     {
-        $collection = (new StringCollection([1 => 'a']))->merge(new StringCollection([1 => 'b', 'c']));
+        $collection = (new StringCollection([
+            1 => 'a',
+        ]))->merge(new StringCollection([
+            1 => 'b',
+            'c',
+        ]));
         self::assertSame(['a', 'b', 'c'], $collection->all());
     }
 
-
-    public function testAdd()
+    public function testAdd(): void
     {
-        $sourceCollection = new StringCollection([1 => 'a']);
+        $sourceCollection = new StringCollection([
+            1 => 'a',
+        ]);
         $newCollection = $sourceCollection->add('b');
         self::assertSame(['a'], $sourceCollection->all());
         self::assertSame(['a', 'b'], $newCollection->all());
     }
 
-
-    public function testGet()
+    public function testGet(): void
     {
-        $collection = new StringCollection([1 => 'a']);
+        $collection = new StringCollection([
+            1 => 'a',
+        ]);
         self::assertSame('a', $collection->get(0));
         self::assertNull($collection->get(1));
     }
 
-
-    public function testGetLast()
+    public function testGetLast(): void
     {
-        $collection = new StringCollection([1 => 'word']);
+        $collection = new StringCollection([
+            1 => 'word',
+        ]);
         self::assertSame('word', $collection->last());
     }
 
-
-    public function testFilter()
+    public function testFilter(): void
     {
         $collection = new StringCollection(['foo', 'bar', 'baz']);
         $collection = $collection->filter(new WithLetterFilter('a'));
@@ -135,8 +134,7 @@ class StringCollectionTest extends TestCase
         );
     }
 
-
-    public function testMap()
+    public function testMap(): void
     {
         $collection = new StringCollection(['123', 'abc', 'test']);
         $collection = $collection->map(new JoinedBy('..'));
@@ -162,11 +160,11 @@ class StringCollectionTest extends TestCase
     public static function lastDataProvider(): array
     {
         return [
-                [['a', 'b', 'c'], 'c'],
-                [['a', 'b', 'c', 'd'], 'd'],
-                [['a', 'b', 'c', 'd', 'e'], 'e'],
-                [['a', 'b', 'c', 'd', 'e', 'f'], 'f'],
-                [[], null],
+            [['a', 'b', 'c'], 'c'],
+            [['a', 'b', 'c', 'd'], 'd'],
+            [['a', 'b', 'c', 'd', 'e'], 'e'],
+            [['a', 'b', 'c', 'd', 'e', 'f'], 'f'],
+            [[], null],
         ];
     }
 }

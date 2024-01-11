@@ -12,7 +12,7 @@ use Xparse\ElementFinder\Helper\StringHelper;
  */
 class StringHelperTest extends TestCase
 {
-    public function testEncode()
+    public function testEncode(): void
     {
         $data = [
             'AA&lt;<' => 'AA&lt;&#60;',

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Collection\Modify\StringModify;
 
-/**
- *
- */
 class RegexReplace implements StringModifyInterface
 {
-    public function __construct(private string $from, private string $to)
-    {
+    public function __construct(
+        private readonly string $from,
+        private readonly string $to
+    ) {
     }
-
 
     final public function modify(string $input): string
     {

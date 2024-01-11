@@ -7,12 +7,11 @@ namespace Xparse\ElementFinder\ExpressionTranslator;
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-interface ExpressionTranslatorInterface {
-
+interface ExpressionTranslatorInterface
+{
     /**
      * Translate expression to xpath
      * For example you can use css
      */
-    public function convertToXpath(string $expression) : string;
-
+    public function convertToXpath(string $expression): string;
 }
