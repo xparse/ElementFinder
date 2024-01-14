@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/xparse/element-finder.svg?style=flat-square)](https://packagist.org/packages/xparse/element-finder)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://github.com/xparse/ElementFinder/actions/workflows/test.yaml/badge.svg)](https://travis-ci.org/xparse/ElementFinder)
+[![CI](https://github.com/xparse/ElementFinder/actions/workflows/test.yaml/badge.svg)](https://github.com/xparse/ElementFinder/actions/workflows/test.yaml)
 [![codecov](https://codecov.io/github/xparse/ElementFinder/graph/badge.svg?token=yYnurpoyxA)](https://codecov.io/github/xparse/ElementFinder)
 [![Total Downloads](https://img.shields.io/packagist/dt/xparse/element-finder.svg?style=flat-square)](https://packagist.org/packages/xparse/element-finder)
 
