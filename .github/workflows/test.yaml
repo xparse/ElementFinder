@@ -15,8 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [ '8.1', '8.2', '8.3']
-    name: PHP ${{ matrix.php-versions }}
+        include:
+          - php-version: '8.1'
+            main: true
+          - php-version: '8.2'
+          - php-version: '8.3'
+          - php-version: '8.4'
+            nightly: true
+    name: PHP ${{ matrix.php-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,27 +30,36 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          coverage: pcov
+          php-version: ${{ matrix.php-version }}
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v2
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
         run: composer install --prefer-dist --dev
 
       - name: Run tests
+        continue-on-error: ${{ matrix.nightly }}
         run: ./vendor/bin/phpunit
 
+      - name: Run code style check
+        if: ${{ matrix.main }}
+        run: ./vendor/bin/ecs
+
       - name: Run rector
+        if: ${{ matrix.main }}
         run: ./vendor/bin/rector --dry-run
 
-      - name: Run code style check
-        run: ./vendor/bin/ecs
+      - name: Upload coverage reports to Codecov
+        if: ${{ matrix.main }}
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
