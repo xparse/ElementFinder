@@ -8,6 +8,9 @@
         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
         >
     <coverage>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
         <report>
             <clover outputFile=".tmp/clover.xml"/>
         </report>
