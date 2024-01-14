@@ -61,5 +61,8 @@ jobs:
       - name: Upload coverage reports to Codecov
         if: ${{ matrix.main }}
         uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          files: ./.tmp/clover.xml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -2,9 +2,8 @@
 build
 vendor
 composer.lock
-.phpunit.result.cache
-.php-cs-fixer.cache
-
+*.cache
+/.tmp/
 # Share ide configuration
 !.idea/inspectionProfiles/*
 !.idea/codeStyleSettings.xml
