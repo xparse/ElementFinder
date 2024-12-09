@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Test\Xparse\ElementFinder\CssExpressionTranslator;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\CssExpressionTranslator\CssOrXpathExpressionTranslator;
 
@@ -16,7 +17,7 @@ final class CssOrXpathExpressionTranslatorTest extends TestCase
     /**
      * @return string[][]
      */
-    public function getQueriesDataProvider(): array
+    public static function getQueriesDataProvider(): array
     {
         return [
             [
@@ -90,9 +91,7 @@ final class CssOrXpathExpressionTranslatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getQueriesDataProvider
-     */
+    #[DataProvider('getQueriesDataProvider')]
     public function testQueries(string $input, string $expect): void
     {
         $output = (new CssOrXpathExpressionTranslator())

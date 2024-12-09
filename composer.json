@@ -35,7 +35,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Test\\Xparse\\ElementFinder\\": "tests"
+      "Test\\Xparse\\ElementFinder\\": "./tests"
     }
   },
   "config": {

@@ -1,11 +1,13 @@
 <?php
 
-namespace Tests\Xparse\ElementFinder\Collection\Filters\StringFilter;
+declare(strict_types=1);
+
+namespace Test\Xparse\ElementFinder\Collection\Filters\StringFilter;
 
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Collection\Filters\StringFilter\RegexStringFilter;
 
-class RegexStringFilterTest extends TestCase
+final class RegexStringFilterTest extends TestCase
 {
     public function testRegexSuccess(): void
     {
