@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Xparse\ElementFinder\Collection;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Test\Xparse\ElementFinder\Collection\Dummy\JoinedBy;
 use Test\Xparse\ElementFinder\Collection\Dummy\WithLetterFilter;
@@ -12,7 +13,7 @@ use Xparse\ElementFinder\Collection\StringCollection;
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class StringCollectionTest extends TestCase
+final class StringCollectionTest extends TestCase
 {
     public function testInvalidObjectIndex(): void
     {
@@ -87,10 +88,12 @@ class StringCollectionTest extends TestCase
     {
         $collection = (new StringCollection([
             1 => 'a',
-        ]))->merge(new StringCollection([
-            1 => 'b',
-            'c',
-        ]));
+        ]))->merge(
+            new StringCollection([
+                1 => 'b',
+                'c',
+            ])
+        );
         self::assertSame(['a', 'b', 'c'], $collection->all());
     }
 
@@ -128,7 +131,8 @@ class StringCollectionTest extends TestCase
 
         self::assertSame(
             [
-                'bar', 'baz',
+                'bar',
+                'baz',
             ],
             $collection->all()
         );
@@ -148,9 +152,7 @@ class StringCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider lastDataProvider
-     */
+    #[DataProvider('lastDataProvider')]
     public function testLast(array $items, mixed $expected): void
     {
         $collection = new StringCollection($items);

@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "php": "^8.1",
+    "php": "^8.2",
     "ext-dom": "*",
     "ext-libxml": "*",
     "symfony/css-selector": "^7.1"
@@ -35,7 +35,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Test\\Xparse\\ElementFinder\\": "tests"
+      "Test\\Xparse\\ElementFinder\\": "./tests"
     }
   },
   "config": {

@@ -1,12 +1,14 @@
 <?php
 
-namespace Tests\Xparse\ElementFinder\Collection\Modify\StringModify;
+declare(strict_types=1);
+
+namespace Test\Xparse\ElementFinder\Collection\Modify\StringModify;
 
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Collection\Modify\StringModify\RegexReplace;
 use Xparse\ElementFinder\Collection\StringCollection;
 
-class RegexReplaceTest extends TestCase
+final class RegexReplaceTest extends TestCase
 {
     public function testReplace(): void
     {

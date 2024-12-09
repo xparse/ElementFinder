@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Xparse\ElementFinder\Helper;
+namespace Test\Xparse\ElementFinder\Helper;
 
 use Exception;
 use PHPUnit\Framework\TestCase;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Xparse\ElementFinder\Helper;
+namespace Test\Xparse\ElementFinder\Helper;
 
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Helper\StringHelper;
@@ -10,7 +10,7 @@ use Xparse\ElementFinder\Helper\StringHelper;
 /**
  * @author Ivan Shcherbak <alotofall@gmail.com>
  */
-class StringHelperTest extends TestCase
+final class StringHelperTest extends TestCase
 {
     public function testEncode(): void
     {

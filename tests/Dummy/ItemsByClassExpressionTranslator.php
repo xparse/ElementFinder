@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Test\Xparse\ElementFinder\Dummy;
 
 use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
