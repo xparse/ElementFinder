@@ -44,7 +44,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --dev
+        run: composer install --prefer-dist
 
       - name: Run tests
         continue-on-error: ${{ matrix.nightly }}
