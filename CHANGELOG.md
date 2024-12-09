@@ -1,5 +1,7 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
+## 3.0 [Unreleased]
+- Move to php 8.2
 
 ## 2.0.0 [2023-01-11]
 - Move to php 8.1
