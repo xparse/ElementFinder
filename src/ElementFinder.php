@@ -214,8 +214,19 @@ class ElementFinder implements ElementFinderInterface
 
         if (static::DOCUMENT_HTML === $this->type) {
             $data = StringHelper::safeEncodeStr($data);
-            $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-            $this->dom->loadHTML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
+
+            $encodedData = mb_encode_numericentity(
+                htmlspecialchars_decode(
+                    htmlentities($data, ENT_NOQUOTES, 'UTF-8', false)
+                    , ENT_NOQUOTES
+                ), [0x80, 0x10FFFF, 0, ~0],
+                'UTF-8'
+            );
+            if (!$encodedData) {
+                $encodedData = iconv('UTF-8', 'UTF-8//IGNORE', $data);
+            }
+
+            $this->dom->loadHTML($encodedData, LIBXML_NOCDATA & LIBXML_NOERROR);
         } elseif (static::DOCUMENT_XML === $this->type) {
             $this->dom->loadXML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
         } else {
