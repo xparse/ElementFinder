@@ -214,7 +214,7 @@ class ElementFinder implements ElementFinderInterface
 
         if (static::DOCUMENT_HTML === $this->type) {
             $data = StringHelper::safeEncodeStr($data);
-            $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
+            $data = html_entity_decode($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
             $this->dom->loadHTML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
         } elseif (static::DOCUMENT_XML === $this->type) {
             $this->dom->loadXML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
