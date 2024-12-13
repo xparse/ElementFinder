@@ -19,7 +19,6 @@
   "require": {
     "php": "^8.2",
     "ext-dom": "*",
-    "ext-iconv": "*",
     "ext-libxml": "*",
     "symfony/css-selector": "^7.1"
   },
