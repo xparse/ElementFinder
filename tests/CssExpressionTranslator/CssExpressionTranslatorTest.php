@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Xparse\ElementFinder\CssExpressionTranslator\Test;
+namespace Test\Xparse\ElementFinder\CssExpressionTranslator;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\CssExpressionTranslator\CssExpressionTranslator;
 
@@ -15,7 +16,7 @@ class CssExpressionTranslatorTest extends TestCase
     /**
      * @return string[][]
      */
-    final public function getConvertWithAttributesDataProvider(): array
+    final public static function getConvertWithAttributesDataProvider(): array
     {
         return [
             ['a', 'descendant-or-self::a'],
@@ -26,9 +27,7 @@ class CssExpressionTranslatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getConvertWithAttributesDataProvider
-     */
+    #[DataProvider('getConvertWithAttributesDataProvider')]
     final public function testConvertWithAttributes(string $input, string $expect): void
     {
         self::assertSame(
