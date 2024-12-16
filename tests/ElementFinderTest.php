@@ -533,11 +533,7 @@ final class ElementFinderTest extends TestCase
                 'Текст текст text',
             ],
             [
-                (string)mb_convert_encoding('<body>Текст текст text</body>', 'WINDOWS-1251', 'UTF-8'),
-                '  text',
-            ],
-            [
-                (string)mb_convert_encoding('<body>Текст текст text</body>', 'ISO-8859-5', 'UTF-8'),
+                '<body>&#4294967295;&#4294967295;&#4294967295;&#4294967295;&#4294967295; &#4294967295;&#4294967295;&#4294967295;&#4294967295;&#4294967295; text</body>',
                 '  text',
             ],
         ];
