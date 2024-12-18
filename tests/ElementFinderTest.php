@@ -521,7 +521,6 @@ final class ElementFinderTest extends TestCase
       ';
     }
 
-
     /**
      * @return string[][]
      */
@@ -538,7 +537,6 @@ final class ElementFinderTest extends TestCase
             ],
         ];
     }
-
 
     #[DataProvider('getDifferentEncodingsSupportDataProvider')]
     public function testDifferentEncodingsSupport(string $html, string $bodyText): void

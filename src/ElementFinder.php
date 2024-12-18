@@ -220,9 +220,10 @@ class ElementFinder implements ElementFinderInterface
             //When passing data to ElementFinder in an encoding other than UTF-8, any unrecognized characters will be ignored
             $data = mb_encode_numericentity(
                 htmlspecialchars_decode(
-                    htmlentities($data, ENT_NOQUOTES | ENT_IGNORE, 'UTF-8', false)
-                    , ENT_NOQUOTES
-                ), [0x80, 0x10FFFF, 0, ~0],
+                    htmlentities($data, ENT_NOQUOTES | ENT_IGNORE, 'UTF-8', false),
+                    ENT_NOQUOTES
+                ),
+                [0x80, 0x10FFFF, 0, ~0],
                 'UTF-8'
             );
 
