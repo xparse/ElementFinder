@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Test\Xparse\ElementFinder;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Test\Xparse\ElementFinder\Dummy\ItemsByClassExpressionTranslator;
@@ -518,5 +519,31 @@ final class ElementFinderTest extends TestCase
           </food>
       </breakfast_menu>
       ';
+    }
+
+    /**
+     * @return string[][]
+     */
+    public static function getDifferentEncodingsSupportDataProvider(): array
+    {
+        return [
+            [
+                '<body>Текст текст text</body>',
+                'Текст текст text',
+            ],
+            [
+                '<body>&#4294967295;&#4294967295;&#4294967295;&#4294967295;&#4294967295; &#4294967295;&#4294967295;&#4294967295;&#4294967295;&#4294967295; text</body>',
+                '  text',
+            ],
+        ];
+    }
+
+    #[DataProvider('getDifferentEncodingsSupportDataProvider')]
+    public function testDifferentEncodingsSupport(string $html, string $bodyText): void
+    {
+        $page = new ElementFinder($html);
+        $pageBodyText = $page->content('//body')->first();
+        self::assertInstanceOf(ElementFinder::class, $page);
+        self::assertEquals($bodyText, $pageBodyText);
     }
 }

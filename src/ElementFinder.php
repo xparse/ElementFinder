@@ -214,7 +214,19 @@ class ElementFinder implements ElementFinderInterface
 
         if (static::DOCUMENT_HTML === $this->type) {
             $data = StringHelper::safeEncodeStr($data);
-            $data = mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
+
+            //Analogue of mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8')
+            //Usage of mb_convert_encoding with encoding to HTML_ENTITIES is deprecated since php version 8.2
+            //When passing data to ElementFinder in an encoding other than UTF-8, any unrecognized characters will be ignored
+            $data = mb_encode_numericentity(
+                htmlspecialchars_decode(
+                    htmlentities($data, ENT_NOQUOTES | ENT_IGNORE, 'UTF-8', false),
+                    ENT_NOQUOTES
+                ),
+                [0x80, 0x10FFFF, 0, ~0],
+                'UTF-8'
+            );
+
             $this->dom->loadHTML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
         } elseif (static::DOCUMENT_XML === $this->type) {
             $this->dom->loadXML($data, LIBXML_NOCDATA & LIBXML_NOERROR);
