@@ -1,7 +1,8 @@
 # Changelog
 All Notable changes to `ElementFinder` will be documented in this file
-## 3.0 [2023-02-08]
-- Move to php 8.2
+## 3.0.0 [2025-02-08]
+- Minimum required php version is now php 8.2
+
 
 ## 2.0.0 [2023-01-11]
 - Move to php 8.1
