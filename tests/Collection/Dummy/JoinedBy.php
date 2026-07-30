@@ -6,10 +6,10 @@ namespace Test\Xparse\ElementFinder\Collection\Dummy;
 
 use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
 
-final class JoinedBy implements StringModifyInterface
+final readonly class JoinedBy implements StringModifyInterface
 {
     public function __construct(
-        private readonly string $str
+        private string $str
     ) {
     }
 

@@ -6,10 +6,10 @@ namespace Test\Xparse\ElementFinder\Collection\Dummy;
 
 use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 
-final class WithLetterFilter implements StringFilterInterface
+final readonly class WithLetterFilter implements StringFilterInterface
 {
     public function __construct(
-        private readonly string $letter
+        private string $letter
     ) {
     }
 

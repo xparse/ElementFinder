@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
+use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
@@ -16,6 +17,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
     $rectorConfig->rule(TypedPropertyFromStrictConstructorRector::class);
     $rectorConfig->rule(SeparateMultiUseImportsRector::class);
+    $rectorConfig->rule(ExplicitNullableParamTypeRector::class);
     $rectorConfig->importNames();
-    $rectorConfig->sets([LevelSetList::UP_TO_PHP_81, PHPUnitSetList::PHPUNIT_90]);
+    $rectorConfig->sets([LevelSetList::UP_TO_PHP_84, PHPUnitSetList::PHPUNIT_90]);
 };
