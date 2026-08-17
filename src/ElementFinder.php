@@ -30,17 +30,13 @@ class ElementFinder implements ElementFinderInterface
 {
     /**
      * Html document type
-     *
-     * @var int
      */
-    final public const DOCUMENT_HTML = 0;
+    final public const int DOCUMENT_HTML = 0;
 
     /**
      * Xml document type
-     *
-     * @var int
      */
-    final public const DOCUMENT_XML = 1;
+    final public const int DOCUMENT_XML = 1;
 
     private int $type;
 
