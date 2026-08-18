@@ -16,9 +16,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: '8.2'
-            main: true
           - php-version: '8.3'
+            main: true
           - php-version: '8.4'
             nightly: true
     name: PHP ${{ matrix.php-version }}
