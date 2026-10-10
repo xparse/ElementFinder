@@ -11,9 +11,6 @@ use IteratorAggregate;
 use Traversable;
 use Xparse\ElementFinder\ElementFinder\Element;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class ElementCollection implements IteratorAggregate, Countable
 {
     /**
@@ -116,7 +113,7 @@ class ElementCollection implements IteratorAggregate, Countable
     /**
      * Retrieve an external iterator
      *
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @see http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return Element[]|Traversable An instance of an object implementing Iterator or Traversable
      * @throws InvalidArgumentException
      */

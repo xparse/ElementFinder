@@ -8,9 +8,6 @@ use Exception;
 use InvalidArgumentException;
 use Xparse\ElementFinder\ElementFinderInterface;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class FormHelper
 {
     public function __construct(

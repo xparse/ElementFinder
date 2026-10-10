@@ -9,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\ElementFinder;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class ObjectCollectionTest extends TestCase
 {
     public function testInvalidObjectIndex(): void

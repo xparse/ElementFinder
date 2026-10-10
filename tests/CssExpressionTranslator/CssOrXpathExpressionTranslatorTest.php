@@ -9,9 +9,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\CssExpressionTranslator\CssOrXpathExpressionTranslator;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class CssOrXpathExpressionTranslatorTest extends TestCase
 {
     /**

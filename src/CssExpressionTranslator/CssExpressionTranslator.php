@@ -7,9 +7,6 @@ namespace Xparse\ElementFinder\CssExpressionTranslator;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class CssExpressionTranslator extends CssSelectorConverter implements ExpressionTranslatorInterface
 {
     final public function convertToXpath(string $expression): string

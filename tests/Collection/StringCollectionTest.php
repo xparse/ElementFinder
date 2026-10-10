@@ -10,9 +10,6 @@ use Test\Xparse\ElementFinder\Collection\Dummy\JoinedBy;
 use Test\Xparse\ElementFinder\Collection\Dummy\WithLetterFilter;
 use Xparse\ElementFinder\Collection\StringCollection;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class StringCollectionTest extends TestCase
 {
     public function testInvalidObjectIndex(): void

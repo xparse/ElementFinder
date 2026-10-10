@@ -8,9 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Collection\ElementCollection;
 use Xparse\ElementFinder\ElementFinder\Element;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class ElementCollectionTest extends TestCase
 {
     public function testIterate(): void

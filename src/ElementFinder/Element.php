@@ -6,9 +6,6 @@ namespace Xparse\ElementFinder\ElementFinder;
 
 use DOMElement;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class Element extends DOMElement
 {
     /**

@@ -7,9 +7,6 @@ namespace Test\Xparse\ElementFinder\Helper;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\Helper\StringHelper;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class StringHelperTest extends TestCase
 {
     public function testEncode(): void
