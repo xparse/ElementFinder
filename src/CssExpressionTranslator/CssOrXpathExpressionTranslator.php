@@ -9,8 +9,6 @@ use Xparse\ElementFinder\ExpressionTranslator\ExpressionTranslatorInterface;
 
 /**
  * Automatically detect xpath or css query language and convert it to the xpath
- *
- * @author Ivan Shcherbak <alotofall@gmail.com>
  */
 class CssOrXpathExpressionTranslator implements ExpressionTranslatorInterface
 {

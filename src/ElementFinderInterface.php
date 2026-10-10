@@ -11,9 +11,6 @@ use Xparse\ElementFinder\Collection\ObjectCollection;
 use Xparse\ElementFinder\Collection\StringCollection;
 use Xparse\ElementFinder\DomNodeListAction\DomNodeListActionInterface;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 interface ElementFinderInterface
 {
     /**

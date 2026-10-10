@@ -13,9 +13,6 @@ use Traversable;
 use Xparse\ElementFinder\Collection\Filters\StringFilter\StringFilterInterface;
 use Xparse\ElementFinder\Collection\Modify\StringModify\StringModifyInterface;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class StringCollection implements IteratorAggregate, Countable
 {
     /**
@@ -191,7 +188,7 @@ class StringCollection implements IteratorAggregate, Countable
     }
 
     /**
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @see http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return string[]|Traversable
      * @throws Exception
      */

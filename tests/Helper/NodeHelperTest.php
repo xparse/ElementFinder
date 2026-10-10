@@ -9,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\Helper\NodeHelper;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class NodeHelperTest extends TestCase
 {
     public function testHtmlOuterContent(): void

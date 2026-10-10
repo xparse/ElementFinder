@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Xparse\ElementFinder\Helper;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class StringHelper
 {
     final public static function safeEncodeStr(string $str): string

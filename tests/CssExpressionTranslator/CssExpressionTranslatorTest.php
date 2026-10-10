@@ -8,9 +8,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\CssExpressionTranslator\CssExpressionTranslator;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class CssExpressionTranslatorTest extends TestCase
 {
     /**

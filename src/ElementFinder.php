@@ -23,9 +23,6 @@ use Xparse\ElementFinder\ExpressionTranslator\XpathExpression;
 use Xparse\ElementFinder\Helper\NodeHelper;
 use Xparse\ElementFinder\Helper\StringHelper;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class ElementFinder implements ElementFinderInterface
 {
     /**
@@ -211,9 +208,9 @@ class ElementFinder implements ElementFinderInterface
         if (static::DOCUMENT_HTML === $this->type) {
             $data = StringHelper::safeEncodeStr($data);
 
-            //Analogue of mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8')
-            //Usage of mb_convert_encoding with encoding to HTML_ENTITIES is deprecated since php version 8.2
-            //When passing data to ElementFinder in an encoding other than UTF-8, any unrecognized characters will be ignored
+            // Analogue of mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8')
+            // Usage of mb_convert_encoding with encoding to HTML_ENTITIES is deprecated since php version 8.2
+            // When passing data to ElementFinder in an encoding other than UTF-8, any unrecognized characters will be ignored
             $data = mb_encode_numericentity(
                 htmlspecialchars_decode(
                     htmlentities($data, ENT_NOQUOTES | ENT_IGNORE, 'UTF-8', false),

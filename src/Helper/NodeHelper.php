@@ -8,9 +8,6 @@ use DOMDocument;
 use DOMNode;
 use Xparse\ElementFinder\ElementFinder;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class NodeHelper
 {
     final public static function getOuterContent(DOMNode $node, int $documentType): string

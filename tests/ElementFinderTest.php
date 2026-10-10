@@ -13,9 +13,6 @@ use Xparse\ElementFinder\DomNodeListAction\RemoveNodes;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\ElementFinderInterface;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class ElementFinderTest extends TestCase
 {
     public function testLoad(): void

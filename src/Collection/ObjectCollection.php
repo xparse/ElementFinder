@@ -12,9 +12,6 @@ use IteratorAggregate;
 use Traversable;
 use Xparse\ElementFinder\ElementFinderInterface;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 class ObjectCollection implements IteratorAggregate, Countable
 {
     /**

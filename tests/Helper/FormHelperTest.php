@@ -9,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Xparse\ElementFinder\ElementFinder;
 use Xparse\ElementFinder\Helper\FormHelper;
 
-/**
- * @author Ivan Shcherbak <alotofall@gmail.com>
- */
 final class FormHelperTest extends TestCase
 {
     public function testFormData(): void
